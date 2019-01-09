@@ -2,4 +2,17 @@
     <string name="app_name">Need a Ride?</string>
     <string name="hello">Hello,</string>
     <string name="log_out">log out</string>
+    <string name="login">Login</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="join">Join Ride!</string>
+    <string name="leave">Leave Ride</string>
+    <string name="send">Send</string>
+    <string name="edit">Edit details</string>
+    <string name="origin">Origin point:</string>
+    <string name="destination">Destination point:</string>
+    <string name="departure">Departure time:</string>
+    <string name="arrival">Arrival time:</string>
+    <string name="seats">Passengers number:</string>
+    <string name="driving">My drivings</string>
+    <string name="rides">My rides</string>
 </resources>

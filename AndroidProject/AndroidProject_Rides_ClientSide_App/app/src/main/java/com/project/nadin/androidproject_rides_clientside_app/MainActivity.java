@@ -13,8 +13,10 @@ public class MainActivity extends Activity {
     }
 
     public void onLogin(View view) {
+        // open login fragment
     }
 
     public void onSignUp(View view) {
+        // open sign up fragment
     }
 }

@@ -32,13 +32,13 @@
             app:layout_constraintRight_toRightOf="parent" />
     </android.support.constraint.ConstraintLayout>
 
-    <ScrollView
-        android:id="@+id/scrlRides"
+    <ListView
+        android:id="@+id/lstRides"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="8">
 
-    </ScrollView>
+    </ListView>
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
