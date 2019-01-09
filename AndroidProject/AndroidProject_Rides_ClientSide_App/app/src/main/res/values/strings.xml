@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">AndroidProject_Rides_ClientSide_App</string>
+    <string name="app_name">Need a Ride?</string>
+    <string name="hello">Hello,</string>
+    <string name="log_out">log out</string>
 </resources>

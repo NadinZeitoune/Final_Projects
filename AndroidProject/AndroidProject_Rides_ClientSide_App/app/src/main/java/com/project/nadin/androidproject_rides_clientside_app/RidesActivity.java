@@ -4,17 +4,20 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 
-public class MainActivity extends Activity {
+public class RidesActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_rides);
     }
 
-    public void onLogin(View view) {
+    public void onLogOut(View view) {
     }
 
-    public void onSignUp(View view) {
+    public void onAddRide(View view) {
+    }
+
+    public void onSearchRide(View view) {
     }
 }
