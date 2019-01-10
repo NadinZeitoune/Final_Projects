@@ -28,8 +28,12 @@ public class Ride {
 
     // Add passenger.
     private void addPassenger(User newPassenger){
+        // Add passenger to ride.
         passengers[numOfPassengers - freeSeatsNum] = newPassenger;
         freeSeatsNum--;
+
+        // Add ride to passenger list.
+        newPassenger.addRide(this);
     }
 
     // Delete passenger.
@@ -47,6 +51,9 @@ public class Ride {
 
                 // Increase number of free seats.
                 freeSeatsNum++;
+
+                // Delete ride from passenger list.
+                newPassenger.removeRide(this);
                 return;
             }
         }

@@ -1,11 +1,15 @@
 package com.project.nadin.androidproject_rides_clientside_app;
 
+import java.util.List;
+
 public class User {
     private String userName;
     private String password;
     private String firstName;
     private String lastName;
     private int phoneNumber;
+    private List<Ride> drivingList;
+    private List<Ride> ridesList;
 
     public User(String userName, String password, String firstName, String lastName, int phoneNumber) {
         this.userName = userName;
@@ -13,6 +17,18 @@ public class User {
         this.firstName = firstName;
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
+    }
+
+    public void addDrive(Ride newDrive){
+        drivingList.add(0, newDrive);
+    }
+
+    public void addRide(Ride newRide){
+        ridesList.add(0, newRide);
+    }
+
+    public void removeRide(Ride newRide){
+        ridesList.remove(newRide);
     }
 
     @Override
