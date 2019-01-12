@@ -6,7 +6,8 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/add_ride"/>
+        android:text="@string/add_ride"
+        android:textAlignment="center"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -15,10 +16,24 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/departure"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/lblDeparture"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/origin"/>
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/txtDeparture"/>
+            android:id="@+id/txtOrigin"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -40,14 +55,11 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/leave"/>
-        <!--<TimePicker
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"></TimePicker>
-            <EditText
+            android:text="@string/via"/>
+        <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="datetime"/>-->
+            android:id="@+id/txtVia"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -60,7 +72,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/lblArrival"/>
+            android:id="@+id/lblArrival"/>  <!-- give the driver the option to change arrival time???-->
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"

@@ -25,7 +25,7 @@ public class MainActivity extends Activity {
                         + ", password: " + password, Toast.LENGTH_SHORT).show();
             }
         });
-        loginFragment.show(getFragmentManager(), "");
+        loginFragment.show(getFragmentManager(), "login");
     }
 
     public void onSignUp(View view) {

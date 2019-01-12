@@ -21,6 +21,16 @@ public class RidesActivity extends Activity {
 
     public void onAddRide(View view) {
         // open add ride fragment
+        AddFragment addFragment = new AddFragment();
+
+        addFragment.setListener(new AddFragment.OnAddFragmentListener() {
+            @Override
+            public void onAdd(Ride newRide) {
+
+            }
+        });
+        //addFragment.ap
+
         // after finishing the form, the ride will add to the showing list
         // to the "my drives" list - in my settings
     }

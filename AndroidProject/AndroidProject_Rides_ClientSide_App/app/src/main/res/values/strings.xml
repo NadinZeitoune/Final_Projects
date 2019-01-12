@@ -17,4 +17,6 @@
     <string name="rides">My rides</string>
     <string name="search">Search</string>
     <string name="add_ride">Add Ride</string>
+    <string name="via">Via:</string>
+    <string name="confirm">Confirm</string>
 </resources>
