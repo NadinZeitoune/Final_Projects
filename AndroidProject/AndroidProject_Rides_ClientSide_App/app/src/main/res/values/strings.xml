@@ -19,4 +19,12 @@
     <string name="add_ride">Add Ride</string>
     <string name="via">Via:</string>
     <string name="confirm">Confirm</string>
+    <string name="ride_id">Ride ID:</string>
+    <string name="name">Name:</string>
+    <string name="phone">Phone:</string>
+    <string name="first_name">First name:</string>
+    <string name="last_name">Last name:</string>
+    <string name="username">Username:</string>
+    <string name="password">Password:</string>
+    <string name="phone_number">Phone number:</string>
 </resources>

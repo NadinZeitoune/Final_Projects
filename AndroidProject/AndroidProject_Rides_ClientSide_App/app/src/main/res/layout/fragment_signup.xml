@@ -12,48 +12,48 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="First name: " />
+        android:text="@string/first_name" />
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/txtFirstName"
-        android:hint="first name"/>
+        android:hint="@string/first_name"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Last name: " />
+        android:text="@string/last_name" />
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/txtLastName"
-        android:hint="last name"/>
+        android:hint="@string/last_name"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Phone number: " />
+        android:text="@string/phone_number" />
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/txtPhoneNumber"
-        android:hint="phone number"/>
+        android:hint="@string/phone_number"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Username: " />
+        android:text="@string/username" />
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/txtUsername"
-        android:hint="username"/>
+        android:hint="@string/username"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Password: " />
+        android:text="@string/password" />
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/txtPassword"
-        android:hint="password"
+        android:hint="@string/password"
         android:inputType="textPassword"/>
     <Button
         android:layout_width="match_parent"
