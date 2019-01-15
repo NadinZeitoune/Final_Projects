@@ -11,7 +11,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 public class LoginFragment extends DialogFragment {
-    private String title = "Login";
     private String userName;
     private EditText txtUserName;
     private EditText txtPassword;
@@ -20,7 +19,6 @@ public class LoginFragment extends DialogFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        getDialog().setTitle(title);
         View view = inflater.inflate(R.layout.fragment_login, container, false);
         txtUserName = view.findViewById(R.id.txtUsername);
         txtPassword = view.findViewById(R.id.txtPassword);
@@ -40,8 +38,13 @@ public class LoginFragment extends DialogFragment {
                     Toast.makeText(getContext(), "username and password are required", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if(listener != null)
-                    listener.onLogin(userName, password);
+                if(listener != null) {
+
+                    // Check if username and password are correct.
+
+                    // When correct- send back the user details.
+                    listener.onLogin(new User("","","","", 0));
+                }
                 dismiss();
             }
         });
@@ -55,15 +58,11 @@ public class LoginFragment extends DialogFragment {
         this.listener = listener;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     public void setUserName(String userName) {
         this.userName = userName;
     }
 
     public interface OnLoginFragmentListener{
-        void onLogin(String userName, String password);
+        void onLogin(User logged);
     }
 }
