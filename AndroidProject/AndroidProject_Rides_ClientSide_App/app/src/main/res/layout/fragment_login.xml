@@ -5,28 +5,29 @@
     android:orientation="vertical">
 
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="@dimen/dialog_width"
         android:layout_height="wrap_content"
         android:text="@string/login"
+        android:textSize="@dimen/dialog_title"
         android:textAlignment="center"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Username: " />
+        android:text="@string/username" />
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/txtUsername"
-        android:hint="username"/>
+        android:hint="@string/username"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Password: " />
+        android:text="@string/password" />
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/txtPassword"
-        android:hint="password"
+        android:hint="@string/password"
         android:inputType="textPassword"/>
     <Button
         android:layout_width="match_parent"
