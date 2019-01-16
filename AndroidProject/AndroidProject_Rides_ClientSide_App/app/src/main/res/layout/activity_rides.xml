@@ -16,12 +16,14 @@
             android:id="@+id/lblWelcome"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="@dimen/buttons_text"
             android:text="@string/hello" />
 
         <TextView
             android:id="@+id/lblUser"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="@dimen/buttons_text"
             app:layout_constraintLeft_toRightOf="@id/lblWelcome" />
 
         <TextView
@@ -29,6 +31,7 @@
             android:layout_height="wrap_content"
             android:onClick="onLogOut"
             android:text="@string/log_out"
+            android:textSize="@dimen/buttons_text"
             app:layout_constraintRight_toRightOf="parent" />
     </android.support.constraint.ConstraintLayout>
 
@@ -51,6 +54,7 @@
             android:layout_height="wrap_content"
             android:onClick="onAddRide"
             android:src="@drawable/plus_sign"
+            android:padding="@dimen/buttons_padding"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent" />
 
@@ -60,6 +64,7 @@
             android:layout_height="wrap_content"
             android:onClick="onSearchRide"
             android:src="@drawable/search_sign"
+            android:padding="@dimen/buttons_padding"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent" />
 

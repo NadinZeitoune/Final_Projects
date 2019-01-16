@@ -58,10 +58,6 @@ public class LoginFragment extends DialogFragment {
         this.listener = listener;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
     public interface OnLoginFragmentListener{
         void onLogin(User logged);
     }

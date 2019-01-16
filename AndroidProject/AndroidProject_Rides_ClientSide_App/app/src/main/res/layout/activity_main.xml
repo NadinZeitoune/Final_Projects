@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:onClick="onLogin"
         android:text="@string/app_name"
-        android:textSize="50dp"
+        android:textSize="@dimen/title_text"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
 
@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:onClick="onLogin"
         android:text="@string/login"
-        android:textSize="30dp"
+        android:textSize="@dimen/buttons_text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -34,7 +34,7 @@
         android:layout_height="wrap_content"
         android:onClick="onSignUp"
         android:text="@string/sign_up"
-        android:textSize="30dp"
+        android:textSize="@dimen/buttons_text"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/lblLogin" />

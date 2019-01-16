@@ -1,8 +1,9 @@
 package com.project.nadin.androidproject_rides_clientside_app;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class User {
+public class User implements Serializable {
     private String userName;
     private String password;
     private String firstName;

@@ -10,6 +10,7 @@
         android:text="@string/login"
         android:textSize="@dimen/dialog_title"
         android:textAlignment="center"/>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -19,6 +20,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/txtUsername"
         android:hint="@string/username"/>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -29,6 +31,7 @@
         android:id="@+id/txtPassword"
         android:hint="@string/password"
         android:inputType="textPassword"/>
+
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

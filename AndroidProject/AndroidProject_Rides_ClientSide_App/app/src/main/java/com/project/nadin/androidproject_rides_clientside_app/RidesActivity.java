@@ -1,8 +1,12 @@
 package com.project.nadin.androidproject_rides_clientside_app;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
+
+import java.io.Serializable;
 
 public class RidesActivity extends Activity {
 
@@ -10,13 +14,27 @@ public class RidesActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rides);
+
+        // Show user name.
+        Serializable userName = getIntent().getSerializableExtra(MainActivity.USER);
+        if (userName != null){
+            User user = (User) userName;
+            TextView lblUser = findViewById(R.id.lblUser);
+            lblUser.setText(" " + user.getFirstName() + ",");
+        }
     }
 
     public void onLogOut(View view) {
-        // restarting the app:
-        // clears the logged in user
-        // opens the main activity
-        // closes this one
+        // Restarting the app:
+        // Clears the logged in user
+
+
+        // Opens the main activity
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+
+        // Closes this one
+        finish();
     }
 
     public void onAddRide(View view) {
