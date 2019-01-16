@@ -1,8 +1,12 @@
 package com.project.nadin.androidproject_rides_clientside_app;
 
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Ride {
+    public static final String DELIMITER = "&";
+    public static final String RIDE_DELIMITER = "%";
     private int rideNumber;
     private String origin;
     private String destination;
@@ -24,6 +28,31 @@ public class Ride {
 
         this.driver = driver;
         passengers = new User[numOfPassengers];
+    }
+
+    public Ride(String rideAsString){
+        if (rideAsString == null)
+            throw new InvalidParameterException();
+        String[] parts = rideAsString.split(RIDE_DELIMITER);
+
+        if (parts.length != 9)
+            throw new InvalidParameterException();
+
+        // Ride details.
+        this.rideNumber = Integer.valueOf(parts[0]);
+        this.origin = parts[1];
+        this.destination = parts[2];
+        this.departure = parts[3];
+        this.arrival = parts[4];
+        this.numOfPassengers = Integer.valueOf(parts[5]);
+        this.freeSeatsNum = Integer.valueOf(parts[6]);
+
+        // Driver details.
+        this.driver = new User(parts[7], true);
+
+        // Passengers details.
+        String[] usersParts = parts[8].split(User.USER_DELIMITER);
+        this.passengers = User.usersFromString(usersParts);
     }
 
     // Add passenger.
@@ -57,6 +86,38 @@ public class Ride {
                 return;
             }
         }
+    }
+
+    public static String rideListToString(List<Ride> rides){
+        StringBuilder ridesAsString = new StringBuilder();
+
+        for (Ride ride : rides) {
+            ridesAsString.append(ride.toString()).append(DELIMITER);
+        }
+
+        return ridesAsString.toString();
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder rideAsString = new StringBuilder();
+
+        // Ride details.
+        rideAsString.append(rideNumber).append(RIDE_DELIMITER);
+        rideAsString.append(origin).append(RIDE_DELIMITER);
+        rideAsString.append(destination).append(RIDE_DELIMITER);
+        rideAsString.append(departure).append(RIDE_DELIMITER);
+        rideAsString.append(arrival).append(RIDE_DELIMITER);
+        rideAsString.append(numOfPassengers).append(RIDE_DELIMITER);
+        rideAsString.append(freeSeatsNum).append(RIDE_DELIMITER);
+
+        // Driver details.
+        rideAsString.append(driver.userProfileToString()).append(RIDE_DELIMITER);
+
+        // Passengers details.
+        rideAsString.append(User.usersProfileToString(passengers)).append(RIDE_DELIMITER);
+
+        return rideAsString.toString();
     }
 
     public String getOrigin() {
