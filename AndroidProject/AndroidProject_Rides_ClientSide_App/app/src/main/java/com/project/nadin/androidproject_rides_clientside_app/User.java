@@ -2,6 +2,7 @@ package com.project.nadin.androidproject_rides_clientside_app;
 
 import java.io.Serializable;
 import java.security.InvalidParameterException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class User implements Serializable {
@@ -21,6 +22,8 @@ public class User implements Serializable {
         this.firstName = firstName;
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
+        this.drivingList = new ArrayList<>();
+        this.ridesList = new ArrayList<>();
     }
 
     public User(String userAsString){

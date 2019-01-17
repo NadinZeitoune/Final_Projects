@@ -55,6 +55,18 @@ public class Ride {
         this.passengers = User.usersFromString(usersParts);
     }
 
+    // Reverse string to Ride list.
+    public static List<Ride> stringToRideList(String ridesAsString){
+        List<Ride> rides = new ArrayList<>();
+        String[] ridesParts = ridesAsString.split(DELIMITER);
+
+        for (int i = 0; i < ridesParts.length; i++) {
+            rides.add(new Ride(ridesParts[i]));
+        }
+
+        return rides;
+    }
+
     // Add passenger.
     private void addPassenger(User newPassenger){
         // Add passenger to ride.
