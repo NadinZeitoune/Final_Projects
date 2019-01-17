@@ -8,9 +8,14 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.Serializable;
 
 public class RidesActivity extends Activity {
+
+    private User logged;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,10 +24,12 @@ public class RidesActivity extends Activity {
 
         // Show user name.
         Serializable userName = getIntent().getSerializableExtra(MainActivity.USER);
-        if (userName != null) {
-            User user = (User) userName;
+
+        logged = (User) userName;
+
+        if (logged != null) {
             TextView lblUser = findViewById(R.id.lblUser);
-            lblUser.setText(" " + user.getFirstName() + ",");
+            lblUser.setText(" " + logged.getFirstName() + ",");
         }
     }
 
@@ -30,16 +37,33 @@ public class RidesActivity extends Activity {
     protected void onResume() {
         super.onResume();
 
-        // Load user profile from inner file- named as username.
-
+        // Load user profile from inner file- named as username, if exist.
+        /*InputStream inputStream = null;
+        try {
+            inputStream = openFileInput(logged.getUserName()+ ".txt");
+        } catch (FileNotFoundException e) {
+            // Get file from Server.
+        }*/
     }
 
     @Override
     protected void onPause() {
         super.onPause();
 
-        // Save profile to file.
+        // Save profile to file. Override if exist.
+        OutputStream outputStream = null;
+        try {
+            outputStream = openFileOutput( logged.getUserName()+ ".txt", MODE_PRIVATE);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        // Copy/save user file to server.
     }
 
     public void onLogOut(View view) {

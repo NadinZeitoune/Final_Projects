@@ -49,6 +49,7 @@ public class SignUpFragment extends DialogFragment {
 
 
                     // When not taken- create new user and send back the user details.
+                    // Add empty file to server- named "username.txt".
                     // add to user map.
                     User user = new User(userName, password, firstName, lastName, Integer.valueOf(phoneNumber));
 
