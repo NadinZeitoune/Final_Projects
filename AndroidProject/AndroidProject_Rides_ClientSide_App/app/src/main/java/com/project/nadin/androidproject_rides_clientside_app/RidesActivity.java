@@ -8,7 +8,11 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
@@ -16,6 +20,7 @@ import java.io.Serializable;
 public class RidesActivity extends Activity {
 
     private User logged;
+    private String userFile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +31,7 @@ public class RidesActivity extends Activity {
         Serializable userName = getIntent().getSerializableExtra(MainActivity.USER);
 
         logged = (User) userName;
+        userFile = logged.getUserName() + "_profile.txt";
 
         if (logged != null) {
             TextView lblUser = findViewById(R.id.lblUser);
@@ -36,14 +42,8 @@ public class RidesActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-
         // Load user profile from inner file- named as username, if exist.
-        /*InputStream inputStream = null;
-        try {
-            inputStream = openFileInput(logged.getUserName()+ ".txt");
-        } catch (FileNotFoundException e) {
-            // Get file from Server.
-        }*/
+        //loadUserFile();
     }
 
     @Override
@@ -51,12 +51,7 @@ public class RidesActivity extends Activity {
         super.onPause();
 
         // Save profile to file. Override if exist.
-        OutputStream outputStream = null;
-        try {
-            outputStream = openFileOutput( logged.getUserName()+ ".txt", MODE_PRIVATE);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+
     }
 
     @Override
@@ -70,6 +65,8 @@ public class RidesActivity extends Activity {
         // Restarting the app:
         // Save user file to server.
         // Delete user file from device.
+
+
         // Clears the logged in user
         SharedPreferences prefs = getSharedPreferences(MainActivity.PREFS, MODE_PRIVATE);
         prefs.edit().remove(MainActivity.USERNAME).remove(MainActivity.PASSWORD)
