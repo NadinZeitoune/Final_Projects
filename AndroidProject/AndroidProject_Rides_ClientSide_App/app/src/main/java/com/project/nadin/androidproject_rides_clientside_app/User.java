@@ -1,14 +1,21 @@
 package com.project.nadin.androidproject_rides_clientside_app;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+
 import java.io.Serializable;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
 
+//@Entity
 public class User implements Serializable {
     public static final String DELIMITER = "$";
     public static final String USER_DELIMITER = "#";
+
+    //@PrimaryKey
     private String userName;
+
     private String password;
     private String firstName;
     private String lastName;
@@ -40,7 +47,8 @@ public class User implements Serializable {
         this.lastName = parts[3];
         this.phoneNumber = Integer.valueOf(parts[4]);
 
-
+        this.drivingList = Ride.stringToRideList(parts[5]);
+        this.ridesList = Ride.stringToRideList(parts[6]);
     }
 
     public User(String userAsString, boolean isProfile){

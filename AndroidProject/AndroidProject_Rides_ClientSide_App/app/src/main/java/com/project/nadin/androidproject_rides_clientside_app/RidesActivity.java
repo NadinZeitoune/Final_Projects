@@ -93,7 +93,7 @@ public class RidesActivity extends Activity {
         //addFragment.ap
 
         // after finishing the form, the ride will add to the showing list
-        // to the "my drives" list - in my settings
+        // and to the "my drives" list - in my settings
     }
 
     public void onSearchRide(View view) {
