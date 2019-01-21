@@ -27,4 +27,5 @@
     <string name="username">Username:</string>
     <string name="password">Password:</string>
     <string name="phone_number">Phone number:</string>
+    <string name="wait_message">Please wait...</string>
 </resources>

@@ -1,6 +1,8 @@
 package com.project.nadin.androidproject_rides_clientside_app;
 
+import android.annotation.SuppressLint;
 import android.app.DialogFragment;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,8 +33,9 @@ public class SignUpFragment extends DialogFragment {
         btnSignUp = view.findViewById(R.id.btnSignUp);
 
         btnSignUp.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("StaticFieldLeak")
             @Override
-            public void onClick(View view) {
+            public void onClick(final View view) {
                 String userName = txtUsername.getText().toString();
                 String password = txtPassword.getText().toString();
                 String firstName = txtFirstName.getText().toString();
@@ -45,19 +48,39 @@ public class SignUpFragment extends DialogFragment {
                     return;
                 }
                 if(listener != null) {
+                    // Lock the button.
+                    btnSignUp.setEnabled(false);
+                    btnSignUp.setText(R.string.wait_message);
+
                     // Check if username not taken.
+                    new AsyncTask<User, Void, Boolean>(){
 
+                        @Override
+                        protected Boolean doInBackground(User... users) {
+                            // Connect to server to check if user exist.
+                            // If exist - return false
+                            // If not - return true
+                            return false;
+                        }
 
-                    // When not taken- create new user and send back the user details.
-                    // Add empty file to server- named "username.txt".
-                    // add to user map.
-                    User user = new User(userName, password, firstName, lastName, Integer.valueOf(phoneNumber));
+                        @Override
+                        protected void onPostExecute(Boolean success) {
+                            // Enable the button.
+                            btnSignUp.setEnabled(true);
+                            btnSignUp.setText(R.string.sign_up);
 
-                    // Send back user details.
-                    listener.onSignUp(user);
+                            // New username - Log in the user.
+                            if (success){
+                                // Send back user details.
+                                //User user = new User(userName, password, firstName, lastName, Integer.valueOf(phoneNumber));
+                                //listener.onSignUp(user);
+                                dismiss();
+                            }else{
+                                Toast.makeText(getContext(), "Username already exist!", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }.execute();
                 }
-
-                dismiss();
             }
         });
 
