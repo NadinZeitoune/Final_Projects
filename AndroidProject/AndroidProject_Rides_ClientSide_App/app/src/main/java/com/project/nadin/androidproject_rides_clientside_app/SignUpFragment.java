@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.DialogFragment;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +13,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+
 public class SignUpFragment extends DialogFragment {
+    public static final String SIGN_UP = "signUp";
     private EditText txtFirstName;
     private EditText txtLastName;
     private EditText txtPhoneNumber;
@@ -36,13 +44,14 @@ public class SignUpFragment extends DialogFragment {
             @SuppressLint("StaticFieldLeak")
             @Override
             public void onClick(final View view) {
+                // Get data from user.
                 String userName = txtUsername.getText().toString();
                 String password = txtPassword.getText().toString();
                 String firstName = txtFirstName.getText().toString();
                 String lastName = txtLastName.getText().toString();
                 String phoneNumber = txtPhoneNumber.getText().toString();
 
-                // Check that all fields isn't empty.
+                // Check that all fields aren't empty.
                 if(isParamsEmpty(userName, password, firstName, lastName, phoneNumber)){
                     Toast.makeText(getContext(), "All fields are required!", Toast.LENGTH_SHORT).show();
                     return;
@@ -54,10 +63,15 @@ public class SignUpFragment extends DialogFragment {
 
                     // Check if username not taken.
                     new AsyncTask<User, Void, Boolean>(){
+                        User user;
 
                         @Override
                         protected Boolean doInBackground(User... users) {
-                            // Connect to server to check if user exist.
+                            // Save the user.
+                            user = users[0];
+
+                            // Connect to server to check if username exist.
+                            //HttpConnection.connection(SIGN_UP);
                             // If exist - return false
                             // If not - return true
                             return false;
@@ -72,19 +86,18 @@ public class SignUpFragment extends DialogFragment {
                             // New username - Log in the user.
                             if (success){
                                 // Send back user details.
-                                //User user = new User(userName, password, firstName, lastName, Integer.valueOf(phoneNumber));
-                                //listener.onSignUp(user);
+                                listener.onSignUp(user);
                                 dismiss();
                             }else{
-                                Toast.makeText(getContext(), "Username already exist!", Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(getContext(), "Username already exist!", Toast.LENGTH_SHORT).show();
                             }
                         }
-                    }.execute();
+                    }.execute(new User(userName, password, firstName, lastName, Integer.valueOf(phoneNumber)));
                 }
             }
         });
 
-        //this line is responsible of popping up the keyboard
+        // Pop up the keyboard.
         getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         return view;
     }

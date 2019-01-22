@@ -19,6 +19,7 @@ import java.io.Serializable;
 
 public class RidesActivity extends Activity {
 
+    public static final String SEARCH = "search";
     private User logged;
     private String userFile;
 
@@ -98,6 +99,14 @@ public class RidesActivity extends Activity {
 
     public void onSearchRide(View view) {
         // open search fragment
+        SearchFragment searchFragment = new SearchFragment();
+        searchFragment.setListener(new SearchFragment.OnSearchFragmentListener() {
+            @Override
+            public void onSearch() {
+
+            }
+        });
+        searchFragment.show(getFragmentManager(), SEARCH);
         // the result of the fragment will effect the showing list of rides.
     }
 }

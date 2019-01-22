@@ -19,6 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/txtFirstName"
+        android:singleLine="true"
         android:hint="@string/first_name"/>
 
     <TextView
@@ -29,6 +30,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/txtLastName"
+        android:singleLine="true"
         android:hint="@string/last_name"/>
 
     <TextView
@@ -50,6 +52,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/txtUsername"
+        android:singleLine="true"
         android:hint="@string/username"/>
 
     <TextView

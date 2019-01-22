@@ -1,6 +1,8 @@
 package com.project.nadin.androidproject_rides_clientside_app;
 
+import android.annotation.SuppressLint;
 import android.app.DialogFragment;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +13,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 public class LoginFragment extends DialogFragment {
+    public static final String LOGIN = "login";
     private String userName;
     private EditText txtUserName;
     private EditText txtPassword;
@@ -30,26 +33,59 @@ public class LoginFragment extends DialogFragment {
             //txtUserName.requestFocus();
         }
         btnLogin.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("StaticFieldLeak")
             @Override
             public void onClick(View view) {
-                String userName = txtUserName.getText().toString();
+                final String userName = txtUserName.getText().toString();
                 String password = txtPassword.getText().toString();
                 if(userName.isEmpty() || password.isEmpty()){
                     Toast.makeText(getContext(), "username and password are required", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if(listener != null) {
+                    // Lock the button.
+                    btnLogin.setEnabled(false);
+                    btnLogin.setText(R.string.wait_message);
 
                     // Check if username and password are correct.
+                    new AsyncTask<User, Void, Boolean>(){
+                        User user;
 
-                    // When correct- send back the user details.
-                    listener.onLogin(new User("","","","", 0));
+                        @Override
+                        protected Boolean doInBackground(User... users) {
+                            // Save the user.
+                            user = users[0];
+
+                            // Connect to server to check if username exist and password correct.
+                            //HttpConnection.connection(LOGIN);
+                            // If exist and correct - put user first name, return true
+                            //user.setFirstName();
+
+                            // If not - return false
+                            return true;//false;
+                        }
+
+                        @Override
+                        protected void onPostExecute(Boolean success) {
+                            // Enable the button.
+                            btnLogin.setEnabled(true);
+                            btnLogin.setText(R.string.login);
+
+                            // Username+password correct - Log in the user.
+                            if (success){
+                                // Send back user details.
+                                listener.onLogin(user);
+                                dismiss();
+                            }else{
+                                Toast.makeText(getContext(), "Username or password incorrect!", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }.execute(new User(userName,password,"","", 0));
                 }
-                dismiss();
             }
         });
 
-        //this line is responsible of popping up the keyboard
+        //  Pop up the keyboard.
         getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         return view;
     }

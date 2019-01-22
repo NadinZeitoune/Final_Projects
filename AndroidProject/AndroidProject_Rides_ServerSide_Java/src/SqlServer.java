@@ -28,11 +28,31 @@ public class SqlServer {
         }
     }
 
+    public static void delete(){
+        String userName = "nadin";
+
+        try (Connection conn = getConn()){
+            try (PreparedStatement statement = conn.prepareStatement(
+                    "DELETE FROM users WHERE (username = userName)")){
+                //statement.setString(1, userName);
+                int rowsAffected = statement.executeUpdate();
+                System.out.println("affected: " + rowsAffected);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     private static Connection getConn() throws SQLException{
         String connectionString = "jdbc:mysql://localhost:3306/ride_db?useSSL=false";
-        String user = "root";
-        String password = "MyrootSql811";
+        String user = "nadin";
+        String password = "NadinSql81196";
 
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
         return DriverManager.getConnection(connectionString, user, password);
     }
 }
