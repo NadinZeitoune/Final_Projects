@@ -5,7 +5,7 @@ import java.sql.SQLException;
 
 public class SqlServer {
 
-    public static void insert(){
+    public static int insert(){
         String userName = "nadin";
         String password = "12345";
         String firstName = "nadin";
@@ -25,7 +25,7 @@ public class SqlServer {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        }
+        }return 1;
     }
 
     public static void delete(){
