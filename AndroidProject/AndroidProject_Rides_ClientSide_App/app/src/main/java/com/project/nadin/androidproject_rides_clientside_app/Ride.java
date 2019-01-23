@@ -14,9 +14,9 @@ public class Ride {
     private String arrival;
     private int freeSeatsNum;
     private int numOfPassengers;
-
+/*
     private User driver;
-    private User[] passengers;
+    private User[] passengers;*/
 
     public Ride(String origin, String destination, String departure, String arrival, int numOfPassengers, User driver) {
         this.origin = origin;
@@ -26,8 +26,8 @@ public class Ride {
         this.numOfPassengers = numOfPassengers;
         freeSeatsNum = numOfPassengers;
 
-        this.driver = driver;
-        passengers = new User[numOfPassengers];
+        /*this.driver = driver;
+        passengers = new User[numOfPassengers];*/
     }
 
     public Ride(String rideAsString){
@@ -47,12 +47,12 @@ public class Ride {
         this.numOfPassengers = Integer.valueOf(parts[5]);
         this.freeSeatsNum = Integer.valueOf(parts[6]);
 
-        // Driver details.
+        /*// Driver details.
         this.driver = new User(parts[7], true);
 
         // Passengers details.
         String[] usersParts = parts[8].split(User.USER_DELIMITER);
-        this.passengers = User.usersFromString(usersParts);
+        this.passengers = User.usersFromString(usersParts);*/
     }
 
     // Reverse string to Ride list.
@@ -67,7 +67,7 @@ public class Ride {
         return rides;
     }
 
-    // Add passenger.
+    /*// Add passenger.
     private void addPassenger(User newPassenger){
         // Add passenger to ride.
         passengers[numOfPassengers - freeSeatsNum] = newPassenger;
@@ -98,9 +98,9 @@ public class Ride {
                 return;
             }
         }
-    }
+    }*/
 
-    public static String rideListToString(List<Ride> rides){
+    /*public static String rideListToString(List<Ride> rides){
         StringBuilder ridesAsString = new StringBuilder();
 
         for (Ride ride : rides) {
@@ -108,7 +108,7 @@ public class Ride {
         }
 
         return ridesAsString.toString();
-    }
+    }*/
 
     @Override
     public String toString() {
@@ -123,11 +123,11 @@ public class Ride {
         rideAsString.append(numOfPassengers).append(RIDE_DELIMITER);
         rideAsString.append(freeSeatsNum).append(RIDE_DELIMITER);
 
-        // Driver details.
+        /*// Driver details.
         rideAsString.append(driver.userProfileToString()).append(RIDE_DELIMITER);
 
         // Passengers details.
-        rideAsString.append(User.usersProfileToString(passengers)).append(RIDE_DELIMITER);
+        rideAsString.append(User.usersProfileToString(passengers)).append(RIDE_DELIMITER);*/
 
         return rideAsString.toString();
     }
@@ -164,11 +164,11 @@ public class Ride {
         this.arrival = arrival;
     }
 
-    public User[] getPassengers() {
+    /*public User[] getPassengers() {
         return passengers;
     }
 
     public void setPassengers(User[] passengers) {
         this.passengers = passengers;
-    }
+    }*/
 }

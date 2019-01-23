@@ -21,6 +21,11 @@ import java.net.URL;
 
 public class SignUpFragment extends DialogFragment {
     public static final String SIGN_UP = "signUp";
+
+    public static final int ERROR = 404;
+    public static final int EXIST = 100;
+    public static final int SUCCESS = 200;
+
     private EditText txtFirstName;
     private EditText txtLastName;
     private EditText txtPhoneNumber;
@@ -71,10 +76,16 @@ public class SignUpFragment extends DialogFragment {
                             user = users[0];
 
                             // Connect to server to check if username exist.
-                            //HttpConnection.connection(SIGN_UP);
+                            int result = (int) HttpConnection.connection(SIGN_UP, user);
+
                             // If exist - return false
+                            if (result == EXIST)
+                                return false;
                             // If not - return true
-                            return false;
+                            else if (result == SUCCESS)
+                                return true;
+                            else
+                                return false;
                         }
 
                         @Override
@@ -89,7 +100,7 @@ public class SignUpFragment extends DialogFragment {
                                 listener.onSignUp(user);
                                 dismiss();
                             }else{
-                                //Toast.makeText(getContext(), "Username already exist!", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getContext(), "Username already exist!", Toast.LENGTH_SHORT).show();
                             }
                         }
                     }.execute(new User(userName, password, firstName, lastName, Integer.valueOf(phoneNumber)));

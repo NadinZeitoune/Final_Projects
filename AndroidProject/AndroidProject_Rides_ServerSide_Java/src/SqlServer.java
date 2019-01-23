@@ -1,16 +1,16 @@
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
+
+import java.sql.*;
 
 public class SqlServer {
 
-    public static int insert(){
-        String userName = "nadin";
-        String password = "12345";
-        String firstName = "nadin";
-        String lastName = "zeitoune";
-        String phoneNumber = "0546543455";
+    public static int insertUser(User user){
+        String userName = user.getUserName();
+        String password = user.getPassword();
+        String firstName = user.getFirstName();
+        String lastName = user.getLastName();
+        String phoneNumber = String.valueOf(user.getPhoneNumber());
+        int rowsAffected = 0;
 
         try (Connection conn = getConn()){
             try (PreparedStatement statement = conn.prepareStatement(
@@ -20,27 +20,53 @@ public class SqlServer {
                 statement.setString(3, firstName);
                 statement.setString(4, lastName);
                 statement.setString(5, phoneNumber);
-                int rowsAffected = statement.executeUpdate();
-                System.out.println("affected: " + rowsAffected);
+                rowsAffected = statement.executeUpdate();
+            }catch (MySQLIntegrityConstraintViolationException e){
+                return -1;
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        }return 1;
+        }return rowsAffected;
     }
 
-    public static void delete(){
-        String userName = "nadin";
+    public static int searchUserNameForSignUp(String userName){
 
-        try (Connection conn = getConn()){
+        try(Connection conn = getConn()){
             try (PreparedStatement statement = conn.prepareStatement(
-                    "DELETE FROM users WHERE (username = userName)")){
-                //statement.setString(1, userName);
-                int rowsAffected = statement.executeUpdate();
-                System.out.println("affected: " + rowsAffected);
+                    "SELECT * FROM users WHERE username = ?")){
+                statement.setString(1, userName);
+                try (ResultSet resultSet = statement.executeQuery()){
+                    while (resultSet.next()){
+                        return 1;
+                    }
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        return 0;
+    }
+
+    public static User searchUsernameAndPasswordForLogin(User user){
+        try (Connection conn = getConn()){
+            try (PreparedStatement statement = conn.prepareStatement(
+                    "SELECT * FROM users WHERE username = ?, password = ?")){
+                statement.setString(1, user.getUserName());
+                statement.setString(2, user.getPassword());
+
+                try (ResultSet resultSet = statement.executeQuery()){
+                    while (resultSet.next()){
+                        // Create user to return
+                        return null; // user
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
     private static Connection getConn() throws SQLException{

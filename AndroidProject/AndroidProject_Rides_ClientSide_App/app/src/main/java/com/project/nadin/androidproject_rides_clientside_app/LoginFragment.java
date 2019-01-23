@@ -57,12 +57,17 @@ public class LoginFragment extends DialogFragment {
                             user = users[0];
 
                             // Connect to server to check if username exist and password correct.
-                            //HttpConnection.connection(LOGIN);
-                            // If exist and correct - put user first name, return true
-                            //user.setFirstName();
+                            User logUser = (User) HttpConnection.connection(LOGIN, user);
 
-                            // If not - return false
-                            return true;//false;
+                            // if username OR password wrong - return false.
+                            if (logUser == null){
+                                return false;
+                            }else {
+                                // Exist and correct - put user first name, return true
+                                // Update user with details.
+                                user = logUser;
+                                return true;
+                            }
                         }
 
                         @Override
