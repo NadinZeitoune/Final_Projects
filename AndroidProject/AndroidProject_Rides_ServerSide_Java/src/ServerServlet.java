@@ -19,7 +19,7 @@ public class ServerServlet extends javax.servlet.http.HttpServlet {
             case "login":
                 userAsString = request.getParameter("body");
                 user = new User(userAsString);
-                response.getWriter().write("");
+                response.getWriter().write(login(user).toString());
                 break;
 
         }
@@ -31,8 +31,7 @@ public class ServerServlet extends javax.servlet.http.HttpServlet {
 
     private User login(User user){
         // Check username and password.
-
-        return null;
+        return SqlServer.searchUsernameAndPasswordForLogin(user);
     }
 
     private int signUp(User user){
