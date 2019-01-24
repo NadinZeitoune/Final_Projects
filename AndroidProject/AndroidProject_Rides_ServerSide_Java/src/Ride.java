@@ -1,5 +1,3 @@
-package com.project.nadin.androidproject_rides_clientside_app;
-
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;

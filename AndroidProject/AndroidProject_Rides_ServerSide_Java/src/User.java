@@ -1,6 +1,7 @@
+import java.io.Serializable;
 import java.security.InvalidParameterException;
 
-public class User {
+public class User implements Serializable {
     public static final String DELIMITER = "#";
 
     private String userName;
@@ -93,5 +94,4 @@ public class User {
     public void setPhoneNumber(int phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
-
 }

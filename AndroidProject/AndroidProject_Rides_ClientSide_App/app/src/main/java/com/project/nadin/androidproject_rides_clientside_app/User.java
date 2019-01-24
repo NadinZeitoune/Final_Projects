@@ -2,12 +2,9 @@ package com.project.nadin.androidproject_rides_clientside_app;
 
 import java.io.Serializable;
 import java.security.InvalidParameterException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class User implements Serializable {
     public static final String DELIMITER = "#";
-    public static final String USER_DELIMITER = "#";
 
     private String userName;
     private String password;
@@ -37,64 +34,6 @@ public class User implements Serializable {
         this.lastName = parts[3];
         this.phoneNumber = Integer.valueOf(parts[4]);
     }
-
-    /*public User(String userAsString, boolean isProfile){
-        if (userAsString == null)
-            throw new InvalidParameterException();
-
-        String[] parts = userAsString.split(DELIMITER);
-        if (parts.length != 3)
-            throw new InvalidParameterException();
-
-        this.firstName = parts[0];
-        this.lastName = parts[1];
-        this.phoneNumber = Integer.valueOf(parts[2]);
-    }
-
-    public static User[] usersFromString(String[] usersAsString){
-        User[] users = new User[usersAsString.length];
-        int i = 0;
-
-        for (String user : usersAsString) {
-            String[] parts = user.split(DELIMITER);
-
-            if (parts.length != 3)
-                throw new InvalidParameterException();
-
-            users[i] = new User("","", parts[0],
-                                parts[1], Integer.valueOf(parts[2]));
-            i++;
-        }
-
-        return users;
-    }*/
-
-    /*public void addDrive(Ride newDrive){
-        drivingList.add(0, newDrive);
-    }
-
-    public void addRide(Ride newRide){
-        ridesList.add(0, newRide);
-    }
-
-    public void removeRide(Ride newRide){
-        ridesList.remove(newRide);
-    }*/
-
-    /*public String userProfileToString(){
-        return firstName + DELIMITER + lastName + DELIMITER + phoneNumber;
-    }
-
-    public static String usersProfileToString(User[] users){
-        StringBuilder usersAsString = new StringBuilder();
-
-        for (int i = 0; i < users.length; i++) {
-            User user = users[i];
-            usersAsString.append(user.userProfileToString()).append(USER_DELIMITER);
-        }
-
-        return usersAsString.toString();
-    }*/
 
     @Override
     public String toString() {
@@ -128,6 +67,10 @@ public class User implements Serializable {
 
     public String getPassword() {
         return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getFirstName() {
