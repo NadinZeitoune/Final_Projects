@@ -27,7 +27,7 @@ public class HttpConnection {
             addBody(connection, obj);
 
             connection.connect();
-            switch (action){
+            switch (action) {
                 case "signUp":
                     return signUpResponse(inputStream, connection);
                 case "login":
@@ -49,8 +49,6 @@ public class HttpConnection {
             if (connection != null) {
                 connection.disconnect();
             }
-
-
         }
 
         return Integer.valueOf(response);
@@ -72,18 +70,22 @@ public class HttpConnection {
     }
 
     private static User loginResponse(InputStream inputStream, HttpURLConnection connection) throws IOException {
-        String user = "";
+        StringBuilder userBuilder = new StringBuilder();
         inputStream = connection.getInputStream();
         byte[] buffer = new byte[64];
-        int actuallyRead = inputStream.read(buffer);
-        while (actuallyRead != -1) {
-            try {
-                user = new String(buffer, 0, actuallyRead);
-            } catch (Exception e) {
-                return null;
+        int actuallyRead;
+        try {
+            while ((actuallyRead = inputStream.read(buffer)) != -1) {
+                userBuilder.append(new String(buffer, 0, actuallyRead));
             }
+
+            if (userBuilder.equals(ERROR))
+                throw new Exception();
+
+            return new User(userBuilder.toString());
+        } catch (Exception e) {
+            return null;
         }
-        return new User(user);
     }
 
     private static void addBody(HttpURLConnection connection, Object obj) throws IOException {
