@@ -51,14 +51,16 @@ public class SqlServer {
     public static User searchUsernameAndPasswordForLogin(User user){
         try (Connection conn = getConn()){
             try (PreparedStatement statement = conn.prepareStatement(
-                    "SELECT * FROM users WHERE username = ?, password = ?")){
+                    "SELECT * FROM users WHERE username = ? AND password = ?")){
                 statement.setString(1, user.getUserName());
                 statement.setString(2, user.getPassword());
 
                 try (ResultSet resultSet = statement.executeQuery()){
                     while (resultSet.next()){
                         // Create user to return
-                        return null; // user
+                        User newUser = new User(resultSet.getString(1), resultSet.getString(2),
+                                resultSet.getString(3), resultSet.getString(4), resultSet.getInt(5));
+                        return newUser;
                     }
                 }
             }
