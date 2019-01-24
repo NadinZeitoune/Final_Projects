@@ -8,18 +8,20 @@ public class ServerServlet extends javax.servlet.http.HttpServlet {
 
     protected void doPost(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, IOException {
         String action = request.getParameter("action");
-        String userAsString;
+        String userAsString, rideAsString;
         User user;
+        //Ride ride;
 
+        // Choose action.
         switch (action){
             case "signUp":
-                userAsString = request.getParameter("body");
-
+                userAsString = request.getParameter("bodyUser");
                 user = new User(userAsString);
                 response.getWriter().write(String.valueOf(signUp(user)));
                 break;
+
             case "login":
-                userAsString = request.getParameter("body");
+                userAsString = request.getParameter("bodyUser");
                 user = new User(userAsString);
                 User userResponse = login(user);
                 if (userResponse == null) {

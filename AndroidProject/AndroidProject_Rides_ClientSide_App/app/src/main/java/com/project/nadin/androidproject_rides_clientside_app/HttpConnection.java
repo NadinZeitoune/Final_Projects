@@ -19,14 +19,19 @@ public class HttpConnection {
         String response = String.valueOf(ERROR);
 
         try {
+            // Get basic connection.
             url = new URL("http://10.0.2.2:8080/server?action=" + action);
             connection = (HttpURLConnection) url.openConnection();
             connection.setUseCaches(false);
             connection.setDoOutput(true);
             connection.setRequestMethod("POST");
+
+            // Add body - User / Ride
             addBody(connection, obj);
 
             connection.connect();
+
+            // Choose response.
             switch (action) {
                 case "signUp":
                     return signUpResponse(inputStream, connection);
@@ -55,6 +60,7 @@ public class HttpConnection {
     }
 
     private static int signUpResponse(InputStream inputStream, HttpURLConnection connection) throws IOException {
+        // Read numeric respond from server.
         inputStream = connection.getInputStream();
         byte[] buffer = new byte[4];
         int actuallyRead = inputStream.read(buffer);
@@ -70,6 +76,7 @@ public class HttpConnection {
     }
 
     private static User loginResponse(InputStream inputStream, HttpURLConnection connection) throws IOException {
+        // Read User respond from server.
         StringBuilder userBuilder = new StringBuilder();
         inputStream = connection.getInputStream();
         byte[] buffer = new byte[64];
@@ -91,9 +98,15 @@ public class HttpConnection {
     private static void addBody(HttpURLConnection connection, Object obj) throws IOException {
         BufferedWriter httpRequestBodyWriter = new BufferedWriter(new OutputStreamWriter(connection.getOutputStream()));
 
+        // Choose body.
         if (obj instanceof User) {
             User user = (User) obj;
-            httpRequestBodyWriter.write("body=" + user.toString());
+            httpRequestBodyWriter.write("bodyUser=" + user.toString());
+        }
+
+        if (obj instanceof Ride){
+            Ride ride = (Ride) obj;
+            httpRequestBodyWriter.write("bodyRide=" + ride.toString());
         }
 
 
