@@ -14,8 +14,8 @@ public class DateTimeFragment extends DialogFragment {
     private TimePicker timePicker;
     private Button btnDateTime;
     private OnDateTimeFragmentListener listener;
-    private String date;
-    private String time;
+    private String date = null;
+    private String time = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -29,10 +29,11 @@ public class DateTimeFragment extends DialogFragment {
             @Override
             public void onClick(View view) {
                 // Check if user entered only date.
-                if (date.isEmpty()){
+                if (date == null){
                     date = formatDate();
                     datePicker.setVisibility(View.GONE);
                     timePicker.setVisibility(View.VISIBLE);
+                    timePicker.setIs24HourView(true);
                 }
                 // The user entered both date and time.
                 else {

@@ -2,11 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="20sp"
     android:orientation="vertical">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/add_ride"
+        android:textSize="@dimen/title_text"
         android:textAlignment="center"/>
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,9 +17,10 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="@dimen/fragment_text"
             android:text="@string/departure"/>
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/input_width"
             android:layout_height="wrap_content"
             android:id="@+id/lblDeparture"/>
 
@@ -29,9 +32,10 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="@dimen/fragment_text"
             android:text="@string/origin"/>
         <EditText
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/input_width"
             android:layout_height="wrap_content"
             android:id="@+id/txtOrigin"/>
     </LinearLayout>
@@ -42,9 +46,10 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="@dimen/fragment_text"
             android:text="@string/destination"/>
         <EditText
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/input_width"
             android:layout_height="wrap_content"
             android:id="@+id/txtDestination"/>
     </LinearLayout>
@@ -55,9 +60,10 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="@dimen/fragment_text"
             android:text="@string/via"/>
         <EditText
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/input_width"
             android:layout_height="wrap_content"
             android:id="@+id/txtVia"/>
     </LinearLayout>
@@ -68,9 +74,10 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="@dimen/fragment_text"
             android:text="@string/arrival"/>
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/input_width"
             android:layout_height="wrap_content"
             android:id="@+id/lblArrival"/>  <!-- give the driver the option to change arrival time???-->
     </LinearLayout>
@@ -81,15 +88,20 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="@dimen/fragment_text"
             android:text="@string/seats"/>
         <EditText
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/input_width"
             android:layout_height="wrap_content"
             android:id="@+id/txtSeats"
             android:inputType="number"/>
     </LinearLayout>
     <Button
+        android:id="@+id/btnAddRide"
         android:layout_width="wrap_content"
+        android:layout_marginTop="100sp"
+        android:layout_marginStart="100sp"
         android:layout_height="wrap_content"
+        android:textSize="@dimen/fragment_buttons_text"
         android:text="@string/add_ride"/>
 </LinearLayout>

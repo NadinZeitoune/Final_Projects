@@ -1,10 +1,12 @@
 package com.project.nadin.androidproject_rides_clientside_app;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,6 +22,9 @@ import java.io.Serializable;
 public class RidesActivity extends Activity {
 
     public static final String SEARCH = "search";
+
+    private FrameLayout fragmentLayout;
+
     private User logged;
     private String userFile;
 
@@ -27,6 +32,8 @@ public class RidesActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rides);
+
+        fragmentLayout = findViewById(R.id.fragmentLayout);
 
         // Show user name.
         Serializable userName = getIntent().getSerializableExtra(MainActivity.USER);
@@ -81,20 +88,23 @@ public class RidesActivity extends Activity {
         finish();
     }
 
+    @SuppressLint("ResourceType")
     public void onAddRide(View view) {
-        // open add ride fragment
+        // Open add ride fragment
         AddFragment addFragment = new AddFragment();
+
+        getFragmentManager().beginTransaction().add(R.id.fragmentLayout, addFragment).commit();
+        fragmentLayout.setVisibility(FrameLayout.VISIBLE);
 
         addFragment.setListener(new AddFragment.OnAddFragmentListener() {
             @Override
             public void onAdd(Ride newRide) {
-
+                fragmentLayout.setVisibility(FrameLayout.GONE);
             }
         });
-        //addFragment.ap
 
-        // after finishing the form, the ride will add to the showing list
-        // and to the "my drives" list - in my settings
+        // After finishing the form, the ride will add to the showing list.
+        // refresh rides list - function
     }
 
     public void onSearchRide(View view) {
