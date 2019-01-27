@@ -1,5 +1,7 @@
 package com.project.nadin.androidproject_rides_clientside_app;
 
+import android.util.Log;
+
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,7 +14,7 @@ public class HttpConnection {
 
     public static final int ERROR = 404;
 
-    public static Object connection(String action, Object obj) {
+    public static Object connection(String action, Object... obj) {
         URL url = null;
         InputStream inputStream = null;
         HttpURLConnection connection = null;
@@ -37,6 +39,8 @@ public class HttpConnection {
                     return signUpResponse(inputStream, connection);
                 case "login":
                     return loginResponse(inputStream, connection);
+                case "addRide":
+                    return addRideResponse(inputStream, connection);
             }
 
         } catch (MalformedURLException e) {
@@ -57,6 +61,26 @@ public class HttpConnection {
         }
 
         return Integer.valueOf(response);
+    }
+
+    private static boolean addRideResponse(InputStream inputStream, HttpURLConnection connection) throws IOException{
+        // Read numeric respond from server.
+        inputStream = connection.getInputStream();
+        byte[] buffer = new byte[4];
+        int actuallyRead = inputStream.read(buffer);
+        if (actuallyRead != -1) {
+            try {
+                int response = Integer.valueOf(new String(buffer, 0, actuallyRead));
+                if (response != ERROR)
+                    return true;
+                else
+                    return false;
+            } catch (Exception e) {
+                return false;
+            }
+        } else {
+            return false;
+        }
     }
 
     private static int signUpResponse(InputStream inputStream, HttpURLConnection connection) throws IOException {
@@ -95,21 +119,33 @@ public class HttpConnection {
         }
     }
 
-    private static void addBody(HttpURLConnection connection, Object obj) throws IOException {
+    private static void addBody(HttpURLConnection connection, Object... obj) throws IOException {
         BufferedWriter httpRequestBodyWriter = new BufferedWriter(new OutputStreamWriter(connection.getOutputStream()));
 
-        // Choose body.
-        if (obj instanceof User) {
-            User user = (User) obj;
-            httpRequestBodyWriter.write("bodyUser=" + user.toString());
+        StringBuilder stringBuilder = new StringBuilder();
+
+        for (Object o : obj) {
+
+            // Choose body.
+            if (o instanceof User) {
+                User user = (User) o;
+                stringBuilder.append("bodyUser=" + user.toString());
+            }
+
+            if (o instanceof Ride){
+                Ride ride = (Ride) o;
+                stringBuilder.append("bodyRide=" + ride.toString());
+                stringBuilder.append("&");
+            }
+
+            if (o instanceof String){
+                String userName = (String) o;
+                stringBuilder.append("bodyUsername=" + userName);
+            }
+
         }
 
-        if (obj instanceof Ride){
-            Ride ride = (Ride) obj;
-            httpRequestBodyWriter.write("bodyRide=" + ride.toString());
-        }
-
-
+        httpRequestBodyWriter.write(stringBuilder.toString());
         httpRequestBodyWriter.close();
     }
 }

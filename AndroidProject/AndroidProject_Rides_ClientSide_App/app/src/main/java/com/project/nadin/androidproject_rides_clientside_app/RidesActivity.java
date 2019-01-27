@@ -2,6 +2,7 @@ package com.project.nadin.androidproject_rides_clientside_app;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -91,20 +92,35 @@ public class RidesActivity extends Activity {
     @SuppressLint("ResourceType")
     public void onAddRide(View view) {
         // Open add ride fragment
-        AddFragment addFragment = new AddFragment();
+        final AddFragment addFragment = new AddFragment();
 
-        getFragmentManager().beginTransaction().add(R.id.fragmentLayout, addFragment).commit();
-        fragmentLayout.setVisibility(FrameLayout.VISIBLE);
+        getFragmentManager().beginTransaction().add(R.id.fragmentLayout, addFragment)
+                .addToBackStack(null).commit();
+
+        // Add the option of getting back with back button.
+        getFragmentManager().addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
+            @Override
+            public void onBackStackChanged() {
+                if (fragmentLayout.getVisibility() == View.GONE)
+                    fragmentLayout.setVisibility(View.VISIBLE);
+                else {
+                    fragmentLayout.setVisibility(View.GONE);
+                    getFragmentManager().beginTransaction().remove(addFragment);
+                    getFragmentManager().removeOnBackStackChangedListener(this);
+                }
+            }
+
+        });
+
 
         addFragment.setListener(new AddFragment.OnAddFragmentListener() {
             @Override
-            public void onAdd(Ride newRide) {
+            public void onAdd() {
                 fragmentLayout.setVisibility(FrameLayout.GONE);
+                // After finishing the form, the ride will add to the showing list.
+                // refresh rides list - function
             }
         });
-
-        // After finishing the form, the ride will add to the showing list.
-        // refresh rides list - function
     }
 
     public void onSearchRide(View view) {

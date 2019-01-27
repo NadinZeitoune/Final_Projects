@@ -22,7 +22,6 @@ import java.net.URL;
 public class SignUpFragment extends DialogFragment {
     public static final String SIGN_UP = "signUp";
 
-    public static final int ERROR = 404;
     public static final int EXIST = 100;
     public static final int SUCCESS = 200;
 

@@ -28,7 +28,8 @@ public class SqlServer {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        }return rowsAffected;
+        }
+        return rowsAffected;
     }
 
     public static int searchUserNameForSignUp(String userName){
@@ -76,6 +77,39 @@ public class SqlServer {
         }
 
         return null;
+    }
+
+    public static int insertRide(Ride ride, String driver){
+        // Get ride details.
+        String origin = ride.getOrigin();
+        String destination = ride.getDestination();
+        String departure = ride.getDeparture();
+        String arrival = ride.getArrival();
+        int passengersNum = ride.getNumOfPassengers();
+        int rowsAffected = 0;
+
+        // Connect to mySql table and insert the new ride.
+        try (Connection conn = getConn()){
+            try (PreparedStatement statement = conn.prepareStatement(
+                    "INSERT INTO ride_db.rides(origin, destination, departure, arrival, passenger_num, driver) VALUES (?,?,?,?,?,?)")){
+
+                statement.setString(1, origin);
+                statement.setString(2, destination);
+                statement.setString(3, departure);
+                statement.setString(4, arrival);
+                statement.setInt(5, passengersNum);
+                statement.setString(6, driver);
+
+                rowsAffected = statement.executeUpdate();
+                return rowsAffected;
+            }catch (MySQLIntegrityConstraintViolationException e){
+                return -1;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return rowsAffected;
     }
 
     private static Connection getConn() throws SQLException{

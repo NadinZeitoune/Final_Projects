@@ -10,7 +10,7 @@ public class ServerServlet extends javax.servlet.http.HttpServlet {
         String action = request.getParameter("action");
         String userAsString, rideAsString;
         User user;
-        //Ride ride;
+        Ride ride;
 
         // Choose action.
         switch (action){
@@ -22,6 +22,7 @@ public class ServerServlet extends javax.servlet.http.HttpServlet {
 
             case "login":
                 userAsString = request.getParameter("bodyUser");
+
                 user = new User(userAsString);
                 User userResponse = login(user);
                 if (userResponse == null) {
@@ -31,11 +32,24 @@ public class ServerServlet extends javax.servlet.http.HttpServlet {
                 response.getWriter().write(userResponse.toString());
                 break;
 
+            case "addRide":
+                rideAsString = request.getParameter("bodyRide");
+                ride = new Ride(rideAsString);
+
+                response.getWriter().write(String.valueOf(addRide(ride, request.getParameter("bodyUsername"))));
+                break;
+
         }
     }
 
     protected void doGet(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, IOException {
 
+    }
+
+    private int addRide(Ride ride, String driver){
+        if (SqlServer.insertRide(ride, driver) != 1)
+            return ERROR;
+        return SUCCESS;
     }
 
     private User login(User user){

@@ -3,14 +3,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Ride {
-    public static final String DELIMITER = "%";
+    public static final String DELIMITER = "#";
     private int rideNumber;
     private String origin;
     private String destination;
     private String departure;
     private String arrival;
     private int freeSeatsNum;
+
+
     private int numOfPassengers;
+
 
     public Ride(String origin, String destination, String departure, String arrival, int numOfPassengers) {
         this.origin = origin;
@@ -26,7 +29,7 @@ public class Ride {
             throw new InvalidParameterException();
         String[] parts = rideAsString.split(DELIMITER);
 
-        if (parts.length != 7)
+        if (parts.length != 6)
             throw new InvalidParameterException();
 
         // Ride details.
@@ -36,7 +39,7 @@ public class Ride {
         this.departure = parts[3];
         this.arrival = parts[4];
         this.numOfPassengers = Integer.valueOf(parts[5]);
-        this.freeSeatsNum = Integer.valueOf(parts[6]);
+        //this.freeSeatsNum = Integer.valueOf(parts[6]);
     }
 
     @Override
@@ -50,7 +53,7 @@ public class Ride {
         rideAsString.append(departure).append(DELIMITER);
         rideAsString.append(arrival).append(DELIMITER);
         rideAsString.append(numOfPassengers).append(DELIMITER);
-        rideAsString.append(freeSeatsNum).append(DELIMITER);
+        //rideAsString.append(freeSeatsNum).append(DELIMITER);
 
         return rideAsString.toString();
     }
@@ -85,5 +88,13 @@ public class Ride {
 
     public void setArrival(String arrival) {
         this.arrival = arrival;
+    }
+
+    public int getNumOfPassengers() {
+        return numOfPassengers;
+    }
+
+    public void setNumOfPassengers(int numOfPassengers) {
+        this.numOfPassengers = numOfPassengers;
     }
 }
