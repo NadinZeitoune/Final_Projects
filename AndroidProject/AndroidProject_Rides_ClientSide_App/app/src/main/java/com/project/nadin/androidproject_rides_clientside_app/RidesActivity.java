@@ -125,14 +125,33 @@ public class RidesActivity extends Activity {
 
     public void onSearchRide(View view) {
         // open search fragment
-        SearchFragment searchFragment = new SearchFragment();
+        final SearchFragment searchFragment = new SearchFragment();
+
+        getFragmentManager().beginTransaction().add(R.id.fragmentLayout, searchFragment)
+                .addToBackStack(null).commit();
+
+        // Add the option of getting back with back button.
+        getFragmentManager().addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
+            @Override
+            public void onBackStackChanged() {
+                if (fragmentLayout.getVisibility() == View.GONE)
+                    fragmentLayout.setVisibility(View.VISIBLE);
+                else {
+                    fragmentLayout.setVisibility(View.GONE);
+                    getFragmentManager().beginTransaction().remove(searchFragment);
+                    getFragmentManager().removeOnBackStackChangedListener(this);
+                }
+            }
+
+        });
+
         searchFragment.setListener(new SearchFragment.OnSearchFragmentListener() {
             @Override
             public void onSearch() {
-
+                // Close the fragment.
+                // Extract details.
+                // Refresh rides list according to the details.
             }
         });
-        searchFragment.show(getFragmentManager(), SEARCH);
-        // the result of the fragment will effect the showing list of rides.
     }
 }

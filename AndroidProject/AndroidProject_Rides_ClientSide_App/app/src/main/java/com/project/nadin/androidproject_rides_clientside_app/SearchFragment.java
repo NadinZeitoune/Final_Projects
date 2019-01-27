@@ -1,19 +1,21 @@
 package com.project.nadin.androidproject_rides_clientside_app;
 
-import android.app.DialogFragment;
+import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
-public class SearchFragment extends DialogFragment {
+public class SearchFragment extends Fragment {
 
     public static final String DATE_TIME = "dateTime";
 
     private OnSearchFragmentListener listener;
+    private Button btnSearchRide;
 
     private CheckBox chkRideId;
     private CheckBox chkDeparture;
@@ -31,6 +33,8 @@ public class SearchFragment extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_search, container, false);
+
+        btnSearchRide = view.findViewById(R.id.btnSearchRide);
 
         chkRideId = view.findViewById(R.id.chkId);
         chkDeparture = view.findViewById(R.id.chkDeparture);
@@ -50,8 +54,18 @@ public class SearchFragment extends DialogFragment {
         chkOrigin.setOnClickListener(chkListener);
         chkDestination.setOnClickListener(chkListener);
 
+        btnSearchRide.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Make sure that all checked fields have input.
+                // Save SOMEWHERE the details.
+                // Call onSearch method.
+            }
+        });
+
         return view;
     }
+
 
     View.OnClickListener chkListener = new View.OnClickListener() {
         @Override
@@ -71,7 +85,7 @@ public class SearchFragment extends DialogFragment {
 
                     if (checked) {
                         lblDeparture.setOnClickListener(timeListener);
-                        openDateTimeFragment();
+                        openDateTimeFragment(lblDeparture);
                     }
                     break;
                 case "Arrival time:":
@@ -79,7 +93,7 @@ public class SearchFragment extends DialogFragment {
 
                     if (checked) {
                         lblArrival.setOnClickListener(timeListener);
-                        openDateTimeFragment();
+                        openDateTimeFragment(lblArrival);
                     }
                     break;
                 case "Origin point:":
@@ -89,7 +103,6 @@ public class SearchFragment extends DialogFragment {
                     txtDestination.setEnabled(checked);
                     break;
             }
-            dismiss();
         }
 
     };
@@ -97,19 +110,28 @@ public class SearchFragment extends DialogFragment {
     View.OnClickListener timeListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            openDateTimeFragment();
+            openDateTimeFragment(view);
         }
     };
 
-    private void openDateTimeFragment(){
+    private void openDateTimeFragment(final View view){
         DateTimeFragment dateTimeFragment = new DateTimeFragment();
         dateTimeFragment.setListener(new DateTimeFragment.OnDateTimeFragmentListener() {
             @Override
             public void onDateTime(String date, String time) {
-                //textView.setText(date + ", " + time);
+                TextView textView = (TextView) view;
+                textView.setText(" " + date + ", " + time);
             }
         });
         dateTimeFragment.show(this.getFragmentManager(), DATE_TIME);
+    }
+
+    private boolean isCheckedAndEmpty(String... params){
+        for (String param : params) {
+            if (param == null || param.isEmpty())
+                return true;
+        }
+        return false;
     }
 
     public void setListener(OnSearchFragmentListener listener) {

@@ -6,8 +6,8 @@
     android:orientation="vertical">
 
     <TextView
-        android:layout_width="@dimen/dialog_width"
-        android:textSize="@dimen/dialog_title"
+        android:layout_width="match_parent"
+        android:textSize="@dimen/title_text"
         android:layout_height="wrap_content"
         android:text="@string/search"
         android:textAlignment="center" />
@@ -22,6 +22,7 @@
             android:layout_height="wrap_content"
             android:text="@string/ride_id"
             android:id="@+id/chkId"
+            android:textSize="@dimen/fragment_text"
             android:tag="@string/ride_id"/>
 
         <EditText
@@ -41,12 +42,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/departure"
+            android:textSize="@dimen/fragment_text"
             android:id="@+id/chkDeparture"
             android:tag="@string/departure"/>
 
         <TextView
             android:id="@+id/lblDeparture"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/input_width"
             android:layout_height="wrap_content"
             android:enabled="false" /> <!-- date time fragment -->
     </LinearLayout>
@@ -60,12 +62,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/arrival"
+            android:textSize="@dimen/fragment_text"
             android:id="@+id/chkArrival"
             android:tag="@string/arrival"/>
 
         <TextView
             android:id="@+id/lblArrival"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/input_width"
             android:layout_height="wrap_content"
             android:enabled="false" /> <!-- date time fragment -->
     </LinearLayout>
@@ -79,6 +82,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/origin"
+            android:textSize="@dimen/fragment_text"
             android:id="@+id/chkOrigin"
             android:tag="@string/origin"/>
 
@@ -99,6 +103,7 @@
             android:layout_height="wrap_content"
             android:text="@string/destination"
             android:id="@+id/chkDestination"
+            android:textSize="@dimen/fragment_text"
             android:tag="@string/destination"/>
 
         <EditText
@@ -111,6 +116,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/search"
+        android:textSize="@dimen/fragment_buttons_text"
+        android:layout_marginTop="100sp"
         android:id="@+id/btnSearchRide"
         android:onClick="btnSearch"/>
 </LinearLayout>
