@@ -28,7 +28,7 @@ public class HttpConnection {
             connection.setDoOutput(true);
             connection.setRequestMethod("POST");
 
-            // Add body - User / Ride
+            // Add body.
             addBody(connection, obj);
 
             connection.connect();

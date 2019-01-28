@@ -2,6 +2,7 @@ package com.project.nadin.androidproject_rides_clientside_app;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,25 +10,22 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.io.File;
-import java.io.FileInputStream;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.Serializable;
 
 public class RidesActivity extends Activity {
 
-    public static final String SEARCH = "search";
+    private User logged;
 
     private FrameLayout fragmentLayout;
+    private FragmentManager.OnBackStackChangedListener backStackListener;
 
-    private User logged;
-    private String userFile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +38,7 @@ public class RidesActivity extends Activity {
         Serializable userName = getIntent().getSerializableExtra(MainActivity.USER);
 
         logged = (User) userName;
-        userFile = logged.getUserName() + "_profile.txt";
+
 
         if (logged != null) {
             TextView lblUser = findViewById(R.id.lblUser);
@@ -51,31 +49,21 @@ public class RidesActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-        // Load user profile from inner file- named as username, if exist.
-        //loadUserFile();
-    }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-
-        // Save profile to file. Override if exist.
-
+        // Load rides from database with details if exist.
+        refreshRidesListView(true);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
 
-        // Copy/save user file to server.
+        // Delete search file.
+        this.deleteFile(SearchFragment.SEARCH_FILE);
     }
 
     public void onLogOut(View view) {
         // Restarting the app:
-        // Save user file to server.
-        // Delete user file from device.
-
-
         // Clears the logged in user
         SharedPreferences prefs = getSharedPreferences(MainActivity.PREFS, MODE_PRIVATE);
         prefs.edit().remove(MainActivity.USERNAME).remove(MainActivity.PASSWORD)
@@ -101,12 +89,13 @@ public class RidesActivity extends Activity {
         getFragmentManager().addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
             @Override
             public void onBackStackChanged() {
+                backStackListener = this;
+
                 if (fragmentLayout.getVisibility() == View.GONE)
                     fragmentLayout.setVisibility(View.VISIBLE);
                 else {
                     fragmentLayout.setVisibility(View.GONE);
-                    getFragmentManager().beginTransaction().remove(addFragment);
-                    getFragmentManager().removeOnBackStackChangedListener(this);
+                    removeBackStackListener(addFragment, backStackListener);
                 }
             }
 
@@ -117,8 +106,10 @@ public class RidesActivity extends Activity {
             @Override
             public void onAdd() {
                 fragmentLayout.setVisibility(FrameLayout.GONE);
+                removeBackStackListener(addFragment, backStackListener);
+
                 // After finishing the form, the ride will add to the showing list.
-                // refresh rides list - function
+                refreshRidesListView(false);
             }
         });
     }
@@ -134,12 +125,13 @@ public class RidesActivity extends Activity {
         getFragmentManager().addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
             @Override
             public void onBackStackChanged() {
+                backStackListener = this;
+
                 if (fragmentLayout.getVisibility() == View.GONE)
                     fragmentLayout.setVisibility(View.VISIBLE);
                 else {
                     fragmentLayout.setVisibility(View.GONE);
-                    getFragmentManager().beginTransaction().remove(searchFragment);
-                    getFragmentManager().removeOnBackStackChangedListener(this);
+                    removeBackStackListener(searchFragment, backStackListener);
                 }
             }
 
@@ -149,9 +141,72 @@ public class RidesActivity extends Activity {
             @Override
             public void onSearch() {
                 // Close the fragment.
-                // Extract details.
-                // Refresh rides list according to the details.
+                fragmentLayout.setVisibility(FrameLayout.GONE);
+                removeBackStackListener(searchFragment, backStackListener);
+
+                // Refresh rides list according to the details. function
+                refreshRidesListView(true);
             }
         });
+    }
+
+    private void refreshRidesListView(Boolean isWithDetails){
+        JSONObject details;
+
+        if (isWithDetails){
+            // Extract details - if file exist. If not, details = null.
+            try {
+                details = readJSONFromFile();
+            } catch (FileNotFoundException e) {
+                details = null;
+            }
+        }else
+            details = null;
+
+        // Connect to server and send the details if there are - if false, get ALL rides
+        // asyncTask
+
+        // Get back list and show it.
+
+    }
+
+    private JSONObject readJSONFromFile() throws FileNotFoundException {
+
+        InputStream inputStream = null;
+
+        try {
+            inputStream = openFileInput(SearchFragment.SEARCH_FILE);
+            byte[] buffer = new byte[1024];
+            StringBuilder stringBuilder = new StringBuilder();
+            int actuallyRead;
+            while ((actuallyRead = inputStream.read(buffer)) != -1){
+                stringBuilder.append(new String(buffer, 0, actuallyRead));
+            }
+            String response = stringBuilder.toString();
+            try {
+                JSONObject jsonDetails = new JSONObject(response);
+                return jsonDetails;
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }finally {
+            if (inputStream != null) {
+                try {
+                    inputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return null;
+    }
+
+    private void removeBackStackListener(Fragment fragment, FragmentManager.OnBackStackChangedListener listener){
+        // Remove the fragment from the backStack.
+        getFragmentManager().beginTransaction().remove(fragment).commit();
+        getFragmentManager().removeOnBackStackChangedListener(listener);
+        backStackListener = null;
     }
 }

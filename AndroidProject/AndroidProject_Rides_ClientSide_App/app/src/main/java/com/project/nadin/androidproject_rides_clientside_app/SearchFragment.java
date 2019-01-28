@@ -1,6 +1,7 @@
 package com.project.nadin.androidproject_rides_clientside_app;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,10 +10,19 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.OutputStream;
 
 public class SearchFragment extends Fragment {
 
     public static final String DATE_TIME = "dateTime";
+    public static final String SEARCH_FILE = "searchDetails.txt";
 
     private OnSearchFragmentListener listener;
     private Button btnSearchRide;
@@ -54,12 +64,25 @@ public class SearchFragment extends Fragment {
         chkOrigin.setOnClickListener(chkListener);
         chkDestination.setOnClickListener(chkListener);
 
+        // Set btn listener.
         btnSearchRide.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // Make sure that all checked fields have input.
-                // Save SOMEWHERE the details.
+                CheckBox[] checkBoxes = {chkRideId, chkDeparture, chkArrival, chkOrigin, chkDestination};
+                String[] paramsAsString = {txtRideID.getText().toString(), lblDeparture.getText().toString(), lblArrival.getText().toString(),
+                                            txtOrigin.getText().toString(), txtDestination.getText().toString()};
+                if (isCheckedAndEmpty(checkBoxes, paramsAsString)) {
+                    Toast.makeText(getContext(), "Please fill the selected!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                // Save in file the details in JSON form.
+                JSONObject details = paramsToJSON(paramsAsString);
+                writeJSONToFile(details);
+
                 // Call onSearch method.
+                listener.onSearch();
             }
         });
 
@@ -114,6 +137,44 @@ public class SearchFragment extends Fragment {
         }
     };
 
+    private JSONObject paramsToJSON(String[] params){
+        // Convert the details to JSONObject.
+        JSONObject jsonParams = new JSONObject();
+        try {
+            jsonParams.put("ride_id", params[0]);
+            jsonParams.put("departure", params[1]);
+            jsonParams.put("arrival", params[2]);
+            jsonParams.put("origin", params[3]);
+            jsonParams.put("destination", params[4]);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonParams;
+    }
+
+    private void writeJSONToFile(JSONObject object){
+        OutputStream outputStream = null;
+
+        try {
+            outputStream = getContext().openFileOutput(SEARCH_FILE, Context.MODE_PRIVATE);
+            outputStream.write(object.toString().getBytes());
+            
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (outputStream != null) {
+                try {
+                    outputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
     private void openDateTimeFragment(final View view){
         DateTimeFragment dateTimeFragment = new DateTimeFragment();
         dateTimeFragment.setListener(new DateTimeFragment.OnDateTimeFragmentListener() {
@@ -126,10 +187,12 @@ public class SearchFragment extends Fragment {
         dateTimeFragment.show(this.getFragmentManager(), DATE_TIME);
     }
 
-    private boolean isCheckedAndEmpty(String... params){
+    private boolean isCheckedAndEmpty(CheckBox[] checkBoxes, String[] params){
+        int count = 0;
         for (String param : params) {
-            if (param == null || param.isEmpty())
+            if (checkBoxes[count].isChecked() && (param == null || param.isEmpty()))
                 return true;
+            count++;
         }
         return false;
     }
