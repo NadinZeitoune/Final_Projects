@@ -2,6 +2,8 @@ package com.project.nadin.androidproject_rides_clientside_app;
 
 import android.util.Log;
 
+import org.json.JSONObject;
+
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
@@ -41,6 +43,8 @@ public class HttpConnection {
                     return loginResponse(inputStream, connection);
                 case "addRide":
                     return addRideResponse(inputStream, connection);
+                case "search":
+                    return searchRidesResponse(inputStream, connection);
             }
 
         } catch (MalformedURLException e) {
@@ -63,7 +67,17 @@ public class HttpConnection {
         return Integer.valueOf(response);
     }
 
-    private static boolean addRideResponse(InputStream inputStream, HttpURLConnection connection) throws IOException{
+    private static Ride[] searchRidesResponse(InputStream inputStream, HttpURLConnection connection) throws IOException {
+        // extract the string from the bytes.
+        // split the string according to specific delimiter.
+        // The last part is the number of rides.
+        // Create Ride[] in the length of the previous part.
+        // for i - create Ride from part and insert to the i position of the []
+        // send back Ride[]
+        return null;
+    }
+
+    private static boolean addRideResponse(InputStream inputStream, HttpURLConnection connection) throws IOException {
         // Read numeric respond from server.
         inputStream = connection.getInputStream();
         byte[] buffer = new byte[4];
@@ -132,15 +146,24 @@ public class HttpConnection {
                 stringBuilder.append("bodyUser=" + user.toString());
             }
 
-            if (o instanceof Ride){
+            if (o instanceof Ride) {
                 Ride ride = (Ride) o;
                 stringBuilder.append("bodyRide=" + ride.toString());
                 stringBuilder.append("&");
             }
 
-            if (o instanceof String){
+            if (o instanceof String) {
                 String userName = (String) o;
                 stringBuilder.append("bodyUsername=" + userName);
+            }
+
+            if (o instanceof JSONObject) {
+                JSONObject searchDetails = (JSONObject) o;
+
+                if (searchDetails == null)
+                    stringBuilder.append("bodySearch=null");
+                else
+                    stringBuilder.append("bodySearch=" + searchDetails.toString());
             }
 
         }

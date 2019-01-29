@@ -11,11 +11,32 @@ public class Ride {
     private String destination;
     private String departure;
     private String arrival;
-    private int freeSeatsNum;
-
-
     private int numOfPassengers;
 
+    private String driver;
+    private String passenger1;
+    private String passenger2;
+    private String passenger3;
+    private String passenger4;
+    private String passenger5;
+
+    public Ride(int rideNumber, String origin, String destination,
+                String departure, String arrival, int numOfPassengers,
+                String driver, String passenger1, String passenger2,
+                String passenger3, String passenger4, String passenger5) {
+        this.rideNumber = rideNumber;
+        this.origin = origin;
+        this.destination = destination;
+        this.departure = departure;
+        this.arrival = arrival;
+        this.numOfPassengers = numOfPassengers;
+        this.driver = driver;
+        this.passenger1 = passenger1;
+        this.passenger2 = passenger2;
+        this.passenger3 = passenger3;
+        this.passenger4 = passenger4;
+        this.passenger5 = passenger5;
+    }
 
     public Ride(String origin, String destination, String departure, String arrival, int numOfPassengers) {
         this.origin = origin;
@@ -23,7 +44,12 @@ public class Ride {
         this.departure = departure;
         this.arrival = arrival;
         this.numOfPassengers = numOfPassengers;
-        freeSeatsNum = numOfPassengers;
+        this.driver = null;
+        this.passenger1 = null;
+        this.passenger2 = null;
+        this.passenger3 = null;
+        this.passenger4 = null;
+        this.passenger5 = null;
     }
 
     public Ride(String rideAsString){
@@ -41,7 +67,6 @@ public class Ride {
         this.departure = parts[3];
         this.arrival = parts[4];
         this.numOfPassengers = Integer.valueOf(parts[5]);
-        //this.freeSeatsNum = Integer.valueOf(parts[6]);
     }
 
     @Override
@@ -55,7 +80,12 @@ public class Ride {
         rideAsString.append(departure).append(DELIMITER);
         rideAsString.append(arrival).append(DELIMITER);
         rideAsString.append(numOfPassengers).append(DELIMITER);
-        //rideAsString.append(freeSeatsNum).append(DELIMITER);
+        rideAsString.append(driver).append(DELIMITER);
+        rideAsString.append(passenger1).append(DELIMITER);
+        rideAsString.append(passenger2).append(DELIMITER);
+        rideAsString.append(passenger3).append(DELIMITER);
+        rideAsString.append(passenger4).append(DELIMITER);
+        rideAsString.append(passenger5).append(DELIMITER);
 
         return rideAsString.toString();
     }

@@ -23,7 +23,7 @@ public class AddFragment extends Fragment {
     private TextView lblDeparture;
     private EditText txtOrigin;
     private EditText txtDestination;
-    private EditText txtVia;
+    //private EditText txtVia;
     private TextView lblArrival;
     private EditText txtSeats;
     private Button btnAddRide;
@@ -35,7 +35,7 @@ public class AddFragment extends Fragment {
         lblDeparture = view.findViewById(R.id.lblDeparture);
         txtOrigin = view.findViewById(R.id.txtOrigin);
         txtDestination = view.findViewById(R.id.txtDestination);
-        txtVia = view.findViewById(R.id.txtVia);
+        //txtVia = view.findViewById(R.id.txtVia);
         lblArrival = view.findViewById(R.id.lblArrival);
         txtSeats = view.findViewById(R.id.txtSeats);
         btnAddRide = view.findViewById(R.id.btnAddRide);
@@ -49,7 +49,7 @@ public class AddFragment extends Fragment {
                 String departure = lblDeparture.getText().toString();
                 String origin = txtOrigin.getText().toString();
                 String destination = txtDestination.getText().toString();
-                String via = txtVia.getText().toString();
+                //String via = txtVia.getText().toString();
                 String arrival = lblArrival.getText().toString();
                 String seats = txtSeats.getText().toString();
 

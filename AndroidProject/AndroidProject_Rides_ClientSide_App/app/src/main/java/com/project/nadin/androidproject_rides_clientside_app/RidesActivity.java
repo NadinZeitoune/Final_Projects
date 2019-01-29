@@ -6,21 +6,25 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.FileNotFoundException;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class RidesActivity extends Activity {
 
+    public static final String SEARCH = "search";
     private User logged;
 
     private FrameLayout fragmentLayout;
@@ -150,27 +154,39 @@ public class RidesActivity extends Activity {
         });
     }
 
-    private void refreshRidesListView(Boolean isWithDetails){
+    @SuppressLint("StaticFieldLeak")
+    private void refreshRidesListView(Boolean isWithDetails) {
         JSONObject details;
 
-        if (isWithDetails){
+        if (isWithDetails) {
             // Extract details - if file exist. If not, details = null.
-            try {
-                details = readJSONFromFile();
-            } catch (FileNotFoundException e) {
-                details = null;
-            }
-        }else
+            details = readJSONFromFile();
+
+        } else
             details = null;
 
         // Connect to server and send the details if there are - if false, get ALL rides
-        // asyncTask
+        new AsyncTask<JSONObject, Void, Ride[]>() {
 
-        // Get back list and show it.
+            @Override
+            protected Ride[] doInBackground(JSONObject... details) {
+                Ride[] rides = (Ride[]) HttpConnection.connection(SEARCH, details[0]);
 
+                return rides;
+            }
+
+            @Override
+            protected void onPostExecute(Ride[] rides) {
+                // Get back list and show it.
+                // add the Ride[] to the listView.
+
+
+                //Toast.makeText(RidesActivity.this, "List refreshed!", Toast.LENGTH_SHORT).show();
+            }
+        }.execute(details);
     }
 
-    private JSONObject readJSONFromFile() throws FileNotFoundException {
+    private JSONObject readJSONFromFile() {
 
         InputStream inputStream = null;
 
@@ -179,7 +195,7 @@ public class RidesActivity extends Activity {
             byte[] buffer = new byte[1024];
             StringBuilder stringBuilder = new StringBuilder();
             int actuallyRead;
-            while ((actuallyRead = inputStream.read(buffer)) != -1){
+            while ((actuallyRead = inputStream.read(buffer)) != -1) {
                 stringBuilder.append(new String(buffer, 0, actuallyRead));
             }
             String response = stringBuilder.toString();
@@ -191,7 +207,7 @@ public class RidesActivity extends Activity {
             }
         } catch (IOException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             if (inputStream != null) {
                 try {
                     inputStream.close();
@@ -203,7 +219,7 @@ public class RidesActivity extends Activity {
         return null;
     }
 
-    private void removeBackStackListener(Fragment fragment, FragmentManager.OnBackStackChangedListener listener){
+    private void removeBackStackListener(Fragment fragment, FragmentManager.OnBackStackChangedListener listener) {
         // Remove the fragment from the backStack.
         getFragmentManager().beginTransaction().remove(fragment).commit();
         getFragmentManager().removeOnBackStackChangedListener(listener);
