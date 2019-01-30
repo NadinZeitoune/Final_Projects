@@ -42,12 +42,50 @@
             app:layout_constraintRight_toRightOf="parent" />
     </android.support.constraint.ConstraintLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textAlignment="center"
+            android:textSize="@dimen/list_view_title"
+            android:text="@string/origin"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textAlignment="center"
+            android:textSize="@dimen/list_view_title"
+            android:text="@string/destination"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textAlignment="center"
+            android:textSize="@dimen/list_view_title"
+            android:text="@string/departure"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textAlignment="center"
+            android:textSize="@dimen/list_view_title"
+            android:text="@string/arrival"/>
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2sp"
+        android:background="@color/colorPrimaryDark"/>
+
     <ListView
         android:id="@+id/lstRides"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="8">
-
     </ListView>
 
     <android.support.constraint.ConstraintLayout

@@ -87,7 +87,8 @@ public class ServerServlet extends javax.servlet.http.HttpServlet {
         }
 
         // Delete the last and unnecessary DELIMITER.
-        stringBuilder.deleteCharAt(stringBuilder.length());
+        if (stringBuilder.length() > 0)
+            stringBuilder.deleteCharAt(stringBuilder.length());
 
         // Send back rides.
         return stringBuilder.toString();

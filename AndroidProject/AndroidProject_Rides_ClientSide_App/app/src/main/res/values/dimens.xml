@@ -8,4 +8,5 @@
     <dimen name="fragment_text">20sp</dimen>
     <dimen name="fragment_buttons_text">30sp</dimen>
     <dimen name="input_width">150sp</dimen>
+    <dimen name="list_view_title">16sp</dimen>
 </resources>

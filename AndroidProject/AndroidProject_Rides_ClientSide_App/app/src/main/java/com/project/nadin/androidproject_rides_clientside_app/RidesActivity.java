@@ -9,7 +9,10 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -170,18 +173,30 @@ public class RidesActivity extends Activity {
 
             @Override
             protected Ride[] doInBackground(JSONObject... details) {
-                Ride[] rides = (Ride[]) HttpConnection.connection(SEARCH, details[0]);
-
-                return rides;
+                //Ride[] rides = (Ride[]) HttpConnection.connection(SEARCH, details[0]);
+                // Help
+                //return rides;
+                return new Ride[]{new Ride("origin", "destination", "12/12/2012, 12:00", "12/12/2012, 13:00", 1)};
             }
 
             @Override
             protected void onPostExecute(Ride[] rides) {
                 // Get back list and show it.
-                // add the Ride[] to the listView.
+                if (rides.length == 0)
+                    return;
 
-
-                //Toast.makeText(RidesActivity.this, "List refreshed!", Toast.LENGTH_SHORT).show();
+                // Add the Ride[] to the listView.
+                ListView ridesList = findViewById(R.id.lstRides);
+                ArrayAdapter<Ride> adapter = new RidesAdapter(RidesActivity.this, rides);
+                ridesList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        // Open ride fragment / activity / ???
+                        Toast.makeText(RidesActivity.this, "clicked", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                ridesList.setAdapter(adapter);
+                Toast.makeText(RidesActivity.this, "List refreshed!", Toast.LENGTH_SHORT).show();
             }
         }.execute(details);
     }

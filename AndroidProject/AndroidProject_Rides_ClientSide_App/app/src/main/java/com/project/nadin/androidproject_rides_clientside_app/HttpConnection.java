@@ -15,6 +15,7 @@ import java.net.URL;
 public class HttpConnection {
 
     public static final int ERROR = 404;
+    public static final String RIDES_DELIMITER = "!";
 
     public static Object connection(String action, Object... obj) {
         URL url = null;
@@ -68,13 +69,34 @@ public class HttpConnection {
     }
 
     private static Ride[] searchRidesResponse(InputStream inputStream, HttpURLConnection connection) throws IOException {
-        // extract the string from the bytes.
-        // split the string according to specific delimiter.
-        // The last part is the number of rides.
-        // Create Ride[] in the length of the previous part.
-        // for i - create Ride from part and insert to the i position of the []
-        // send back Ride[]
-        return null;
+        // Extract the string from the bytes.
+        StringBuilder ridesBuilder = new StringBuilder();
+        inputStream = connection.getInputStream();
+        byte[] buffer = new byte[64];
+        int actuallyRead;
+
+        try {
+            while ((actuallyRead = inputStream.read(buffer)) != -1){
+                ridesBuilder.append(new String(buffer, 0, actuallyRead));
+            }
+
+            // Split the string according to specific delimiter.
+            String[] parts = ridesBuilder.toString().split(RIDES_DELIMITER);
+
+            // Create Ride[] in the length of the parts[] == amount of rides.
+            Ride[] rides = new Ride[parts.length];
+
+            // For i loop - create Ride from part and insert to the i position of the Ride[].
+            for (int i = 0; i < parts.length; i++) {
+                rides[i] = new Ride(parts[i]);
+            }
+
+            // send back Ride[]
+            return rides;
+
+        }catch (Exception e){
+            return null;
+        }
     }
 
     private static boolean addRideResponse(InputStream inputStream, HttpURLConnection connection) throws IOException {

@@ -5,6 +5,7 @@ import java.security.InvalidParameterException;
 
 public class Ride {
     public static final String DELIMITER = "#";
+
     private int rideNumber;
     private String origin;
     private String destination;
