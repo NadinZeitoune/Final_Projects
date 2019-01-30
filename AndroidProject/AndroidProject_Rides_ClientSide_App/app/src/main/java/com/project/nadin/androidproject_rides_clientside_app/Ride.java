@@ -1,8 +1,7 @@
 package com.project.nadin.androidproject_rides_clientside_app;
 
 import java.security.InvalidParameterException;
-import java.util.ArrayList;
-import java.util.List;
+
 
 public class Ride {
     public static final String DELIMITER = "#";
@@ -57,7 +56,7 @@ public class Ride {
             throw new InvalidParameterException();
         String[] parts = rideAsString.split(DELIMITER);
 
-        if (parts.length != 6)
+        if (parts.length != 12)
             throw new InvalidParameterException();
 
         // Ride details.
@@ -67,6 +66,12 @@ public class Ride {
         this.departure = parts[3];
         this.arrival = parts[4];
         this.numOfPassengers = Integer.valueOf(parts[5]);
+        this.driver = parts[6].equals("null") ? null : parts[6];
+        this.passenger1 = parts[7].equals("null") ? null : parts[7];
+        this.passenger2 = parts[8].equals("null") ? null : parts[8];
+        this.passenger3 = parts[9].equals("null") ? null : parts[9];
+        this.passenger4 = parts[10].equals("null") ? null : parts[10];
+        this.passenger5 = parts[11].equals("null") ? null : parts[11];
     }
 
     @Override

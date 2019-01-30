@@ -1,5 +1,5 @@
-
 import java.security.InvalidParameterException;
+
 
 public class Ride {
     public static final String DELIMITER = "#";
@@ -8,7 +8,6 @@ public class Ride {
     private String destination;
     private String departure;
     private String arrival;
-    //private int freeSeatsNum;
     private int numOfPassengers;
 
     private String driver;
@@ -42,7 +41,12 @@ public class Ride {
         this.departure = departure;
         this.arrival = arrival;
         this.numOfPassengers = numOfPassengers;
-        //freeSeatsNum = numOfPassengers;
+        this.driver = null;
+        this.passenger1 = null;
+        this.passenger2 = null;
+        this.passenger3 = null;
+        this.passenger4 = null;
+        this.passenger5 = null;
     }
 
     public Ride(String rideAsString){
@@ -50,7 +54,7 @@ public class Ride {
             throw new InvalidParameterException();
         String[] parts = rideAsString.split(DELIMITER);
 
-        if (parts.length != 6)
+        if (parts.length != 12)
             throw new InvalidParameterException();
 
         // Ride details.
@@ -60,7 +64,12 @@ public class Ride {
         this.departure = parts[3];
         this.arrival = parts[4];
         this.numOfPassengers = Integer.valueOf(parts[5]);
-        //this.freeSeatsNum = Integer.valueOf(parts[6]);
+        this.driver = parts[6].equals("null") ? null : parts[6];
+        this.passenger1 = parts[7].equals("null") ? null : parts[7];
+        this.passenger2 = parts[8].equals("null") ? null : parts[8];
+        this.passenger3 = parts[9].equals("null") ? null : parts[9];
+        this.passenger4 = parts[10].equals("null") ? null : parts[10];
+        this.passenger5 = parts[11].equals("null") ? null : parts[11];
     }
 
     @Override
@@ -74,7 +83,12 @@ public class Ride {
         rideAsString.append(departure).append(DELIMITER);
         rideAsString.append(arrival).append(DELIMITER);
         rideAsString.append(numOfPassengers).append(DELIMITER);
-        //rideAsString.append(freeSeatsNum).append(DELIMITER);
+        rideAsString.append(driver).append(DELIMITER);
+        rideAsString.append(passenger1).append(DELIMITER);
+        rideAsString.append(passenger2).append(DELIMITER);
+        rideAsString.append(passenger3).append(DELIMITER);
+        rideAsString.append(passenger4).append(DELIMITER);
+        rideAsString.append(passenger5).append(DELIMITER);
 
         return rideAsString.toString();
     }
