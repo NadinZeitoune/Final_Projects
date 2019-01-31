@@ -6,6 +6,8 @@ import java.sql.*;
 
 public class SqlServer {
 
+    public static final String DELIMITER = "!";
+
     public static int insertUser(User user) {
         // Get user details.
         String userName = user.getUserName();
@@ -114,31 +116,52 @@ public class SqlServer {
         return rowsAffected;
     }
 
-    public static ResultSet searchRides(JSONObject details) {
+    public static String searchRides(JSONObject details) {
         // Connect to mySql table.
         try (Connection conn = getConn()) {
             // Select the rides according to the details OR null(everything).
             String sql;
-            sql = "SELECT * FROM rides WHERE ride_number LIKE %?% AND departure LIKE %?%" +
-                    "AND arrival LIKE %?% AND origin LIKE %?% AND destination LIKE %?%";
+            sql = "SELECT * FROM ride_db.rides WHERE ride_number LIKE ? AND departure LIKE ?" +
+                    " AND arrival LIKE ? AND origin LIKE ? AND destination LIKE ?;";
             try (PreparedStatement statement = conn.prepareStatement(sql)){
                 if (details == null){
-                    statement.setString(1, "");
-                    statement.setString(2, "");
-                    statement.setString(3, "");
-                    statement.setString(4, "");
-                    statement.setString(5, "");
+                    statement.setString(1, "%%");
+                    statement.setString(2, "%%");
+                    statement.setString(3, "%%");
+                    statement.setString(4, "%%");
+                    statement.setString(5, "%%");
                 }else {
-                    statement.setString(1, details.getString("ride_id"));
-                    statement.setString(2, details.getString("departure"));
-                    statement.setString(3, details.getString("arrival"));
-                    statement.setString(4, details.getString("origin"));
-                    statement.setString(5, details.getString("destination"));
+                    statement.setString(1, "%"+details.getString("ride_id")+"%");
+                    statement.setString(2, "%"+details.getString("departure")+"%");
+                    statement.setString(3, "%"+details.getString("arrival")+"%");
+                    statement.setString(4, "%"+details.getString("origin")+"%");
+                    statement.setString(5, "%"+details.getString("destination")+"%");
                 }
 
-                try (ResultSet resultSet = statement.executeQuery()){
-                    // send back the resultSet.
-                    return resultSet;
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    // send back the resultSet as Ride[].
+                    // Transfer result set to stringBuilder. = new Ride(), DELIMITER, new Ride(), DELIMITER
+                    StringBuilder stringBuilder = new StringBuilder();
+
+                    try {
+                        while (resultSet.next()) {
+                            Ride ride = new Ride(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3),
+                                    resultSet.getString(4), resultSet.getString(5), resultSet.getInt(6),
+                                    resultSet.getString(7), resultSet.getString(8), resultSet.getString(9),
+                                    resultSet.getString(10), resultSet.getString(11), resultSet.getString(12));
+                            stringBuilder.append(ride.toString());
+                            stringBuilder.append(DELIMITER);
+                        }
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+
+                    // Delete the last and unnecessary DELIMITER.
+                    if (stringBuilder.length() > 0)
+                        stringBuilder.deleteCharAt(stringBuilder.length() - 1);
+
+                    // Send back rides.
+                    return stringBuilder.toString();
                 }
             }
 

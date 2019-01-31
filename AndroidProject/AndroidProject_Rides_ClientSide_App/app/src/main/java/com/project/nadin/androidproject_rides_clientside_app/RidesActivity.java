@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
@@ -20,10 +21,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
-import java.util.ArrayList;
 
 public class RidesActivity extends Activity {
 
@@ -151,7 +152,7 @@ public class RidesActivity extends Activity {
                 fragmentLayout.setVisibility(FrameLayout.GONE);
                 removeBackStackListener(searchFragment, backStackListener);
 
-                // Refresh rides list according to the details. function
+                // Refresh rides list according to the details.
                 refreshRidesListView(true);
             }
         });
@@ -159,6 +160,7 @@ public class RidesActivity extends Activity {
 
     @SuppressLint("StaticFieldLeak")
     private void refreshRidesListView(Boolean isWithDetails) {
+
         JSONObject details;
 
         if (isWithDetails) {
@@ -173,16 +175,14 @@ public class RidesActivity extends Activity {
 
             @Override
             protected Ride[] doInBackground(JSONObject... details) {
-                //Ride[] rides = (Ride[]) HttpConnection.connection(SEARCH, details[0]);
-                // Help
-                //return rides;
-                return new Ride[]{new Ride("origin", "destination", "12/12/2012, 12:00", "12/12/2012, 13:00", 1)};
+                Ride[] rides = (Ride[]) HttpConnection.connection(SEARCH, details[0]);
+                return rides;
             }
 
             @Override
             protected void onPostExecute(Ride[] rides) {
                 // Get back list and show it.
-                if (rides.length == 0)
+                if (rides == null || rides.length == 0)
                     return;
 
                 // Add the Ride[] to the listView.
@@ -220,7 +220,9 @@ public class RidesActivity extends Activity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        } catch (IOException e) {
+        } catch (FileNotFoundException ex){
+            return null;
+        }catch (IOException e) {
             e.printStackTrace();
         } finally {
             if (inputStream != null) {

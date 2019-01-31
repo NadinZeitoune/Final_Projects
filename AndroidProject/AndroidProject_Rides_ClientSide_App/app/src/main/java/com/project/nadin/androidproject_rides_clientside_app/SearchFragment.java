@@ -71,14 +71,14 @@ public class SearchFragment extends Fragment {
                 // Make sure that all checked fields have input.
                 CheckBox[] checkBoxes = {chkRideId, chkDeparture, chkArrival, chkOrigin, chkDestination};
                 String[] paramsAsString = {txtRideID.getText().toString(), lblDeparture.getText().toString(), lblArrival.getText().toString(),
-                                            txtOrigin.getText().toString(), txtDestination.getText().toString()};
+                        txtOrigin.getText().toString(), txtDestination.getText().toString()};
                 if (isCheckedAndEmpty(checkBoxes, paramsAsString)) {
                     Toast.makeText(getContext(), "Please fill the selected!", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 // Save in file the details in JSON form.
-                JSONObject details = paramsToJSON(paramsAsString);
+                JSONObject details = paramsToJSON(paramsAsString, checkBoxes);
                 writeJSONToFile(details);
 
                 // Call onSearch method.
@@ -137,15 +137,16 @@ public class SearchFragment extends Fragment {
         }
     };
 
-    private JSONObject paramsToJSON(String[] params){
+    private JSONObject paramsToJSON(String[] params, CheckBox[] checkBoxes) {
         // Convert the details to JSONObject.
         JSONObject jsonParams = new JSONObject();
         try {
-            jsonParams.put("ride_id", params[0]);
-            jsonParams.put("departure", params[1]);
-            jsonParams.put("arrival", params[2]);
-            jsonParams.put("origin", params[3]);
-            jsonParams.put("destination", params[4]);
+
+            putJsonParam(jsonParams, checkBoxes[0], "ride_id", params[0]);
+            putJsonParam(jsonParams, checkBoxes[1], "departure", params[1]);
+            putJsonParam(jsonParams, checkBoxes[2], "arrival", params[2]);
+            putJsonParam(jsonParams, checkBoxes[3], "origin", params[3]);
+            putJsonParam(jsonParams, checkBoxes[4], "destination", params[4]);
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -153,13 +154,20 @@ public class SearchFragment extends Fragment {
         return jsonParams;
     }
 
-    private void writeJSONToFile(JSONObject object){
+    private void putJsonParam(JSONObject jsonObject, CheckBox checkBox, String name, String param) throws JSONException {
+        if (checkBox.isChecked())
+            jsonObject.put(name, param);
+        else
+            jsonObject.put(name, "");
+    }
+
+    private void writeJSONToFile(JSONObject object) {
         OutputStream outputStream = null;
 
         try {
             outputStream = getContext().openFileOutput(SEARCH_FILE, Context.MODE_PRIVATE);
             outputStream.write(object.toString().getBytes());
-            
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -175,7 +183,7 @@ public class SearchFragment extends Fragment {
         }
     }
 
-    private void openDateTimeFragment(final View view){
+    private void openDateTimeFragment(final View view) {
         DateTimeFragment dateTimeFragment = new DateTimeFragment();
         dateTimeFragment.setListener(new DateTimeFragment.OnDateTimeFragmentListener() {
             @Override
@@ -187,7 +195,7 @@ public class SearchFragment extends Fragment {
         dateTimeFragment.show(this.getFragmentManager(), DATE_TIME);
     }
 
-    private boolean isCheckedAndEmpty(CheckBox[] checkBoxes, String[] params){
+    private boolean isCheckedAndEmpty(CheckBox[] checkBoxes, String[] params) {
         int count = 0;
         for (String param : params) {
             if (checkBoxes[count].isChecked() && (param == null || param.isEmpty()))
@@ -201,7 +209,7 @@ public class SearchFragment extends Fragment {
         this.listener = listener;
     }
 
-    public interface OnSearchFragmentListener{
+    public interface OnSearchFragmentListener {
         void onSearch();
     }
 }

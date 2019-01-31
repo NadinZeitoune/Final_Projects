@@ -4,10 +4,9 @@ import android.util.Log;
 
 import org.json.JSONObject;
 
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStreamWriter;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -20,6 +19,7 @@ public class HttpConnection {
     public static Object connection(String action, Object... obj) {
         URL url = null;
         InputStream inputStream = null;
+        OutputStream outputStream = null;
         HttpURLConnection connection = null;
         String response = String.valueOf(ERROR);
 
@@ -30,12 +30,18 @@ public class HttpConnection {
             connection.setUseCaches(false);
             connection.setDoOutput(true);
             connection.setRequestMethod("POST");
-
-            // Add body.
-            addBody(connection, obj);
-
             connection.connect();
 
+            // Add body.
+            String body = addBody(obj);
+            outputStream = connection.getOutputStream();
+
+            outputStream.write(body.getBytes());
+            connection.getResponseCode();
+            inputStream = connection.getErrorStream();
+            if (inputStream == null) {
+                inputStream = connection.getInputStream();
+            }
             // Choose response.
             switch (action) {
                 case "signUp":
@@ -53,6 +59,13 @@ public class HttpConnection {
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
+            if (outputStream != null) {
+                try {
+                    outputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
             if (inputStream != null) {
                 try {
                     inputStream.close();
@@ -71,18 +84,18 @@ public class HttpConnection {
     private static Ride[] searchRidesResponse(InputStream inputStream, HttpURLConnection connection) throws IOException {
         // Extract the string from the bytes.
         StringBuilder ridesBuilder = new StringBuilder();
-        inputStream = connection.getInputStream();
+        //inputStream = connection.getInputStream();
         byte[] buffer = new byte[64];
         int actuallyRead;
 
         try {
-            while ((actuallyRead = inputStream.read(buffer)) != -1){
+            while ((actuallyRead = inputStream.read(buffer)) != -1) {
                 ridesBuilder.append(new String(buffer, 0, actuallyRead));
             }
-
+Log.d("nadin",ridesBuilder.toString());
             // Split the string according to specific delimiter.
             String[] parts = ridesBuilder.toString().split(RIDES_DELIMITER);
-
+            System.out.println();
             // Create Ride[] in the length of the parts[] == amount of rides.
             Ride[] rides = new Ride[parts.length];
 
@@ -94,14 +107,14 @@ public class HttpConnection {
             // send back Ride[]
             return rides;
 
-        }catch (Exception e){
+        } catch (Exception e) {
             return null;
         }
     }
 
     private static boolean addRideResponse(InputStream inputStream, HttpURLConnection connection) throws IOException {
         // Read numeric respond from server.
-        inputStream = connection.getInputStream();
+        //inputStream = connection.getInputStream();
         byte[] buffer = new byte[4];
         int actuallyRead = inputStream.read(buffer);
         if (actuallyRead != -1) {
@@ -121,7 +134,7 @@ public class HttpConnection {
 
     private static int signUpResponse(InputStream inputStream, HttpURLConnection connection) throws IOException {
         // Read numeric respond from server.
-        inputStream = connection.getInputStream();
+        //inputStream = connection.getInputStream();
         byte[] buffer = new byte[4];
         int actuallyRead = inputStream.read(buffer);
         if (actuallyRead != -1) {
@@ -138,7 +151,7 @@ public class HttpConnection {
     private static User loginResponse(InputStream inputStream, HttpURLConnection connection) throws IOException {
         // Read User respond from server.
         StringBuilder userBuilder = new StringBuilder();
-        inputStream = connection.getInputStream();
+        //inputStream = connection.getInputStream();
         byte[] buffer = new byte[64];
         int actuallyRead;
         try {
@@ -155,8 +168,7 @@ public class HttpConnection {
         }
     }
 
-    private static void addBody(HttpURLConnection connection, Object... obj) throws IOException {
-        BufferedWriter httpRequestBodyWriter = new BufferedWriter(new OutputStreamWriter(connection.getOutputStream()));
+    private static String addBody(Object... obj) {
 
         StringBuilder stringBuilder = new StringBuilder();
 
@@ -190,7 +202,7 @@ public class HttpConnection {
 
         }
 
-        httpRequestBodyWriter.write(stringBuilder.toString());
-        httpRequestBodyWriter.close();
+        return stringBuilder.toString();
+
     }
 }
