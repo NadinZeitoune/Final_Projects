@@ -28,4 +28,12 @@
     <string name="password">Password:</string>
     <string name="phone_number">Phone number:</string>
     <string name="wait_message">Please wait...</string>
+    <string name="save_changes">Save changes</string>
+    <string name="profile_title">Profile</string>
+    <string name="my_drivings">* My drivings</string>
+    <string name="my_rides">* My rides</string>
+    <string name="edit_profile">* Edit profile</string>
+    <string name="edit_profile_title">Edit profile:</string>
+    <string name="driving_title">My driving:</string>
+    <string name="rides_title">My rides:</string>
 </resources>

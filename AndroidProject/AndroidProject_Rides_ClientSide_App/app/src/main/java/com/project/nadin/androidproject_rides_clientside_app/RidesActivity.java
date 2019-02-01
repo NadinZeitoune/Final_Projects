@@ -4,12 +4,14 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
@@ -161,6 +163,8 @@ public class RidesActivity extends Activity {
     @SuppressLint("StaticFieldLeak")
     private void refreshRidesListView(Boolean isWithDetails) {
 
+        closeKeyboard();
+
         JSONObject details;
 
         if (isWithDetails) {
@@ -182,8 +186,9 @@ public class RidesActivity extends Activity {
             @Override
             protected void onPostExecute(Ride[] rides) {
                 // Get back list and show it.
-                if (rides == null || rides.length == 0)
-                    return;
+                if (rides == null) {
+                    rides = new Ride[]{};
+                }
 
                 // Add the Ride[] to the listView.
                 ListView ridesList = findViewById(R.id.lstRides);
@@ -191,7 +196,7 @@ public class RidesActivity extends Activity {
                 ridesList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                        // Open ride fragment / activity / ???
+                        // Open ride activity
                         Toast.makeText(RidesActivity.this, "clicked", Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -199,6 +204,14 @@ public class RidesActivity extends Activity {
                 Toast.makeText(RidesActivity.this, "List refreshed!", Toast.LENGTH_SHORT).show();
             }
         }.execute(details);
+    }
+
+    private void closeKeyboard() {
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
     }
 
     private JSONObject readJSONFromFile() {
@@ -220,9 +233,9 @@ public class RidesActivity extends Activity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        } catch (FileNotFoundException ex){
+        } catch (FileNotFoundException ex) {
             return null;
-        }catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         } finally {
             if (inputStream != null) {
@@ -241,5 +254,11 @@ public class RidesActivity extends Activity {
         getFragmentManager().beginTransaction().remove(fragment).commit();
         getFragmentManager().removeOnBackStackChangedListener(listener);
         backStackListener = null;
+    }
+
+    public void onProfileClick(View view) {
+        // Open profile activity.
+        Intent intent = new Intent(this, ProfileActivity.class);
+        startActivity(intent);
     }
 }

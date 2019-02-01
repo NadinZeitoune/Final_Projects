@@ -92,7 +92,7 @@ public class HttpConnection {
             while ((actuallyRead = inputStream.read(buffer)) != -1) {
                 ridesBuilder.append(new String(buffer, 0, actuallyRead));
             }
-Log.d("nadin",ridesBuilder.toString());
+
             // Split the string according to specific delimiter.
             String[] parts = ridesBuilder.toString().split(RIDES_DELIMITER);
             System.out.println();
