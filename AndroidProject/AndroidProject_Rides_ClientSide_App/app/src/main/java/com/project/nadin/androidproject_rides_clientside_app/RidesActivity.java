@@ -32,6 +32,7 @@ public class RidesActivity extends Activity {
 
     public static final String SEARCH = "search";
     private User logged;
+    private ListView ridesList;
 
     private FrameLayout fragmentLayout;
     private FragmentManager.OnBackStackChangedListener backStackListener;
@@ -43,6 +44,7 @@ public class RidesActivity extends Activity {
         setContentView(R.layout.activity_rides);
 
         fragmentLayout = findViewById(R.id.fragmentLayout);
+        ridesList = findViewById(R.id.lstRides);
 
         // Show user name.
         Serializable userName = getIntent().getSerializableExtra(MainActivity.USER);
@@ -191,7 +193,7 @@ public class RidesActivity extends Activity {
                 }
 
                 // Add the Ride[] to the listView.
-                ListView ridesList = findViewById(R.id.lstRides);
+
                 ArrayAdapter<Ride> adapter = new RidesAdapter(RidesActivity.this, rides);
                 ridesList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override

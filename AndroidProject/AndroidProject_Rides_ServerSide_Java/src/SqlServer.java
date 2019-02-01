@@ -140,34 +140,54 @@ public class SqlServer {
 
                 try (ResultSet resultSet = statement.executeQuery()) {
                     // send back the resultSet as Ride[].
-                    // Transfer result set to stringBuilder. = new Ride(), DELIMITER, new Ride(), DELIMITER
-                    StringBuilder stringBuilder = new StringBuilder();
-
-                    try {
-                        while (resultSet.next()) {
-                            Ride ride = new Ride(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3),
-                                    resultSet.getString(4), resultSet.getString(5), resultSet.getInt(6),
-                                    resultSet.getString(7), resultSet.getString(8), resultSet.getString(9),
-                                    resultSet.getString(10), resultSet.getString(11), resultSet.getString(12));
-                            stringBuilder.append(ride.toString());
-                            stringBuilder.append(DELIMITER);
-                        }
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
-
-                    // Delete the last and unnecessary DELIMITER.
-                    if (stringBuilder.length() > 0)
-                        stringBuilder.deleteCharAt(stringBuilder.length() - 1);
-
-                    // Send back rides.
-                    return stringBuilder.toString();
+                    return resultSetToRideArr(resultSet).toString();
                 }
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
         }catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static String searchDriver(String driver){
+        // Connect to mySql table.
+        try (Connection conn = getConn()){
+            try (PreparedStatement statement = conn.prepareStatement(
+                    "SELECT * FROM ride_db.rides WHERE driver = ?")){
+                statement.setString(1, driver);
+                System.out.println(statement.toString());
+                try (ResultSet resultSet = statement.executeQuery()){
+                    // send back the resultSet as Ride[].
+                    return resultSetToRideArr(resultSet).toString();
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public static String searchPassenger(String passenger){
+        // Connect to mySql table.
+        try (Connection conn = getConn()){
+            try (PreparedStatement statement = conn.prepareStatement(
+                    "SELECT * FROM ride_db.rides WHERE passenger1 = ? OR passenger2 = ? OR passenger3 = ?" +
+                            " OR passenger4 = ? OR passenger5 = ?")){
+                statement.setString(1, passenger);
+                statement.setString(2, passenger);
+                statement.setString(3, passenger);
+                statement.setString(4, passenger);
+                statement.setString(5, passenger);
+
+                try (ResultSet resultSet = statement.executeQuery()){
+                    // send back the resultSet as Ride[].
+                    return resultSetToRideArr(resultSet).toString();
+                }
+            }
+        } catch (SQLException e) {
             e.printStackTrace();
         }
 
@@ -186,5 +206,28 @@ public class SqlServer {
             e.printStackTrace();
         }
         return DriverManager.getConnection(connectionString, user, password);
+    }
+
+    private static StringBuilder resultSetToRideArr(ResultSet resultSet) {
+        // Transfer result set to stringBuilder. = new Ride(), DELIMITER, new Ride(), DELIMITER
+        StringBuilder stringBuilder = new StringBuilder();
+
+        try {
+            while (resultSet.next()) {
+                Ride ride = new Ride(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3),
+                        resultSet.getString(4), resultSet.getString(5), resultSet.getInt(6),
+                        resultSet.getString(7), resultSet.getString(8), resultSet.getString(9),
+                        resultSet.getString(10), resultSet.getString(11), resultSet.getString(12));
+                stringBuilder.append(ride.toString());
+                stringBuilder.append(DELIMITER);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        // Delete the last and unnecessary DELIMITER.
+        if (stringBuilder.length() > 0)
+            stringBuilder.deleteCharAt(stringBuilder.length() - 1);
+        return stringBuilder;
     }
 }

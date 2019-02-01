@@ -66,11 +66,27 @@ public class ServerServlet extends javax.servlet.http.HttpServlet {
                     response.getWriter().write(searchRides(searchDetails));
                     break;
                 }
+            case "searchDriver":
+                userAsString = extractBody("bodyUsername", parts);
+                response.getWriter().write(searchDriver(userAsString));
+                break;
+            case "searchPassenger":
+                userAsString = extractBody("bodyUsername", parts);
+                response.getWriter().write(searchPassenger(userAsString));
+                break;
         }
     }
 
     protected void doGet(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, IOException {
 
+    }
+
+    private String searchPassenger(String passenger){
+        return SqlServer.searchPassenger(passenger);
+    }
+
+    private String searchDriver(String driver){
+        return SqlServer.searchDriver(driver);
     }
 
     private String searchRides(JSONObject details) {

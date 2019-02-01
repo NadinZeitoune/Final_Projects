@@ -42,16 +42,21 @@ public class HttpConnection {
             if (inputStream == null) {
                 inputStream = connection.getInputStream();
             }
+
             // Choose response.
             switch (action) {
                 case "signUp":
-                    return signUpResponse(inputStream, connection);
+                    return signUpResponse(inputStream);
                 case "login":
-                    return loginResponse(inputStream, connection);
+                    return loginResponse(inputStream);
                 case "addRide":
-                    return addRideResponse(inputStream, connection);
+                    return addRideResponse(inputStream);
                 case "search":
-                    return searchRidesResponse(inputStream, connection);
+                    return searchRidesResponse(inputStream);
+                case "searchDriver":
+                    return searchDriverResponse(inputStream);
+                case "searchPassenger":
+                    return searchPassengerResponse(inputStream);
             }
 
         } catch (MalformedURLException e) {
@@ -81,7 +86,15 @@ public class HttpConnection {
         return Integer.valueOf(response);
     }
 
-    private static Ride[] searchRidesResponse(InputStream inputStream, HttpURLConnection connection) throws IOException {
+    private static Ride[] searchPassengerResponse(InputStream inputStream) throws IOException{
+        return searchRidesResponse(inputStream);
+    }
+
+    private static Ride[] searchDriverResponse(InputStream inputStream) throws IOException{
+        return searchRidesResponse(inputStream);
+    }
+
+    private static Ride[] searchRidesResponse(InputStream inputStream) throws IOException {
         // Extract the string from the bytes.
         StringBuilder ridesBuilder = new StringBuilder();
         //inputStream = connection.getInputStream();
@@ -112,9 +125,8 @@ public class HttpConnection {
         }
     }
 
-    private static boolean addRideResponse(InputStream inputStream, HttpURLConnection connection) throws IOException {
+    private static boolean addRideResponse(InputStream inputStream) throws IOException {
         // Read numeric respond from server.
-        //inputStream = connection.getInputStream();
         byte[] buffer = new byte[4];
         int actuallyRead = inputStream.read(buffer);
         if (actuallyRead != -1) {
@@ -132,9 +144,8 @@ public class HttpConnection {
         }
     }
 
-    private static int signUpResponse(InputStream inputStream, HttpURLConnection connection) throws IOException {
+    private static int signUpResponse(InputStream inputStream) throws IOException {
         // Read numeric respond from server.
-        //inputStream = connection.getInputStream();
         byte[] buffer = new byte[4];
         int actuallyRead = inputStream.read(buffer);
         if (actuallyRead != -1) {
@@ -148,10 +159,10 @@ public class HttpConnection {
         }
     }
 
-    private static User loginResponse(InputStream inputStream, HttpURLConnection connection) throws IOException {
+    private static User loginResponse(InputStream inputStream) throws IOException {
         // Read User respond from server.
         StringBuilder userBuilder = new StringBuilder();
-        //inputStream = connection.getInputStream();
+
         byte[] buffer = new byte[64];
         int actuallyRead;
         try {
