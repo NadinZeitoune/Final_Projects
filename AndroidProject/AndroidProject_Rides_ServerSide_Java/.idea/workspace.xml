@@ -33,33 +33,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/ServerServlet.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="21">
-              <caret line="90" column="78" selection-start-line="90" selection-start-column="78" selection-end-line="90" selection-end-column="78" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="method#doGet#0;class#ServerServlet#0" />
-                <element signature="e#3775#3776#0" expanded="true" />
-                <element signature="e#3802#3803#0" expanded="true" />
-                <element signature="method#leaveRide#0;class#ServerServlet#0" />
-                <element signature="method#joinRide#0;class#ServerServlet#0" />
-                <element signature="method#searchRides#0;class#ServerServlet#0" />
-                <element signature="method#addRide#0;class#ServerServlet#0" />
-                <element signature="method#login#0;class#ServerServlet#0" />
-                <element signature="method#signUp#0;class#ServerServlet#0" />
-                <element signature="method#extractBody#0;class#ServerServlet#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/SqlServer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="132">
-              <caret line="279" column="50" selection-start-line="279" selection-start-column="50" selection-end-line="279" selection-end-column="50" />
+            <state relative-caret-position="111">
+              <caret line="10" column="44" selection-start-line="10" selection-start-column="44" selection-end-line="10" selection-end-column="44" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="method#insertUser#0;class#SqlServer#0" />
@@ -75,6 +53,26 @@
                 <element signature="method#getUserFromSet#0;class#SqlServer#0" />
                 <element signature="method#getConn#0;class#SqlServer#0" />
                 <element signature="method#resultSetToRideArr#0;class#SqlServer#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/ServerServlet.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="471">
+              <caret line="142" selection-start-line="142" selection-end-line="142" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="method#doGet#0;class#ServerServlet#0" />
+                <element signature="method#leaveRide#0;class#ServerServlet#0" />
+                <element signature="method#joinRide#0;class#ServerServlet#0" />
+                <element signature="method#searchRides#0;class#ServerServlet#0" />
+                <element signature="method#addRide#0;class#ServerServlet#0" />
+                <element signature="method#login#0;class#ServerServlet#0" />
+                <element signature="method#signUp#0;class#ServerServlet#0" />
+                <element signature="method#extractBody#0;class#ServerServlet#0" />
               </folding>
             </state>
           </provider>
@@ -110,8 +108,8 @@
         <option value="$PROJECT_DIR$/src/User.java" />
         <option value="$PROJECT_DIR$/src/Main.java" />
         <option value="$PROJECT_DIR$/src/Ride.java" />
-        <option value="$PROJECT_DIR$/src/ServerServlet.java" />
         <option value="$PROJECT_DIR$/src/SqlServer.java" />
+        <option value="$PROJECT_DIR$/src/ServerServlet.java" />
       </list>
     </option>
   </component>
@@ -169,7 +167,7 @@
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1549215162056" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1549225854796" />
     <property name="extract.method.default.visibility" value="private" />
     <property name="last_opened_file_path" value="C:/Install/java-json.jar!/" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
@@ -316,12 +314,12 @@
       <workItem from="1548951654802" duration="12354000" />
       <workItem from="1549005838011" duration="627000" />
       <workItem from="1549030332433" duration="2403000" />
-      <workItem from="1549179108958" duration="15216000" />
+      <workItem from="1549179108958" duration="16180000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="101281000" />
+    <option name="totallyTimeSpent" value="102245000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -346,7 +344,7 @@
       <window_info anchor="bottom" id="Duplicate detector" weight="0.3286119" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3286119" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.4986577" visible="true" weight="0.40509915" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.4986577" weight="0.40509915" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39943343" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -425,13 +423,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/ServerServlet.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="21">
-          <caret line="90" column="78" selection-start-line="90" selection-start-column="78" selection-end-line="90" selection-end-column="78" />
+        <state relative-caret-position="471">
+          <caret line="142" selection-start-line="142" selection-end-line="142" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="method#doGet#0;class#ServerServlet#0" />
-            <element signature="e#3775#3776#0" expanded="true" />
-            <element signature="e#3802#3803#0" expanded="true" />
             <element signature="method#leaveRide#0;class#ServerServlet#0" />
             <element signature="method#joinRide#0;class#ServerServlet#0" />
             <element signature="method#searchRides#0;class#ServerServlet#0" />
@@ -445,8 +441,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/SqlServer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="132">
-          <caret line="279" column="50" selection-start-line="279" selection-start-column="50" selection-end-line="279" selection-end-column="50" />
+        <state relative-caret-position="111">
+          <caret line="10" column="44" selection-start-line="10" selection-start-column="44" selection-end-line="10" selection-end-column="44" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="method#insertUser#0;class#SqlServer#0" />

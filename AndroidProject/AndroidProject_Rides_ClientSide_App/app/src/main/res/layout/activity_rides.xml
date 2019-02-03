@@ -11,28 +11,29 @@
         android:id="@+id/fragmentLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1">
 
-        <TextView
-            android:id="@+id/lblWelcome"
+        <ImageView
+            android:id="@+id/imgProfile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/buttons_text"
-            android:text="@string/hello" />
+            android:src="@drawable/camera"
+            android:onClick="onChangePicture"/>
 
         <TextView
             android:id="@+id/lblUser"
-            android:textColor="@color/colorPrimary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/buttons_text"
             android:onClick="onProfileClick"
-            app:layout_constraintLeft_toRightOf="@id/lblWelcome" />
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/buttons_text"
+            app:layout_constraintBottom_toBottomOf="@id/imgProfile"
+            app:layout_constraintLeft_toRightOf="@id/imgProfile" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -52,42 +53,45 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:text="@string/origin"
             android:textAlignment="center"
-            android:textSize="@dimen/list_view_title"
-            android:text="@string/origin"/>
+            android:textSize="@dimen/list_view_title" />
+
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:text="@string/destination"
             android:textAlignment="center"
-            android:textSize="@dimen/list_view_title"
-            android:text="@string/destination"/>
+            android:textSize="@dimen/list_view_title" />
+
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:text="@string/departure"
             android:textAlignment="center"
-            android:textSize="@dimen/list_view_title"
-            android:text="@string/departure"/>
+            android:textSize="@dimen/list_view_title" />
+
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:text="@string/arrival"
             android:textAlignment="center"
-            android:textSize="@dimen/list_view_title"
-            android:text="@string/arrival"/>
+            android:textSize="@dimen/list_view_title" />
     </LinearLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="2sp"
-        android:background="@color/colorPrimaryDark"/>
+        android:background="@color/colorPrimaryDark" />
 
     <ListView
         android:id="@+id/lstRides"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="8">
-    </ListView>
+        android:layout_weight="8"></ListView>
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
@@ -99,8 +103,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="onAddRide"
-            android:src="@drawable/plus_sign"
             android:padding="@dimen/buttons_padding"
+            android:src="@drawable/plus_sign"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent" />
 
@@ -109,8 +113,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="onSearchRide"
-            android:src="@drawable/search_sign"
             android:padding="@dimen/buttons_padding"
+            android:src="@drawable/search_sign"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent" />
 

@@ -7,13 +7,20 @@ import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.support.v4.content.FileProvider;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,6 +29,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -30,12 +38,15 @@ import java.io.Serializable;
 public class RidesActivity extends Activity {
 
     public static final String SEARCH = "search";
+    public static final int REQUEST_CODE = 8;
     private User logged;
     private ListView ridesList;
 
     private FrameLayout fragmentLayout;
     private FragmentManager.OnBackStackChangedListener backStackListener;
 
+    private ImageView imgProfile;
+    private String picPath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +55,8 @@ public class RidesActivity extends Activity {
 
         fragmentLayout = findViewById(R.id.fragmentLayout);
         ridesList = findViewById(R.id.lstRides);
+
+        imgProfile = findViewById(R.id.imgProfile);
 
         // Show user name.
         Serializable userName = getIntent().getSerializableExtra(MainActivity.USER);
@@ -55,6 +68,9 @@ public class RidesActivity extends Activity {
             TextView lblUser = findViewById(R.id.lblUser);
             lblUser.setText(" " + logged.getFirstName() + ",");
         }
+
+        //// If pic file exist- show the picture.
+
     }
 
     @Override
@@ -161,6 +177,55 @@ public class RidesActivity extends Activity {
         });
     }
 
+    public void onProfileClick(View view) {
+        // Open profile activity.
+        Intent intent = new Intent(this, ProfileActivity.class);
+        startActivity(intent);
+    }
+
+    public void onChangePicture(View view) {
+        Intent picIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (picIntent.resolveActivity(getPackageManager()) != null) {
+            File file = createPicFile();
+            Uri picUri = FileProvider.getUriForFile(this, "com.project.nadin.androidproject_rides_clientside_app.fileprovider", file);
+            picIntent.putExtra(MediaStore.EXTRA_OUTPUT, picUri);
+            startActivityForResult(picIntent, REQUEST_CODE);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
+
+            setProfilePic();
+        }
+    }
+
+    private void setProfilePic() {
+        int width = imgProfile.getWidth();
+        int height = imgProfile.getHeight();
+
+        BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
+        bitmapOptions.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(picPath, bitmapOptions);
+        int photoWidth = bitmapOptions.outWidth;
+        int photoHeight = bitmapOptions.outHeight;
+        int scaleFactor = Math.min(photoWidth / width, photoHeight / height);
+        bitmapOptions.inJustDecodeBounds = false;
+        bitmapOptions.inSampleSize = scaleFactor;
+
+
+        Bitmap bitmap = BitmapFactory.decodeFile(picPath, bitmapOptions);
+        imgProfile.setImageBitmap(bitmap);
+    }
+
+    private File createPicFile() {
+        File dir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File file = new File(dir, "profile.jpg");
+        picPath = file.getAbsolutePath();
+        return file;
+    }
+
     @SuppressLint("StaticFieldLeak")
     private void refreshRidesListView(Boolean isWithDetails) {
 
@@ -180,8 +245,12 @@ public class RidesActivity extends Activity {
 
             @Override
             protected Ride[] doInBackground(JSONObject... details) {
-                Ride[] rides = (Ride[]) HttpConnection.connection(SEARCH, details[0]);
-                return rides;
+                Object o = HttpConnection.connection(SEARCH, details[0]);
+
+                if (o instanceof Ride[])
+                    return (Ride[]) o;
+                return null;
+
             }
 
             @Override
@@ -255,12 +324,6 @@ public class RidesActivity extends Activity {
         getFragmentManager().beginTransaction().remove(fragment).commit();
         getFragmentManager().removeOnBackStackChangedListener(listener);
         backStackListener = null;
-    }
-
-    public void onProfileClick(View view) {
-        // Open profile activity.
-        Intent intent = new Intent(this, ProfileActivity.class);
-        startActivity(intent);
     }
 
     private void openRideActivity(Ride ride) {

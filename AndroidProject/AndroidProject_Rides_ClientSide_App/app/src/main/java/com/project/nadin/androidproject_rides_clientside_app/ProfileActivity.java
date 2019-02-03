@@ -118,7 +118,6 @@ public class ProfileActivity extends Activity {
                 }
 
                 // Add the Ride[] to the listView.
-
                 ArrayAdapter<Ride> adapter = new RidesAdapter(ProfileActivity.this, rides);
                 final Ride[] finalRides = rides;
                 lstRides.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -133,15 +132,6 @@ public class ProfileActivity extends Activity {
             }
         }.execute(action);
     }
-
-    /*private boolean doesAllFieldsEmpty(String[] fields){
-        for (String field : fields) {
-            if (!field.isEmpty())
-                return false;
-        }
-
-        return true;
-    }*/
 
     private void openRideActivity(Ride ride) {
         // Open the Ride activity.

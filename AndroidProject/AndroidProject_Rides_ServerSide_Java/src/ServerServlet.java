@@ -125,7 +125,7 @@ public class ServerServlet extends javax.servlet.http.HttpServlet {
     }
 
     private String searchRides(JSONObject details) {
-        // Get JSONObject and send it to the sql server + get back result set.
+
         return SqlServer.searchRides(details);
     }
 
