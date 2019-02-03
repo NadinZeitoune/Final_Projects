@@ -1,7 +1,8 @@
+import java.io.Serializable;
 import java.security.InvalidParameterException;
 
 
-public class Ride {
+public class Ride implements Serializable {
     public static final String DELIMITER = "#";
     private int rideNumber;
     private String origin;
@@ -131,5 +132,33 @@ public class Ride {
 
     public void setNumOfPassengers(int numOfPassengers) {
         this.numOfPassengers = numOfPassengers;
+    }
+
+    public int getRideNumber() {
+        return rideNumber;
+    }
+
+    public String getDriver() {
+        return driver;
+    }
+
+    public String getPassenger1() {
+        return passenger1;
+    }
+
+    public String getPassenger2() {
+        return passenger2;
+    }
+
+    public String getPassenger3() {
+        return passenger3;
+    }
+
+    public String getPassenger4() {
+        return passenger4;
+    }
+
+    public String getPassenger5() {
+        return passenger5;
     }
 }

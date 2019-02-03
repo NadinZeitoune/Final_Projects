@@ -2,6 +2,7 @@ package com.project.nadin.androidproject_rides_clientside_app;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -76,7 +77,23 @@ public class ProfileActivity extends Activity {
     }
 
     public void onProfileChanged(View view) {
-        // save the changes.
+        /*String[] fields = new String[]{txtFirstName.getText().toString(), txtLastName.getText().toString(),
+                                        txtPhoneNumber.getText().toString(),txtPassword.getText().toString()};
+        if (!doesAllFieldsEmpty(fields)){
+            // Save the changes: sql table-
+
+            // Shared prefs(if necessary)-
+            if (!txtFirstName.getText().toString().isEmpty() ||
+                    !txtPassword.getText().toString().isEmpty()){
+
+
+                // Ride activity(if necessary)-
+                if (!txtFirstName.getText().toString().isEmpty()){
+
+                }
+            }
+        }*/
+
         // close the setting layout.
         layoutSetting.setVisibility(View.GONE);
     }
@@ -103,16 +120,37 @@ public class ProfileActivity extends Activity {
                 // Add the Ride[] to the listView.
 
                 ArrayAdapter<Ride> adapter = new RidesAdapter(ProfileActivity.this, rides);
+                final Ride[] finalRides = rides;
                 lstRides.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                         // Open ride activity
-                        Toast.makeText(ProfileActivity.this, "clicked", Toast.LENGTH_SHORT).show();
+                        openRideActivity(finalRides[i]);
                     }
                 });
                 lstRides.setAdapter(adapter);
                 Toast.makeText(ProfileActivity.this, "List refreshed!", Toast.LENGTH_SHORT).show();
             }
         }.execute(action);
+    }
+
+    /*private boolean doesAllFieldsEmpty(String[] fields){
+        for (String field : fields) {
+            if (!field.isEmpty())
+                return false;
+        }
+
+        return true;
+    }*/
+
+    private void openRideActivity(Ride ride) {
+        // Open the Ride activity.
+        Intent intent = new Intent(this, RideActivity.class);
+
+        // Send the logged data to Rides activity.
+        intent.putExtra(RideActivity.RIDE, ride);
+
+        // Close currant activity.
+        startActivity(intent);
     }
 }

@@ -10,4 +10,7 @@
     <dimen name="input_width">150sp</dimen>
     <dimen name="list_view_title">16sp</dimen>
     <dimen name="sub_title">25sp</dimen>
+    <dimen name="ride_details">22sp</dimen>
+    <dimen name="details_padding">5sp</dimen>
+    <dimen name="ride_number">35sp</dimen>
 </resources>

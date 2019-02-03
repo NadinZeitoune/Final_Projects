@@ -9,7 +9,7 @@
     <string name="send">Send</string>
     <string name="edit">Edit details</string>
     <string name="origin">Origin point:</string>
-    <string name="destination">Destination point:</string>
+    <string name="destination">Destination point: </string>
     <string name="departure">Departure time:</string>
     <string name="arrival">Arrival time:</string>
     <string name="seats">Passengers number:</string>
@@ -36,4 +36,7 @@
     <string name="edit_profile_title">Edit profile:</string>
     <string name="driving_title">My driving:</string>
     <string name="rides_title">My rides:</string>
+    <string name="ride_number">Ride No.</string>
+    <string name="driver">Driver:</string>
+    <string name="passenger">Passenger:</string>
 </resources>

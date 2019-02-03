@@ -61,6 +61,10 @@ public class AddFragment extends Fragment {
                     // Passengers num MUST be under or equals to 5!
                     Toast.makeText(getContext(), "Max of 5 passengers!", Toast.LENGTH_SHORT).show();
                     return;
+                }else if (Integer.valueOf(seats) <= 0){
+                    // Passengers num MUST be above 0!
+                    Toast.makeText(getContext(), "Min of 1 passengers!", Toast.LENGTH_SHORT).show();
+                    return;
                 }
 
                 if (listener != null) {

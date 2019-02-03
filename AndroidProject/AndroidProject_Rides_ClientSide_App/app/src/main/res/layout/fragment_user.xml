@@ -2,25 +2,26 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="@dimen/details_padding">
 
 
     <LinearLayout
         android:id="@+id/layoutName"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/dialog_width"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintRight_toRightOf="parent">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/name" />
+            android:textSize="@dimen/sub_title"
+            android:text="@string/name"/>
 
         <TextView
             android:id="@+id/lblUserName"
+            android:textSize="@dimen/fragment_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
     </LinearLayout>
@@ -34,12 +35,14 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="@dimen/sub_title"
             android:text="@string/phone" />
 
         <TextView
             android:id="@+id/lblUserPhone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="@dimen/fragment_text"
             android:textColor="@color/phone_color"/>
     </LinearLayout>
 

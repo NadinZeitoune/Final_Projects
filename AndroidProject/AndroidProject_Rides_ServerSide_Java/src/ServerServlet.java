@@ -74,11 +74,46 @@ public class ServerServlet extends javax.servlet.http.HttpServlet {
                 userAsString = extractBody("bodyUsername", parts);
                 response.getWriter().write(searchPassenger(userAsString));
                 break;
+            case "joinRide":
+                rideAsString = extractBody("bodyRide", parts);
+                ride = new Ride(rideAsString);
+
+                response.getWriter().write(String.valueOf(joinRide(ride, extractBody("bodyUsername", parts))));
+                break;
+            case "leaveRide":
+                rideAsString = extractBody("bodyRide", parts);
+                ride = new Ride(rideAsString);
+
+                response.getWriter().write(String.valueOf(leaveRide(ride, extractBody("bodyUsername", parts))));
+                break;
+            case "searchUser":
+                userAsString = extractBody("bodyUsername", parts);
+                response.getWriter().write(searchUser(userAsString).toString());
+                break;
         }
     }
 
     protected void doGet(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, IOException {
 
+    }
+
+    private User searchUser(String userName){
+        return SqlServer.searchUser(userName);
+    }
+
+    private int leaveRide(Ride ride, String userName){
+        String ride_number = String.valueOf(ride.getRideNumber());
+        if (SqlServer.leaveRide(ride_number, userName) != 1)
+            return ERROR;
+        return SUCCESS;
+    }
+
+    private int joinRide(Ride ride, String username){
+
+        String ride_number = String.valueOf(ride.getRideNumber());
+        if (SqlServer.joinRide(ride_number, username) != 1)
+            return ERROR;
+        return SUCCESS;
     }
 
     private String searchPassenger(String passenger){

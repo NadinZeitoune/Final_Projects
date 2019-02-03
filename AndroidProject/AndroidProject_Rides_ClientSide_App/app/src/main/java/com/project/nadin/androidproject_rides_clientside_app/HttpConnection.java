@@ -57,6 +57,12 @@ public class HttpConnection {
                     return searchDriverResponse(inputStream);
                 case "searchPassenger":
                     return searchPassengerResponse(inputStream);
+                case "joinRide":
+                    return joinRideResponse(inputStream);
+                case "leaveRide":
+                    return leaveRideResponse(inputStream);
+                case "searchUser":
+                    return searchUserResponse(inputStream);
             }
 
         } catch (MalformedURLException e) {
@@ -86,97 +92,81 @@ public class HttpConnection {
         return Integer.valueOf(response);
     }
 
-    private static Ride[] searchPassengerResponse(InputStream inputStream) throws IOException{
+    private static User searchUserResponse(InputStream inputStream) throws IOException{
+        // Read User respond from server.
+        String user = readStringFromInput(inputStream);
+        if (user.equals(ERROR))
+            return null;
+
+        return new User(user);
+    }
+
+    private static boolean leaveRideResponse(InputStream inputStream) throws IOException {
+
+        int response = readIntFromInput(inputStream);
+        if (response != ERROR)
+            return true;
+        else
+            return false;
+    }
+
+    private static boolean joinRideResponse(InputStream inputStream) throws IOException {
+
+        int response = readIntFromInput(inputStream);
+        if (response != ERROR)
+            return true;
+        else
+            return false;
+    }
+
+    private static Ride[] searchPassengerResponse(InputStream inputStream) throws IOException {
         return searchRidesResponse(inputStream);
     }
 
-    private static Ride[] searchDriverResponse(InputStream inputStream) throws IOException{
+    private static Ride[] searchDriverResponse(InputStream inputStream) throws IOException {
         return searchRidesResponse(inputStream);
     }
 
     private static Ride[] searchRidesResponse(InputStream inputStream) throws IOException {
         // Extract the string from the bytes.
-        StringBuilder ridesBuilder = new StringBuilder();
-        //inputStream = connection.getInputStream();
-        byte[] buffer = new byte[64];
-        int actuallyRead;
+        String ridesAsString = readStringFromInput(inputStream);
 
-        try {
-            while ((actuallyRead = inputStream.read(buffer)) != -1) {
-                ridesBuilder.append(new String(buffer, 0, actuallyRead));
-            }
 
-            // Split the string according to specific delimiter.
-            String[] parts = ridesBuilder.toString().split(RIDES_DELIMITER);
-            System.out.println();
-            // Create Ride[] in the length of the parts[] == amount of rides.
-            Ride[] rides = new Ride[parts.length];
+        // Split the string according to specific delimiter.
+        String[] parts = ridesAsString.split(RIDES_DELIMITER);
 
-            // For i loop - create Ride from part and insert to the i position of the Ride[].
-            for (int i = 0; i < parts.length; i++) {
-                rides[i] = new Ride(parts[i]);
-            }
+        // Create Ride[] in the length of the parts[] == amount of rides.
+        Ride[] rides = new Ride[parts.length];
 
-            // send back Ride[]
-            return rides;
-
-        } catch (Exception e) {
-            return null;
+        // For i loop - create Ride from part and insert to the i position of the Ride[].
+        for (int i = 0; i < parts.length; i++) {
+            rides[i] = new Ride(parts[i]);
         }
+
+        // send back Ride[]
+        return rides;
+
     }
 
     private static boolean addRideResponse(InputStream inputStream) throws IOException {
-        // Read numeric respond from server.
-        byte[] buffer = new byte[4];
-        int actuallyRead = inputStream.read(buffer);
-        if (actuallyRead != -1) {
-            try {
-                int response = Integer.valueOf(new String(buffer, 0, actuallyRead));
-                if (response != ERROR)
-                    return true;
-                else
-                    return false;
-            } catch (Exception e) {
-                return false;
-            }
-        } else {
+        int response = readIntFromInput(inputStream);
+        if (response != ERROR)
+            return true;
+        else
             return false;
-        }
     }
 
     private static int signUpResponse(InputStream inputStream) throws IOException {
-        // Read numeric respond from server.
-        byte[] buffer = new byte[4];
-        int actuallyRead = inputStream.read(buffer);
-        if (actuallyRead != -1) {
-            try {
-                return Integer.valueOf(new String(buffer, 0, actuallyRead));
-            } catch (Exception e) {
-                return ERROR;
-            }
-        } else {
-            return ERROR;
-        }
+        return readIntFromInput(inputStream);
     }
 
     private static User loginResponse(InputStream inputStream) throws IOException {
         // Read User respond from server.
-        StringBuilder userBuilder = new StringBuilder();
-
-        byte[] buffer = new byte[64];
-        int actuallyRead;
-        try {
-            while ((actuallyRead = inputStream.read(buffer)) != -1) {
-                userBuilder.append(new String(buffer, 0, actuallyRead));
-            }
-
-            if (userBuilder.equals(ERROR))
-                throw new Exception();
-
-            return new User(userBuilder.toString());
-        } catch (Exception e) {
+        String user = readStringFromInput(inputStream);
+        if (user.equals(ERROR))
             return null;
-        }
+
+        return new User(user);
     }
 
     private static String addBody(Object... obj) {
@@ -210,10 +200,43 @@ public class HttpConnection {
                 else
                     stringBuilder.append("bodySearch=" + searchDetails.toString());
             }
-
         }
 
         return stringBuilder.toString();
 
+    }
+
+    private static String readStringFromInput(InputStream inputStream) throws IOException {
+
+        StringBuilder stringBuilder = new StringBuilder();
+
+        byte[] buffer = new byte[64];
+        int actuallyRead;
+        try {
+            while ((actuallyRead = inputStream.read(buffer)) != -1) {
+                stringBuilder.append(new String(buffer, 0, actuallyRead));
+            }
+
+            return stringBuilder.toString();
+
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    private static int readIntFromInput(InputStream inputStream) throws IOException {
+        // Read numeric respond from server.
+        byte[] buffer = new byte[4];
+        int actuallyRead = inputStream.read(buffer);
+        if (actuallyRead != -1) {
+            try {
+                return Integer.valueOf(new String(buffer, 0, actuallyRead));
+
+            } catch (Exception e) {
+                return ERROR;
+            }
+        } else {
+            return ERROR;
+        }
     }
 }

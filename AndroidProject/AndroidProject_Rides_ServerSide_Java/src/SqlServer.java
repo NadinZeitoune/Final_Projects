@@ -68,12 +68,8 @@ public class SqlServer {
 
                 try (ResultSet resultSet = statement.executeQuery()) {
                     // If they are - send full user details.
-                    while (resultSet.next()) {
-                        // Create user to return
-                        User newUser = new User(resultSet.getString(1), resultSet.getString(2),
-                                resultSet.getString(3), resultSet.getString(4), resultSet.getInt(5));
-                        return newUser;
-                    }
+                    User newUser = getUserFromSet(resultSet);
+                    if (newUser != null) return newUser;
                 }
             }
         } catch (SQLException e) {
@@ -157,7 +153,7 @@ public class SqlServer {
             try (PreparedStatement statement = conn.prepareStatement(
                     "SELECT * FROM ride_db.rides WHERE driver = ?")){
                 statement.setString(1, driver);
-                System.out.println(statement.toString());
+
                 try (ResultSet resultSet = statement.executeQuery()){
                     // send back the resultSet as Ride[].
                     return resultSetToRideArr(resultSet).toString();
@@ -191,6 +187,123 @@ public class SqlServer {
             e.printStackTrace();
         }
 
+        return null;
+    }
+
+    public static int joinRide(String rideNumber, String username){
+
+        // Connect to mySql table.
+        try (Connection conn = getConn()){
+            // Get the passengers.
+            try (PreparedStatement statement = conn.prepareStatement(
+                    "SELECT passenger_num, passenger1, passenger2, passenger3, passenger4, passenger5 FROM ride_db.rides " +
+                            "WHERE ride_number = ?")){
+                statement.setString(1, rideNumber);
+                try (ResultSet resultSet = statement.executeQuery()){
+                    while (resultSet.next()){
+
+                        // Check where is the free seat(passenger)
+                        int i = 2;
+                        do {
+
+                            if(resultSet.getString(i) == null){
+                                // Insert the new passenger to the spot located earlier.
+                                try (PreparedStatement statement1 = conn.prepareStatement(
+                                        "UPDATE ride_db.rides SET passenger"+(i-1)+" = ? WHERE ride_number = ?")){
+                                    statement1.setString(1, username);
+                                    statement1.setString(2, rideNumber);
+
+                                    return statement1.executeUpdate();
+                                }
+                            }
+
+                            i++;
+                        }while (i <= resultSet.getInt(1) + 1);
+                    }
+
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return ServerServlet.ERROR;
+    }
+
+    public static int leaveRide(String rideNumber, String userName){
+        // Connect to mySql table.
+        try (Connection conn = getConn()){
+            try (PreparedStatement statement = conn.prepareStatement(
+                    "SELECT passenger_num, passenger1, passenger2, passenger3, passenger4, passenger5 FROM ride_db.rides " +
+                            "WHERE ride_number = ?")){
+                statement.setString(1, rideNumber);
+
+                try (ResultSet resultSet = statement.executeQuery()){
+                    while (resultSet.next()){
+
+                        // Check where is the passenger.
+                        int i = 2;
+                        do {
+
+                            if(resultSet.getString(i).equals(userName)){
+                                // Bubble the remaining passengers  to be as left as they can.
+                                StringBuilder sql = new StringBuilder("UPDATE ride_db.rides SET passenger"+(i-1)+" = NULL ");
+                                int j = 1;
+                                while ((j + i <= resultSet.getInt(1) + 1) && (resultSet.getString(i + j) != null)){
+                                    sql.append(", passenger" + (i - j) + " = '" + resultSet.getString(i + j) + "'"
+                                            + ", passenger" + (i - j + 1) + " = NULL");
+
+                                    j++;
+                                }
+
+                                sql.append(" WHERE ride_number = '" + rideNumber + "'");
+
+                                try (PreparedStatement statement1 = conn.prepareStatement(sql.toString())){
+                                    return statement1.executeUpdate();
+                                }
+                            }
+
+                            i++;
+                        }while (i <= resultSet.getInt(1) + 1);
+                    }
+
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+        return ServerServlet.ERROR;
+    }
+
+    public static User searchUser(String userName){
+        // Connect to mySql table.
+        try (Connection conn = getConn()) {
+            // Check get the user details.
+            try (PreparedStatement statement = conn.prepareStatement(
+                    "SELECT * FROM users WHERE username = ?")) {
+                statement.setString(1, userName);
+
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    User newUser = getUserFromSet(resultSet);
+                    if (newUser != null) return newUser;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    private static User getUserFromSet(ResultSet resultSet) throws SQLException {
+        while (resultSet.next()) {
+            // Create user to return
+            User newUser = new User(resultSet.getString(1), resultSet.getString(2),
+                    resultSet.getString(3), resultSet.getString(4), resultSet.getInt(5));
+            return newUser;
+        }
         return null;
     }
 

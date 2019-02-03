@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -193,13 +192,13 @@ public class RidesActivity extends Activity {
                 }
 
                 // Add the Ride[] to the listView.
-
                 ArrayAdapter<Ride> adapter = new RidesAdapter(RidesActivity.this, rides);
+                final Ride[] finalRides = rides;
                 ridesList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                         // Open ride activity
-                        Toast.makeText(RidesActivity.this, "clicked", Toast.LENGTH_SHORT).show();
+                        openRideActivity(finalRides[i]);
                     }
                 });
                 ridesList.setAdapter(adapter);
@@ -261,6 +260,17 @@ public class RidesActivity extends Activity {
     public void onProfileClick(View view) {
         // Open profile activity.
         Intent intent = new Intent(this, ProfileActivity.class);
+        startActivity(intent);
+    }
+
+    private void openRideActivity(Ride ride) {
+        // Open the Ride activity.
+        Intent intent = new Intent(this, RideActivity.class);
+
+        // Send the logged data to Rides activity.
+        intent.putExtra(RideActivity.RIDE, ride);
+
+        // Close currant activity.
         startActivity(intent);
     }
 }
