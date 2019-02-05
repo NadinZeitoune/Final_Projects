@@ -39,4 +39,5 @@
     <string name="ride_number">Ride No.</string>
     <string name="driver">Driver:</string>
     <string name="passenger">Passenger:</string>
+    <string name="wifi_alert">Please check your Wi-Fi is on!</string>
 </resources>

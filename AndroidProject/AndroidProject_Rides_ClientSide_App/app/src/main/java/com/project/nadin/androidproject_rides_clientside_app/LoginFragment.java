@@ -2,8 +2,10 @@ package com.project.nadin.androidproject_rides_clientside_app;
 
 import android.annotation.SuppressLint;
 import android.app.DialogFragment;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -82,6 +84,8 @@ public class LoginFragment extends DialogFragment {
                                 listener.onLogin(user);
                                 dismiss();
                             }else{
+                                Vibrator vibrator = (Vibrator) getContext().getSystemService(Context.VIBRATOR_SERVICE);
+                                vibrator.vibrate(500);
                                 Toast.makeText(getContext(), "Username or password incorrect!", Toast.LENGTH_SHORT).show();
                             }
                         }

@@ -39,11 +39,14 @@ public class ServerServlet extends javax.servlet.http.HttpServlet {
             case "login":
                 userAsString = extractBody("bodyUser", parts);
                 user = new User(userAsString);
+
                 User userResponse = login(user);
+
                 if (userResponse == null) {
                     response.getWriter().write(ERROR);
                     break;
                 }
+
                 response.getWriter().write(userResponse.toString());
                 break;
 

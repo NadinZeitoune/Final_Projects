@@ -3,6 +3,7 @@
     package="com.project.nadin.androidproject_rides_clientside_app">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.VIBRATE"/>
     <uses-feature android:name="android.hardware.camera" android:required="true"/>
 
     <application

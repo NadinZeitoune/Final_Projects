@@ -39,6 +39,7 @@ public class RidesActivity extends Activity {
 
     public static final String SEARCH = "search";
     public static final int REQUEST_CODE = 8;
+    public static final String PROFILE_PIC = "profile.jpg";
     private User logged;
     private ListView ridesList;
 
@@ -48,6 +49,7 @@ public class RidesActivity extends Activity {
     private ImageView imgProfile;
     private String picPath;
 
+    @SuppressLint("StaticFieldLeak")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,6 +72,26 @@ public class RidesActivity extends Activity {
         }
 
         //// If pic file exist- show the picture.
+        new AsyncTask<Void, Void, Void>(){
+
+            @Override
+            protected Void doInBackground(Void... voids) {
+                try {
+                    Thread.sleep(5);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                File file = getPicFile();
+                if (file.length() != 0) {
+                    setProfilePic();
+                }
+            }
+        }.execute();
 
     }
 
@@ -87,6 +109,10 @@ public class RidesActivity extends Activity {
 
         // Delete search file.
         this.deleteFile(SearchFragment.SEARCH_FILE);
+
+        // Delete profile file.
+        getPicFile().delete();
+        
     }
 
     public void onLogOut(View view) {
@@ -184,9 +210,10 @@ public class RidesActivity extends Activity {
     }
 
     public void onChangePicture(View view) {
+        //// If pic file exist- show the picture.
         Intent picIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (picIntent.resolveActivity(getPackageManager()) != null) {
-            File file = createPicFile();
+            File file = getPicFile();
             Uri picUri = FileProvider.getUriForFile(this, "com.project.nadin.androidproject_rides_clientside_app.fileprovider", file);
             picIntent.putExtra(MediaStore.EXTRA_OUTPUT, picUri);
             startActivityForResult(picIntent, REQUEST_CODE);
@@ -196,7 +223,6 @@ public class RidesActivity extends Activity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
-
             setProfilePic();
         }
     }
@@ -219,9 +245,9 @@ public class RidesActivity extends Activity {
         imgProfile.setImageBitmap(bitmap);
     }
 
-    private File createPicFile() {
+    private File getPicFile() {
         File dir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File file = new File(dir, "profile.jpg");
+        File file = new File(dir, PROFILE_PIC);
         picPath = file.getAbsolutePath();
         return file;
     }
@@ -258,6 +284,7 @@ public class RidesActivity extends Activity {
                 // Get back list and show it.
                 if (rides == null) {
                     rides = new Ride[]{};
+                    Toast.makeText(RidesActivity.this, R.string.wifi_alert, Toast.LENGTH_SHORT).show();
                 }
 
                 // Add the Ride[] to the listView.

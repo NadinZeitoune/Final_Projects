@@ -1,6 +1,5 @@
 package com.project.nadin.androidproject_rides_clientside_app;
 
-import android.util.Log;
 
 import org.json.JSONObject;
 
@@ -163,7 +162,7 @@ public class HttpConnection {
     private static User loginResponse(InputStream inputStream) throws IOException {
         // Read User respond from server.
         String user = readStringFromInput(inputStream);
-        if (user.equals(ERROR))
+        if (user.equals(String.valueOf(ERROR)))
             return null;
 
         return new User(user);
@@ -216,7 +215,8 @@ public class HttpConnection {
             while ((actuallyRead = inputStream.read(buffer)) != -1) {
                 stringBuilder.append(new String(buffer, 0, actuallyRead));
             }
-
+            if (stringBuilder.toString().getBytes().length < 4)
+                return String.valueOf(ERROR);
             return stringBuilder.toString();
 
         } catch (Exception e) {
