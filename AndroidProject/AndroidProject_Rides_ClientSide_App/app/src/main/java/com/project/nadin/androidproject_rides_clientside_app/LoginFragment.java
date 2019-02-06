@@ -59,7 +59,11 @@ public class LoginFragment extends DialogFragment {
                             user = users[0];
 
                             // Connect to server to check if username exist and password correct.
-                            User logUser = (User) HttpConnection.connection(LOGIN, user);
+                            Object obj = HttpConnection.connection(LOGIN, user);
+                            if (obj instanceof Integer)
+                                return null;
+
+                            User logUser = (User) obj;
 
                             // if username OR password wrong - return false.
                             if (logUser == null){
@@ -79,7 +83,9 @@ public class LoginFragment extends DialogFragment {
                             btnLogin.setText(R.string.login);
 
                             // Username+password correct - Log in the user.
-                            if (success){
+                            if (success == null){
+                                listener.onLogin(null);
+                            }else if (success){
                                 // Send back user details.
                                 listener.onLogin(user);
                                 dismiss();

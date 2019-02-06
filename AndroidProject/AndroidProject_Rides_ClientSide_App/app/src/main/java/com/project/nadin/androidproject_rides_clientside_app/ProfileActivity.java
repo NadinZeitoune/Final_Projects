@@ -15,11 +15,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class ProfileActivity extends Activity {
-    private LinearLayout layoutSetting;
-    private EditText txtFirstName;
-    private EditText txtLastName;
-    private EditText txtPhoneNumber;
-    private EditText txtPassword;
 
     private LinearLayout layoutList;
     private ListView lstRides;
@@ -31,21 +26,12 @@ public class ProfileActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        layoutSetting = findViewById(R.id.layoutSetting);
-        txtFirstName = findViewById(R.id.txtFirstName);
-        txtLastName = findViewById(R.id.txtLastName);
-        txtPhoneNumber = findViewById(R.id.txtPhoneNumber);
-        txtPassword = findViewById(R.id.txtPassword);
-
         layoutList = findViewById(R.id.layoutList);
         lstRides = findViewById(R.id.lstRides);
         lblRideTitle = findViewById(R.id.lblRideTitle);
     }
 
     public void onMyDriving(View view) {
-        // Set to gone the editProfile layout.
-        layoutSetting.setVisibility(View.GONE);
-
         // Set to visible the listView of rides.
         layoutList.setVisibility(View.VISIBLE);
         lblRideTitle.setText(R.string.driving_title);
@@ -56,8 +42,6 @@ public class ProfileActivity extends Activity {
     }
 
     public void onMyRides(View view) {
-        // Set to gone the editProfile layout.
-        layoutSetting.setVisibility(View.GONE);
 
         // Set to visible the listView of rides.
         layoutList.setVisibility(View.VISIBLE);
@@ -66,36 +50,6 @@ public class ProfileActivity extends Activity {
         // Search for all rides that the user is one of the passengers.
         // Show the list.
         getRideList("searchPassenger");
-    }
-
-    public void onEditProfile(View view) {
-        // Set to gone the listView of rides.
-        layoutList.setVisibility(View.GONE);
-
-        // Set to visible the editProfile layout.
-        layoutSetting.setVisibility(View.VISIBLE);
-    }
-
-    public void onProfileChanged(View view) {
-        /*String[] fields = new String[]{txtFirstName.getText().toString(), txtLastName.getText().toString(),
-                                        txtPhoneNumber.getText().toString(),txtPassword.getText().toString()};
-        if (!doesAllFieldsEmpty(fields)){
-            // Save the changes: sql table-
-
-            // Shared prefs(if necessary)-
-            if (!txtFirstName.getText().toString().isEmpty() ||
-                    !txtPassword.getText().toString().isEmpty()){
-
-
-                // Ride activity(if necessary)-
-                if (!txtFirstName.getText().toString().isEmpty()){
-
-                }
-            }
-        }*/
-
-        // close the setting layout.
-        layoutSetting.setVisibility(View.GONE);
     }
 
     @SuppressLint("StaticFieldLeak")

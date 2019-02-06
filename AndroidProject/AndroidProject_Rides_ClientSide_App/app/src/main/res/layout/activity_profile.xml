@@ -38,67 +38,6 @@
             android:text="@string/my_rides"
             android:textSize="@dimen/buttons_text" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/buttons_text" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="onEditProfile"
-            android:text="@string/edit_profile"
-            android:textSize="@dimen/buttons_text" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/layoutSetting"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="vertical"
-        android:visibility="gone">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/edit_profile_title"
-            android:textAlignment="center"
-            android:textSize="@dimen/sub_title" />
-
-        <EditText
-            android:id="@+id/txtFirstName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/first_name"
-            android:singleLine="true" />
-
-        <EditText
-            android:id="@+id/txtLastName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/last_name"
-            android:singleLine="true" />
-
-        <EditText
-            android:id="@+id/txtPhoneNumber"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/phone_number"
-            android:inputType="number" />
-
-        <EditText
-            android:id="@+id/txtPassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/password"
-            android:inputType="textPassword" />
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="onProfileChanged"
-            android:text="@string/save_changes" />
     </LinearLayout>
 
     <LinearLayout

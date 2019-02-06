@@ -89,7 +89,7 @@ public class Ride implements Serializable {
         rideAsString.append(passenger2).append(DELIMITER);
         rideAsString.append(passenger3).append(DELIMITER);
         rideAsString.append(passenger4).append(DELIMITER);
-        rideAsString.append(passenger5).append(DELIMITER);
+        rideAsString.append(passenger5);
 
         return rideAsString.toString();
     }

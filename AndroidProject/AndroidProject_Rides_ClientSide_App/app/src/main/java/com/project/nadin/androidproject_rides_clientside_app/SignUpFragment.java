@@ -86,7 +86,7 @@ public class SignUpFragment extends DialogFragment {
                             else if (result == SUCCESS)
                                 return true;
                             else
-                                return false;
+                                return null;
                         }
 
                         @Override
@@ -96,7 +96,10 @@ public class SignUpFragment extends DialogFragment {
                             btnSignUp.setText(R.string.sign_up);
 
                             // New username - Log in the user.
-                            if (success){
+                            if (success == null){
+                                listener.onSignUp(null);
+                            }
+                            else if (success){
                                 // Send back user details.
                                 listener.onSignUp(user);
                                 dismiss();

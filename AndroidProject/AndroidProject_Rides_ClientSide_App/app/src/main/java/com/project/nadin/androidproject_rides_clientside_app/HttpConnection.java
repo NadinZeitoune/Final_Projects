@@ -129,7 +129,8 @@ public class HttpConnection {
     private static Ride[] searchRidesResponse(InputStream inputStream) throws IOException {
         // Extract the string from the bytes.
         String ridesAsString = readStringFromInput(inputStream);
-
+        if (ridesAsString.equals(String.valueOf(ERROR)))
+            return null;
 
         // Split the string according to specific delimiter.
         String[] parts = ridesAsString.split(RIDES_DELIMITER);

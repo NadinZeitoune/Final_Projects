@@ -47,6 +47,10 @@ public class MainActivity extends Activity {
         loginFragment.setListener(new LoginFragment.OnLoginFragmentListener() {
             @Override
             public void onLogin(User logged) {
+                if (logged == null){
+                    Toast.makeText(MainActivity.this, R.string.wifi_alert, Toast.LENGTH_LONG).show();
+                    return;
+                }
                 loggedUser = logged;
                 loggedUserName = logged.getFirstName();
 
@@ -65,6 +69,10 @@ public class MainActivity extends Activity {
         signUpFragment.setListener(new SignUpFragment.OnSignUpFragmentListener() {
             @Override
             public void onSignUp(User logged) {
+                if (logged == null){
+                    Toast.makeText(MainActivity.this, R.string.wifi_alert, Toast.LENGTH_LONG).show();
+                    return;
+                }
                 loggedUser = logged;
                 loggedUserName = logged.getFirstName();
 
