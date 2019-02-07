@@ -95,7 +95,7 @@ public class LoginFragment extends DialogFragment {
                                 Toast.makeText(getContext(), "Username or password incorrect!", Toast.LENGTH_SHORT).show();
                             }
                         }
-                    }.execute(new User(userName,password,"","", 0));
+                    }.execute(new User(userName,password,"","", ""));
                 }
             }
         });

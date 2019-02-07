@@ -109,7 +109,7 @@ public class SignUpFragment extends DialogFragment {
                                 Toast.makeText(getContext(), "Username already exist!", Toast.LENGTH_SHORT).show();
                             }
                         }
-                    }.execute(new User(userName, password, firstName, lastName, Integer.valueOf(phoneNumber)));
+                    }.execute(new User(userName, password, firstName, lastName, phoneNumber));
                 }
             }
         });

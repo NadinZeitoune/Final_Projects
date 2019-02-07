@@ -8,9 +8,9 @@ public class User implements Serializable {
     private String password;
     private String firstName;
     private String lastName;
-    private int phoneNumber;
+    private String phoneNumber;
 
-    public User(String userName, String password, String firstName, String lastName, int phoneNumber) {
+    public User(String userName, String password, String firstName, String lastName, String phoneNumber) {
         this.userName = userName;
         this.password = password;
         this.firstName = firstName;
@@ -30,7 +30,7 @@ public class User implements Serializable {
         this.password = parts[1];
         this.firstName = parts[2];
         this.lastName = parts[3];
-        this.phoneNumber = Integer.valueOf(parts[4]);
+        this.phoneNumber = parts[4];
     }
 
     @Override
@@ -87,11 +87,11 @@ public class User implements Serializable {
         this.lastName = lastName;
     }
 
-    public int getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(int phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 }

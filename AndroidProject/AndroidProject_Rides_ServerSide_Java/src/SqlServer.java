@@ -183,6 +183,7 @@ public class SqlServer {
                     return resultSetToRideArr(resultSet).toString();
                 }
             }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -301,7 +302,7 @@ public class SqlServer {
         while (resultSet.next()) {
             // Create user to return
             User newUser = new User(resultSet.getString(1), resultSet.getString(2),
-                    resultSet.getString(3), resultSet.getString(4), resultSet.getInt(5));
+                    resultSet.getString(3), resultSet.getString(4), resultSet.getString(5));
             return newUser;
         }
         return null;

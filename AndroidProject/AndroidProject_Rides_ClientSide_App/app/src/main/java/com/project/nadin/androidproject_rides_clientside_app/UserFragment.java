@@ -39,7 +39,7 @@ public class UserFragment extends DialogFragment {
             protected void onPostExecute(User user) {
                 // show the details.
                 lblUserName.setText(" " + user.getFirstName() + " " + user.getLastName() + ".");
-                lblUserPhone.setText(String.valueOf(user.getPhoneNumber()));
+                lblUserPhone.setText(user.getPhoneNumber());
             }
         }.execute(userName);
 

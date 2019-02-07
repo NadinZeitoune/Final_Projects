@@ -35,7 +35,7 @@ public class MainActivity extends Activity {
             loggedUserName = prefs.getString(FIRST_NAME, "");
 
             loggedUser = new User(prefs.getString(USERNAME, ""), prefs.getString(PASSWORD, ""),
-                   loggedUserName , "", 0);
+                   loggedUserName , "", "");
 
             openRidesActivity();
         }
