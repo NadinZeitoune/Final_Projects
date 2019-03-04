@@ -16,6 +16,7 @@
 		6DE6AE47222D088F0021659B /* tombstone.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DE6AE43222D088F0021659B /* tombstone.png */; };
 		6DE6AE48222D088F0021659B /* calendar.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DE6AE44222D088F0021659B /* calendar.png */; };
 		6DE6AE4A222D092F0021659B /* wedding.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DE6AE49222D092F0021659B /* wedding.png */; };
+		6DE6AE6A222D53870021659B /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DE6AE69222D53870021659B /* Event.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 		6DE6AE43222D088F0021659B /* tombstone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tombstone.png; sourceTree = "<group>"; };
 		6DE6AE44222D088F0021659B /* calendar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = calendar.png; sourceTree = "<group>"; };
 		6DE6AE49222D092F0021659B /* wedding.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wedding.png; sourceTree = "<group>"; };
+		6DE6AE69222D53870021659B /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,6 +74,7 @@
 				6DE6AE36222D037B0021659B /* Assets.xcassets */,
 				6DE6AE38222D037B0021659B /* LaunchScreen.storyboard */,
 				6DE6AE3B222D037B0021659B /* Info.plist */,
+				6DE6AE69222D53870021659B /* Event.swift */,
 			);
 			path = IOSProject_DatesReminder_App;
 			sourceTree = "<group>";
@@ -152,6 +155,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6DE6AE32222D03790021659B /* ViewController.swift in Sources */,
+				6DE6AE6A222D53870021659B /* Event.swift in Sources */,
 				6DE6AE30222D03790021659B /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
