@@ -9,7 +9,18 @@
 import Foundation
 
 class Event {
-    <#code#>
+    var dateType: DateType!
+    var names: [String] = ["",""]
+    // var gregorianDate:
+    // var hebrewDate:
+    var personType: PersonType!
+    var isNotifyH: Bool = false
+    var isNotifyG: Bool = false
+    var yearsPass: Int = 0
+    // nextGregorianDate
+    // nextHebrewDate
+    
+    // let months: [String] = ["January","February","March","April","May","June","July","August","September","October","November","December"]
 }
 
 enum DateType: String{
@@ -19,8 +30,9 @@ enum DateType: String{
     case anniversary = "calendar" // == Else?
 }
 
-enum PersonType {
-    case family
-    case friends
-    case coWorkers
+enum PersonType: String{
+    case family = "family"
+    case friends = "friends"
+    case coWorkers = "coWorkers"
+    case differant = "differant"
 }
