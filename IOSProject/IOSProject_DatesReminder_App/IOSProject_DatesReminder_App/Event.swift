@@ -19,8 +19,6 @@ class Event {
     var yearsPass: Int = 0
     // nextGregorianDate
     // nextHebrewDate
-    
-    // let months: [String] = ["January","February","March","April","May","June","July","August","September","October","November","December"]
 }
 
 enum DateType: String{
