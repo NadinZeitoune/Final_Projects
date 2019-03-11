@@ -8,12 +8,17 @@
 
 import UIKit
 
-class AddViewController: UIViewController {
+class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate{
+    
+    var pickerContainer: UIView!
+    var dateType: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         initScreen()
+        
+        pickerContainer = UIView(frame: view.frame)
     }
     
     func initScreen() {
@@ -27,5 +32,92 @@ class AddViewController: UIViewController {
         title.adjustsFontSizeToFitWidth = true
         title.center.x = view.center.x
         view.addSubview(title)
+        
+        // Date type:
+        dateType = UIButton(frame: CGRect(x: 0, y: title.frame.maxY + 10, width: view.frame.width, height: 30))
+        let label = UILabel(frame: CGRect(x: 0, y: 0, width: 0, height: 30))
+        label.text = "Date type: "
+        label.font = UIFont.boldSystemFont(ofSize: 20)
+        label.sizeToFit()
+        label.adjustsFontSizeToFitWidth = true
+        dateType.addTarget(self, action: #selector(handleDateTypeClick(sender:)), for: .touchUpInside)
+        dateType.addSubview(label)
+        view.addSubview(dateType)
+    }
+    
+    @objc func handleDateTypeClick(sender: UIButton){
+        // Create the picker:
+        let typePicker = UIPickerView()
+        typePicker.center = view.center
+        typePicker.dataSource = self
+        typePicker.delegate = self
+        typePicker.backgroundColor = UIColor.lightText
+        typePicker.tag = 0
+        pickerContainer.addSubview(typePicker)
+        
+        // Create confirmation button:
+        let confirmBtn = UIButton(type: .system)
+        confirmBtn.frame = CGRect(x: 0, y: typePicker.frame.maxY, width: view.frame.width, height: 30)
+        confirmBtn.setTitle("Confirm", for: .normal)
+        confirmBtn.addTarget(self, action: #selector(handleConfirmationBtnClick(sender:)), for: .touchUpInside)
+        pickerContainer.addSubview(confirmBtn)
+        
+        view.addSubview(pickerContainer)
+    }
+    
+    @objc func handlePersonTypeClick(sender: UIButton){
+        // Create the picker:
+        let typePicker = UIPickerView()
+        typePicker.center = view.center
+        typePicker.dataSource = self
+        typePicker.delegate = self
+        typePicker.backgroundColor = UIColor.lightText
+        typePicker.tag = 1
+        pickerContainer.addSubview(typePicker)
+        
+        // Create confirmation button:
+        let confirmBtn = UIButton(type: .system)
+        confirmBtn.frame = CGRect(x: 0, y: typePicker.frame.maxY, width: view.frame.width, height: 30)
+        confirmBtn.setTitle("Confirm", for: .normal)
+        confirmBtn.addTarget(self, action: #selector(handleConfirmationBtnClick(sender:)), for: .touchUpInside)
+        pickerContainer.addSubview(confirmBtn)
+        
+        view.addSubview(pickerContainer)
+    }
+    
+    @objc func handleConfirmationBtnClick(sender: UIButton){
+        pickerContainer.removeFromSuperview()
+        
+        if pickerContainer.subviews[0] is UIPickerView {
+            let typePicker = pickerContainer.subviews[0] as! UIPickerView
+            let choice = typePicker.selectedRow(inComponent: 0)
+            
+            // array of all type strings, this way we can use this in titleForRow
+        }
+        
+        // Restart container.
+        pickerContainer = UIView(frame: pickerContainer.frame)
+    }
+    
+    // Picker view- DataSource & Delegate
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return pickerView.tag == 0 ? 4 : 4 //   ? date type : person type
+    }
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        switch row {
+            case 0:
+                return pickerView.tag == 0 ? DateType.birthday.rawValue : PersonType.family.rawValue
+            case 1:
+                return pickerView.tag == 0 ? DateType.wedding.rawValue : PersonType.friends.rawValue
+            case 2:
+                return pickerView.tag == 0 ? DateType.deathDay.rawValue : PersonType.coWorkers.rawValue
+            case 3:
+                return pickerView.tag == 0 ? DateType.anniversary.rawValue : PersonType.differant.rawValue
+            default:
+                return ""
+        }
     }
 }
