@@ -31,6 +31,6 @@ enum DateType: String{
 enum PersonType: String{
     case family = "family"
     case friends = "friends"
-    case coWorkers = "coWorkers"
+    case coWorkers = "co-Workers"
     case differant = "differant"
 }

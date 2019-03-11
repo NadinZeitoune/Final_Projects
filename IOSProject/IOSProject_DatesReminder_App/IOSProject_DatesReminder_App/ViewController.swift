@@ -38,6 +38,7 @@ class ViewController: UIViewController{
         // Create the table view:
         datesList = UITableView(frame: CGRect(x: 0, y: title.frame.maxY + 10, width: view.frame.width, height: view.frame.height - title.frame.height - 10), style: .grouped)
         datesDataSource = DatesDataSource()
+        datesList.sectionFooterHeight = 0
         datesList.dataSource = datesDataSource
         //datesList.delegate =
         view.addSubview(datesList)
