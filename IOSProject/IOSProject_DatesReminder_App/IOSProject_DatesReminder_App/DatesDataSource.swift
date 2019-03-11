@@ -15,13 +15,13 @@ class DatesDataSource: NSObject, UITableViewDataSource {
     var dates: [Event]!
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 12
+        return months.count
     }
     
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // check the number of dates belong to this month
-        return 5
+        return 2
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

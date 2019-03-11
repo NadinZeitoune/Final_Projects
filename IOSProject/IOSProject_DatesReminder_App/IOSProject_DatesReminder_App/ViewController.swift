@@ -17,12 +17,10 @@ class ViewController: UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // If there is a file- load data for the tableView(global) and put it in the array.
+        datesDataSource = DatesDataSource()
+        
         initScreen()
-        
-        // If there is a file- load data for the tableView
-        
-        
-        
     }
 
     func initScreen(){
@@ -37,7 +35,6 @@ class ViewController: UIViewController{
      
         // Create the table view:
         datesList = UITableView(frame: CGRect(x: 0, y: title.frame.maxY + 10, width: view.frame.width, height: view.frame.height - title.frame.height - 10), style: .grouped)
-        datesDataSource = DatesDataSource()
         datesList.sectionFooterHeight = 0
         datesList.dataSource = datesDataSource
         //datesList.delegate =
@@ -47,8 +44,12 @@ class ViewController: UIViewController{
         addDateBtn = UIButton(type: .contactAdd)
         addDateBtn.frame = CGRect(x: view.frame.maxX - 30, y: title.frame.maxY + 10, width: 30, height: 30)
         addDateBtn.tintColor = UIColor.darkText
-        addDateBtn.backgroundColor = UIColor.lightText
+        addDateBtn.addTarget(self, action: #selector(handleAddBtnClick(sender:)), for: .touchUpInside)
         view.addSubview(addDateBtn)
+    }
+    
+    @objc func handleAddBtnClick(sender: UIButton){
+        present(AddViewController(), animated: true, completion: nil)
     }
 }
 
