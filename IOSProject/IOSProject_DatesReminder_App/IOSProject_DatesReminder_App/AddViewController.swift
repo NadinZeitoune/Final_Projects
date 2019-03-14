@@ -12,6 +12,8 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
     
     var pickerContainer: UIView!
     var dateType: UIButton!
+    var confirmBtn: UIButton!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,6 +21,8 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
         initScreen()
         
         pickerContainer = UIView(frame: view.frame)
+        
+        createConfirmBtn()
     }
     
     func initScreen() {
@@ -45,44 +49,34 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
         view.addSubview(dateType)
     }
     
-    @objc func handleDateTypeClick(sender: UIButton){
-        // Create the picker:
+    func createConfirmBtn() {
+        // Create confirmation button:
+        confirmBtn = UIButton(type: .system)
+        confirmBtn.setTitle("Confirm", for: .normal)
+        confirmBtn.addTarget(self, action: #selector(handleConfirmationBtnClick(sender:)), for: .touchUpInside)
+    }
+    
+    func createPicker(forTag: Int) {
         let typePicker = UIPickerView()
         typePicker.center = view.center
         typePicker.dataSource = self
         typePicker.delegate = self
         typePicker.backgroundColor = UIColor.lightText
-        typePicker.tag = 0
         pickerContainer.addSubview(typePicker)
         
-        // Create confirmation button:
-        let confirmBtn = UIButton(type: .system)
         confirmBtn.frame = CGRect(x: 0, y: typePicker.frame.maxY, width: view.frame.width, height: 30)
-        confirmBtn.setTitle("Confirm", for: .normal)
-        confirmBtn.addTarget(self, action: #selector(handleConfirmationBtnClick(sender:)), for: .touchUpInside)
         pickerContainer.addSubview(confirmBtn)
-        
         view.addSubview(pickerContainer)
+    }
+    
+    @objc func handleDateTypeClick(sender: UIButton){
+        // Create the picker:
+        createPicker(forTag: 0)
     }
     
     @objc func handlePersonTypeClick(sender: UIButton){
         // Create the picker:
-        let typePicker = UIPickerView()
-        typePicker.center = view.center
-        typePicker.dataSource = self
-        typePicker.delegate = self
-        typePicker.backgroundColor = UIColor.lightText
-        typePicker.tag = 1
-        pickerContainer.addSubview(typePicker)
-        
-        // Create confirmation button:
-        let confirmBtn = UIButton(type: .system)
-        confirmBtn.frame = CGRect(x: 0, y: typePicker.frame.maxY, width: view.frame.width, height: 30)
-        confirmBtn.setTitle("Confirm", for: .normal)
-        confirmBtn.addTarget(self, action: #selector(handleConfirmationBtnClick(sender:)), for: .touchUpInside)
-        pickerContainer.addSubview(confirmBtn)
-        
-        view.addSubview(pickerContainer)
+        createPicker(forTag: 1)
     }
     
     @objc func handleConfirmationBtnClick(sender: UIButton){
@@ -92,7 +86,7 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
             let typePicker = pickerContainer.subviews[0] as! UIPickerView
             let choice = typePicker.selectedRow(inComponent: 0)
             
-            // array of all type strings, this way we can use this in titleForRow
+            // array of all type strings, this way we can use this in titleForRow + selected row
         }
         
         // Restart container.
