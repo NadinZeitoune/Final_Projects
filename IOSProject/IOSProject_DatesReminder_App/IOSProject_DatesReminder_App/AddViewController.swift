@@ -48,6 +48,12 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
         dateType.addSubview(label)
         view.addSubview(dateType)
     }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        // Open autometiclly the dateTypePicker
+        handleDateTypeClick(sender: dateType)
+    }
     
     func createConfirmBtn() {
         // Create confirmation button:
@@ -86,7 +92,7 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
             let typePicker = pickerContainer.subviews[0] as! UIPickerView
             let choice = typePicker.selectedRow(inComponent: 0)
             
-            // array of all type strings, this way we can use this in titleForRow + selected row
+            // array of all type strings, this way we can use this in titleForRow + selected row?????
         }
         
         // Restart container.
