@@ -9,7 +9,6 @@
 import UIKit
 
 class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate{
-    
     let margin: CGFloat = 10
     
     var pickerContainer: UIView!
@@ -27,6 +26,7 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
     // check boxs - does notify heb /+ greg ?
 
     var addEventBtn: UIButton!
+    var exitBtn: UIButton!
     var newEvent: Event!
     
     override func viewDidLoad() {
@@ -34,7 +34,7 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
         
         initScreen()
         
-        pickerContainer = UIView(frame: view.frame)
+        createPickerContainer()
         
         createConfirmBtn()
     }
@@ -58,6 +58,14 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
         title.adjustsFontSizeToFitWidth = true
         title.center.x = view.center.x
         view.addSubview(title)
+        
+        // Exit button:
+        exitBtn = UIButton(type: .roundedRect)
+        exitBtn.frame = CGRect(x: view.frame.maxX - 20, y: title.center.y, width: 20, height: 20)
+        exitBtn.setTitle("X", for: .normal)
+        exitBtn.titleLabel?.font = UIFont.boldSystemFont(ofSize: 22)
+        exitBtn.addTarget(self, action: #selector(handleExitBtnClick(sender:)), for: .touchUpInside)
+        view.addSubview(exitBtn)
         
         // Date type:
         dateType = UIButton(frame: CGRect(x: 0, y: title.frame.maxY + margin, width: view.frame.width, height: 30))
@@ -93,19 +101,26 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
         newEvent = Event()
     }
     
+    func createPickerContainer(){
+        pickerContainer = UIView(frame: view.frame)
+        pickerContainer.backgroundColor = UIColor.gray.withAlphaComponent(0.75)
+    }
+    
     func createConfirmBtn() {
         // Create confirmation button:
         confirmBtn = UIButton(type: .system)
         confirmBtn.setTitle("Confirm", for: .normal)
+        confirmBtn.titleLabel?.backgroundColor = UIColor.lightText
+        confirmBtn.titleLabel?.font = UIFont.boldSystemFont(ofSize: 22)
         confirmBtn.addTarget(self, action: #selector(handleConfirmationBtnClick(sender:)), for: .touchUpInside)
     }
     
     func createPicker(forTag: Int, goToRow: Int) {
         let typePicker = UIPickerView()
-        typePicker.center = view.center
+        typePicker.center = pickerContainer.center
+        typePicker.backgroundColor = UIColor.lightText
         typePicker.dataSource = self
         typePicker.delegate = self
-        typePicker.backgroundColor = UIColor.lightText
         typePicker.tag = forTag
         typePicker.selectRow(goToRow, inComponent: 0, animated: false)
         pickerContainer.addSubview(typePicker)
@@ -169,6 +184,10 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
         field.borderStyle = .roundedRect
     }
     
+    @objc func handleExitBtnClick(sender: UIButton){
+        present(ViewController(), animated: true, completion: nil)
+    }
+    
     @objc func handleDateTypeClick(sender: UIButton){
         // Create the picker:
         let row = sender.subviews[sender.subviews.count - 1] as! UILabel
@@ -211,7 +230,7 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
         }
         
         // Restart container.
-        pickerContainer = UIView(frame: pickerContainer.frame)
+        createPickerContainer()
     }
     
     //!!

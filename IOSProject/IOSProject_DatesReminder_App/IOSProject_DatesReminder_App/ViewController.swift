@@ -16,6 +16,7 @@ class ViewController: UIViewController{
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = UIColor.white
         
         // If there is a file- load data for the tableView(global) and put it in the array.
         datesDataSource = DatesDataSource()
