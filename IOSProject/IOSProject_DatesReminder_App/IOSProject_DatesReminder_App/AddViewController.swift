@@ -86,6 +86,7 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
         namesTitle.adjustsFontSizeToFitWidth = true
         namesView.addSubview(namesTitle)
         let firstName = UITextField(frame: CGRect(x: namesTitle.frame.maxX + margin, y: 0, width: (namesView.frame.width - namesTitle.frame.width) / 2.5, height: 30))
+        styleNameTextField(firstName)
         names.append(firstName)
         
         // Event:
@@ -128,10 +129,11 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
         }
     }
     
-    //!!
     func changeNamesCount(){
-        let delimiterWidth = names[0].frame.width
-        let nameDelimiter = UILabel(frame: CGRect(x: names[0].frame.maxX + margin, y: 0, width: delimiterWidth, height: 30))
+        let nameDelimiter = UILabel(frame: CGRect(x: names[0].frame.maxX, y: 0, width: 0, height: 30))
+        nameDelimiter.text = " & "
+        nameDelimiter.font = UIFont.boldSystemFont(ofSize: 24)
+        nameDelimiter.sizeToFit()
         
         if names.count == 2{
             if newEvent.dateType! != .wedding{
@@ -139,8 +141,16 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
             }
         }else{
             if newEvent.dateType! == .wedding{
-                names.append(UITextField(frame: CGRect(x: nameDelimiter.frame.maxX + margin, y: 0, width: names[0].frame.width, height: 30)))
+                names.append(UITextField(frame: CGRect(x: nameDelimiter.frame.maxX, y: 0, width: names[0].frame.width, height: 30)))
+                styleNameTextField(names[names.count - 1])
             }
+        }
+        
+        // Reset namesView
+        var subviewNum = namesView.subviews.count
+        while subviewNum > 1{
+            namesView.subviews[subviewNum - 1].removeFromSuperview()
+            subviewNum -= 1
         }
         
         namesView.addSubview(names[0])
@@ -153,6 +163,10 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
         
         // Show on screen the text fields
         view.addSubview(namesView)
+    }
+    
+    func styleNameTextField(_ field: UITextField) {
+        field.borderStyle = .roundedRect
     }
     
     @objc func handleDateTypeClick(sender: UIButton){
@@ -198,6 +212,13 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
         
         // Restart container.
         pickerContainer = UIView(frame: pickerContainer.frame)
+    }
+    
+    //!!
+    @objc func handleAddEventBtnClick(sender: UIButton){
+        // put all details we have in newEvent
+        // connect to API to get all details.
+        // Put new details in newEvent
     }
     
     // Picker view- DataSource & Delegate
