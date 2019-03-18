@@ -10,10 +10,24 @@ import UIKit
 
 class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate{
     
+    let margin: CGFloat = 10
+    
     var pickerContainer: UIView!
-    var dateType: UIButton!
     var confirmBtn: UIButton!
     
+    var dateType: UIButton!
+    var isFirstTimeDatePickerShowed = true
+    
+    var namesView: UIView!
+    var names: [UITextField] = []
+    
+    //var gregDate: ?כפתור רדיו עם צ׳ק בוקס
+    //var hebDate: ?כפתור רדיו עם צ׳ק בוקס
+    var personType: UIButton!
+    // check boxs - does notify heb /+ greg ?
+
+    var addEventBtn: UIButton!
+    var newEvent: Event!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,6 +39,14 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
         createConfirmBtn()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        // Open autometiclly the dateTypePicker
+        handleDateTypeClick(sender: dateType)
+    }
+    
+    //!!
     func initScreen() {
         view.backgroundColor = UIColor.white
         
@@ -38,21 +60,36 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
         view.addSubview(title)
         
         // Date type:
-        dateType = UIButton(frame: CGRect(x: 0, y: title.frame.maxY + 10, width: view.frame.width, height: 30))
-        let label = UILabel(frame: CGRect(x: 0, y: 0, width: 0, height: 30))
-        label.text = "Date type: "
-        label.font = UIFont.boldSystemFont(ofSize: 20)
-        label.sizeToFit()
-        label.adjustsFontSizeToFitWidth = true
-        dateType.addTarget(self, action: #selector(handleDateTypeClick(sender:)), for: .touchUpInside)
-        dateType.addSubview(label)
-        view.addSubview(dateType)
-    }
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+        dateType = UIButton(frame: CGRect(x: 0, y: title.frame.maxY + margin, width: view.frame.width, height: 30))
         
-        // Open autometiclly the dateTypePicker
-        handleDateTypeClick(sender: dateType)
+        let dateTitle = UILabel(frame: CGRect(x: 0, y: 0, width: 0, height: 30))
+        dateTitle.text = "Date type: "
+        dateTitle.font = UIFont.boldSystemFont(ofSize: 22)
+        dateTitle.sizeToFit()
+        dateTitle.adjustsFontSizeToFitWidth = true
+        dateType.addTarget(self, action: #selector(handleDateTypeClick(sender:)), for: .touchUpInside)
+        dateType.addSubview(dateTitle)
+        
+        let datePick = UILabel(frame: CGRect(x: dateTitle.frame.maxX + margin, y: 2, width: 0, height: 30))
+        datePick.tag = 0
+        dateType.addSubview(datePick)
+        
+        view.addSubview(dateType)
+        
+        // Names view:
+        namesView = UIView(frame: CGRect(x: 0, y: dateType.frame.maxY + margin, width: view.frame.width, height: 30))
+        
+        let namesTitle = UILabel(frame: CGRect(x: 0, y: 0, width: 0, height: 30))
+        namesTitle.text = "Name: "
+        namesTitle.font = UIFont.boldSystemFont(ofSize: 22)
+        namesTitle.sizeToFit()
+        namesTitle.adjustsFontSizeToFitWidth = true
+        namesView.addSubview(namesTitle)
+        let firstName = UITextField(frame: CGRect(x: namesTitle.frame.maxX + margin, y: 0, width: (namesView.frame.width - namesTitle.frame.width) / 2.5, height: 30))
+        names.append(firstName)
+        
+        // Event:
+        newEvent = Event()
     }
     
     func createConfirmBtn() {
@@ -62,12 +99,14 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
         confirmBtn.addTarget(self, action: #selector(handleConfirmationBtnClick(sender:)), for: .touchUpInside)
     }
     
-    func createPicker(forTag: Int) {
+    func createPicker(forTag: Int, goToRow: Int) {
         let typePicker = UIPickerView()
         typePicker.center = view.center
         typePicker.dataSource = self
         typePicker.delegate = self
         typePicker.backgroundColor = UIColor.lightText
+        typePicker.tag = forTag
+        typePicker.selectRow(goToRow, inComponent: 0, animated: false)
         pickerContainer.addSubview(typePicker)
         
         confirmBtn.frame = CGRect(x: 0, y: typePicker.frame.maxY, width: view.frame.width, height: 30)
@@ -75,14 +114,57 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
         view.addSubview(pickerContainer)
     }
     
+    //!!
+    func initRestScreen() {
+        // Change amount of name text fields acoording to the date type.
+        changeNamesCount()
+        
+        // Init Rest of the screen.
+        if isFirstTimeDatePickerShowed {
+            isFirstTimeDatePickerShowed = false
+            
+            // Init rest of the screen
+            
+        }
+    }
+    
+    //!!
+    func changeNamesCount(){
+        let delimiterWidth = names[0].frame.width
+        let nameDelimiter = UILabel(frame: CGRect(x: names[0].frame.maxX + margin, y: 0, width: delimiterWidth, height: 30))
+        
+        if names.count == 2{
+            if newEvent.dateType! != .wedding{
+                names.remove(at: names.count - 1)
+            }
+        }else{
+            if newEvent.dateType! == .wedding{
+                names.append(UITextField(frame: CGRect(x: nameDelimiter.frame.maxX + margin, y: 0, width: names[0].frame.width, height: 30)))
+            }
+        }
+        
+        namesView.addSubview(names[0])
+        
+        // If there is two text fields.
+        if names.count == 2{
+            namesView.addSubview(nameDelimiter)
+            namesView.addSubview(names[1])
+        }
+        
+        // Show on screen the text fields
+        view.addSubview(namesView)
+    }
+    
     @objc func handleDateTypeClick(sender: UIButton){
         // Create the picker:
-        createPicker(forTag: 0)
+        let row = sender.subviews[sender.subviews.count - 1] as! UILabel
+        createPicker(forTag: 0, goToRow: row.tag)
     }
     
     @objc func handlePersonTypeClick(sender: UIButton){
         // Create the picker:
-        createPicker(forTag: 1)
+        let row = sender.subviews[sender.subviews.count - 1] as! UILabel
+        createPicker(forTag: 1, goToRow: row.tag)
     }
     
     @objc func handleConfirmationBtnClick(sender: UIButton){
@@ -91,8 +173,27 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
         if pickerContainer.subviews[0] is UIPickerView {
             let typePicker = pickerContainer.subviews[0] as! UIPickerView
             let choice = typePicker.selectedRow(inComponent: 0)
+            let typeLabel: UILabel
             
-            // array of all type strings, this way we can use this in titleForRow + selected row?????
+            // DateType picker.
+            if typePicker.tag == 0{
+                typeLabel = dateType.subviews[dateType.subviews.count - 1] as! UILabel
+                typeLabel.text = Event.dateTypes[choice].rawValue
+                newEvent.dateType = Event.dateTypes[choice]
+                
+                initRestScreen()
+            }
+            // PersonType picker.
+            else{
+                typeLabel = personType.subviews[personType.subviews.count - 1] as! UILabel
+                typeLabel.text = Event.personTypes[choice].rawValue
+                newEvent.personType = Event.personTypes[choice]
+            }
+            
+            typeLabel.tag = choice
+            typeLabel.font = UIFont.boldSystemFont(ofSize: 20)
+            typeLabel.sizeToFit()
+            typeLabel.adjustsFontSizeToFitWidth = true
         }
         
         // Restart container.
@@ -104,10 +205,10 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
         return 1
     }
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return pickerView.tag == 0 ? 4 : 4 //   ? date type : person type
+        return pickerView.tag == 0 ? Event.dateTypes.count : Event.personTypes.count
     }
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        switch row {
+        /*switch row {
             case 0:
                 return pickerView.tag == 0 ? DateType.birthday.rawValue : PersonType.family.rawValue
             case 1:
@@ -118,6 +219,7 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
                 return pickerView.tag == 0 ? DateType.anniversary.rawValue : PersonType.differant.rawValue
             default:
                 return ""
-        }
+        }*/
+        return pickerView.tag == 0 ? Event.dateTypes[row].rawValue : Event.personTypes[row].rawValue
     }
 }

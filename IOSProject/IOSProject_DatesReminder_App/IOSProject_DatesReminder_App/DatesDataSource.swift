@@ -12,20 +12,20 @@ class DatesDataSource: NSObject, UITableViewDataSource {
     
     let months: [String] = ["January","February","March","April","May","June","July","August","September","October","November","December"]
     
+    //!!
     var dates: [Event]!
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return months.count
     }
     
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // check the number of dates belong to this month
+        // check the number of dates belong to this month !!
         return 2
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        // need improvment
+        // need improvment !!
         return UITableViewCell(frame: CGRect(x: 0, y: 0, width: 5, height: 5))
     }
     

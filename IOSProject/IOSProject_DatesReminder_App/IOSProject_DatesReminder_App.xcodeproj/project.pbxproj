@@ -14,10 +14,10 @@
 		6DE6AE35222D03790021659B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6DE6AE33222D03790021659B /* Main.storyboard */; };
 		6DE6AE37222D037B0021659B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6DE6AE36222D037B0021659B /* Assets.xcassets */; };
 		6DE6AE3A222D037B0021659B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6DE6AE38222D037B0021659B /* LaunchScreen.storyboard */; };
-		6DE6AE45222D088F0021659B /* balloons.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DE6AE41222D088F0021659B /* balloons.png */; };
-		6DE6AE47222D088F0021659B /* tombstone.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DE6AE43222D088F0021659B /* tombstone.png */; };
-		6DE6AE48222D088F0021659B /* calendar.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DE6AE44222D088F0021659B /* calendar.png */; };
-		6DE6AE4A222D092F0021659B /* wedding.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DE6AE49222D092F0021659B /* wedding.png */; };
+		6DE6AE45222D088F0021659B /* Birthday.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DE6AE41222D088F0021659B /* Birthday.png */; };
+		6DE6AE47222D088F0021659B /* DeathDay.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DE6AE43222D088F0021659B /* DeathDay.png */; };
+		6DE6AE48222D088F0021659B /* Anniversary.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DE6AE44222D088F0021659B /* Anniversary.png */; };
+		6DE6AE4A222D092F0021659B /* Wedding.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DE6AE49222D092F0021659B /* Wedding.png */; };
 		6DE6AE6A222D53870021659B /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DE6AE69222D53870021659B /* Event.swift */; };
 /* End PBXBuildFile section */
 
@@ -31,10 +31,10 @@
 		6DE6AE36222D037B0021659B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6DE6AE39222D037B0021659B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6DE6AE3B222D037B0021659B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		6DE6AE41222D088F0021659B /* balloons.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = balloons.png; sourceTree = "<group>"; };
-		6DE6AE43222D088F0021659B /* tombstone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tombstone.png; sourceTree = "<group>"; };
-		6DE6AE44222D088F0021659B /* calendar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = calendar.png; sourceTree = "<group>"; };
-		6DE6AE49222D092F0021659B /* wedding.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wedding.png; sourceTree = "<group>"; };
+		6DE6AE41222D088F0021659B /* Birthday.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Birthday.png; sourceTree = "<group>"; };
+		6DE6AE43222D088F0021659B /* DeathDay.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DeathDay.png; sourceTree = "<group>"; };
+		6DE6AE44222D088F0021659B /* Anniversary.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Anniversary.png; sourceTree = "<group>"; };
+		6DE6AE49222D092F0021659B /* Wedding.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Wedding.png; sourceTree = "<group>"; };
 		6DE6AE69222D53870021659B /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -68,10 +68,10 @@
 		6DE6AE2E222D03790021659B /* IOSProject_DatesReminder_App */ = {
 			isa = PBXGroup;
 			children = (
-				6DE6AE41222D088F0021659B /* balloons.png */,
-				6DE6AE44222D088F0021659B /* calendar.png */,
-				6DE6AE43222D088F0021659B /* tombstone.png */,
-				6DE6AE49222D092F0021659B /* wedding.png */,
+				6DE6AE41222D088F0021659B /* Birthday.png */,
+				6DE6AE44222D088F0021659B /* Anniversary.png */,
+				6DE6AE43222D088F0021659B /* DeathDay.png */,
+				6DE6AE49222D092F0021659B /* Wedding.png */,
 				6DE6AE2F222D03790021659B /* AppDelegate.swift */,
 				6DE6AE31222D03790021659B /* ViewController.swift */,
 				6DCDF139223670F800C72F0B /* AddViewController.swift */,
@@ -143,13 +143,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6DE6AE4A222D092F0021659B /* wedding.png in Resources */,
-				6DE6AE48222D088F0021659B /* calendar.png in Resources */,
+				6DE6AE4A222D092F0021659B /* Wedding.png in Resources */,
+				6DE6AE48222D088F0021659B /* Anniversary.png in Resources */,
 				6DE6AE3A222D037B0021659B /* LaunchScreen.storyboard in Resources */,
-				6DE6AE45222D088F0021659B /* balloons.png in Resources */,
+				6DE6AE45222D088F0021659B /* Birthday.png in Resources */,
 				6DE6AE37222D037B0021659B /* Assets.xcassets in Resources */,
 				6DE6AE35222D03790021659B /* Main.storyboard in Resources */,
-				6DE6AE47222D088F0021659B /* tombstone.png in Resources */,
+				6DE6AE47222D088F0021659B /* DeathDay.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

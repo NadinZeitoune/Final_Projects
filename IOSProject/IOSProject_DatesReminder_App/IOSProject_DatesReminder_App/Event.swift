@@ -9,6 +9,9 @@
 import Foundation
 
 class Event {
+    static let dateTypes: [DateType] = [DateType.birthday, DateType.wedding, DateType.deathDay, DateType.anniversary]
+    static let personTypes: [PersonType] = [PersonType.family, PersonType.friends, PersonType.coWorkers, PersonType.differant]
+    
     var dateType: DateType!
     var names: [String] = ["",""]
     // var gregorianDate:
@@ -22,15 +25,15 @@ class Event {
 }
 
 enum DateType: String{
-    case birthday = "balloons"
-    case wedding = "wedding"
-    case deathDay = "tombstone"
-    case anniversary = "calendar" // == Else?
+    case birthday = "Birthday"
+    case wedding = "Wedding"
+    case deathDay = "DeathDay"
+    case anniversary = "Anniversary" // == Else?
 }
 
 enum PersonType: String{
-    case family = "family"
-    case friends = "friends"
-    case coWorkers = "co-Workers"
-    case differant = "differant"
+    case family = "Family"
+    case friends = "Friends"
+    case coWorkers = "Co-Workers"
+    case differant = "Differant"
 }

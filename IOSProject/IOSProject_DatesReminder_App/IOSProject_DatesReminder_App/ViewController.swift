@@ -19,7 +19,6 @@ class ViewController: UIViewController{
         
         // If there is a file- load data for the tableView(global) and put it in the array.
         datesDataSource = DatesDataSource()
-        
         initScreen()
     }
 
