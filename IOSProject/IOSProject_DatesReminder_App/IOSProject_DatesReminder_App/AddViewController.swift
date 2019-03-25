@@ -20,8 +20,11 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
     var namesView: UIView!
     var names: [UITextField] = []
     
-    //var gregDate: ?כפתור רדיו עם צ׳ק בוקס
-    //var hebDate: ?כפתור רדיו עם צ׳ק בוקס
+    var dateSeg: UISegmentedControl!
+    var dateBtn: UIButton!
+    var datePick: UIDatePicker!
+    var isGregDateEve: UISwitch!
+    
     var personType: UIButton!
     // check boxs - does notify heb /+ greg ?
 
@@ -139,9 +142,42 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
         if isFirstTimeDatePickerShowed {
             isFirstTimeDatePickerShowed = false
             
-            // Init rest of the screen
+            createDateSegAndBtn()
             
         }
+    }
+    
+    func createDateSegAndBtn(){
+        // Create segmented controll.
+        dateSeg = UISegmentedControl(items: ["Gregorian date","Hebrew date"])
+        dateSeg.frame.origin.y = namesView.frame.maxY + margin
+        dateSeg.center.x = view.center.x
+        dateSeg.addTarget(self, action: #selector(handleDateSegChanged(sender:)), for: .valueChanged)
+        view.addSubview(dateSeg)
+        
+        // Create button to open the picker.
+        dateBtn = UIButton(type: .system)
+        dateBtn.frame = CGRect(x: 0, y: dateSeg.frame.maxY + margin, width: 0, height: 30)
+        dateBtn.setTitle("Date:", for: .normal)
+        dateBtn.sizeToFit()
+        dateBtn.titleLabel?.adjustsFontSizeToFitWidth = true
+        dateBtn.addTarget(self, action: #selector(handleDateBtnClick(sender:)), for: .touchUpInside)
+        view.addSubview(dateBtn)
+        
+        // Create picker.
+        datePick = UIDatePicker()
+        datePick.datePickerMode = .date
+        datePick.frame.origin.y = dateSeg.frame.maxY + margin
+        datePick.center.x = view.center.x
+        datePick.backgroundColor = UIColor.gray
+        let confirm = UIButton(type: .system)
+        confirm.setTitle("Confirm", for: .normal)
+        confirm.frame = CGRect(x: 0, y: datePick.frame.maxY, width: 50, height: 30)
+        // I'm here - need to add target & change Y frame
+        datePick.addSubview(confirm)
+        
+        dateSeg.selectedSegmentIndex = 0
+        handleDateSegChanged(sender: dateSeg)
     }
     
     func changeNamesCount(){
@@ -184,8 +220,27 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
         field.borderStyle = .roundedRect
     }
     
+    @objc func handleDateBtnClick(sender: UIButton){
+        view.addSubview(datePick)
+    }
+    
+    @objc func handleDateSegChanged(sender: UISegmentedControl){
+        switch sender.selectedSegmentIndex {
+            case 0: // Gregorian choice.
+                datePick.calendar = Calendar.init(identifier: Calendar.Identifier.gregorian)
+            
+            case 1: // Hebrew choice.
+                datePick.calendar = Calendar.init(identifier: Calendar.Identifier.hebrew)
+            
+            default:
+                break
+        }
+    }
+    
     @objc func handleExitBtnClick(sender: UIButton){
-        present(ViewController(), animated: true, completion: nil)
+        
+        dismiss(animated: true, completion: nil)
+        //present(ViewController(), animated: true, completion: nil)
     }
     
     @objc func handleDateTypeClick(sender: UIButton){
@@ -236,7 +291,7 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
     //!!
     @objc func handleAddEventBtnClick(sender: UIButton){
         // put all details we have in newEvent
-        // connect to API to get all details.
+        // connect to API to get missing details.
         // Put new details in newEvent
     }
     
