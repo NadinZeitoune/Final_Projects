@@ -125,7 +125,7 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
         typePicker.selectRow(goToRow, inComponent: 0, animated: false)
         pickerContainer.addSubview(typePicker)
         
-        confirmBtn.frame = CGRect(x: 0, y: typePicker.frame.maxY, width: view.frame.width, height: 30)
+        confirmBtn.frame = CGRect(x: 0, y: typePicker.frame.maxY - 2, width: view.frame.width, height: 30)
         pickerContainer.addSubview(confirmBtn)
         view.addSubview(pickerContainer)
     }
