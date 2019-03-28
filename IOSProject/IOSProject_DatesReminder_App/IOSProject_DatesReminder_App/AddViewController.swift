@@ -23,9 +23,14 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
     var dateSeg: UISegmentedControl!
     var dateBtn: UIButton!
     var datePick: UIDatePicker!
-    var isGregDateEve: UISwitch!
+    var tagDate: Date = Date()
+    var isGregDate = true // to know which date selected
+    
+    var isGregAfterSundown: UISwitch!
+    var isHebBeforeMidnight: UISwitch!
     
     var personType: UIButton!
+    
     // check boxs - does notify heb /+ greg ?
 
     var addEventBtn: UIButton!
@@ -34,7 +39,6 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         initScreen()
         
         createPickerContainer()
@@ -73,11 +77,8 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
         // Date type:
         dateType = UIButton(frame: CGRect(x: 0, y: title.frame.maxY + margin, width: view.frame.width, height: 30))
         
-        let dateTitle = UILabel(frame: CGRect(x: 0, y: 0, width: 0, height: 30))
-        dateTitle.text = "Date type: "
-        dateTitle.font = UIFont.boldSystemFont(ofSize: 22)
-        dateTitle.sizeToFit()
-        dateTitle.adjustsFontSizeToFitWidth = true
+        var dateTitle = UILabel(frame: CGRect(x: 0, y: 0, width: 0, height: 30))
+        dateTitle = styleLabel(dateTitle, withTitle: "Date type: ")
         dateType.addTarget(self, action: #selector(handleDateTypeClick(sender:)), for: .touchUpInside)
         dateType.addSubview(dateTitle)
         
@@ -90,11 +91,8 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
         // Names view:
         namesView = UIView(frame: CGRect(x: 0, y: dateType.frame.maxY + margin, width: view.frame.width, height: 30))
         
-        let namesTitle = UILabel(frame: CGRect(x: 0, y: 0, width: 0, height: 30))
-        namesTitle.text = "Name: "
-        namesTitle.font = UIFont.boldSystemFont(ofSize: 22)
-        namesTitle.sizeToFit()
-        namesTitle.adjustsFontSizeToFitWidth = true
+        var namesTitle = UILabel(frame: CGRect(x: 0, y: 0, width: 0, height: 30))
+        namesTitle = styleLabel(namesTitle, withTitle: "Name: ")
         namesView.addSubview(namesTitle)
         let firstName = UITextField(frame: CGRect(x: namesTitle.frame.maxX + margin, y: 0, width: (namesView.frame.width - namesTitle.frame.width) / 2.5, height: 30))
         styleNameTextField(firstName)
@@ -118,17 +116,44 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
         confirmBtn.addTarget(self, action: #selector(handleConfirmationBtnClick(sender:)), for: .touchUpInside)
     }
     
-    func createPicker(forTag: Int, goToRow: Int) {
-        let typePicker = UIPickerView()
-        typePicker.center = pickerContainer.center
-        typePicker.backgroundColor = UIColor.lightText
-        typePicker.dataSource = self
-        typePicker.delegate = self
-        typePicker.tag = forTag
-        typePicker.selectRow(goToRow, inComponent: 0, animated: false)
-        pickerContainer.addSubview(typePicker)
+    func createPicker(forTag: Int, goToRow: Any) {
+        // Date picker:
+        if goToRow is Date{
+            let date = goToRow as! Date
+            
+            // Create picker.
+            datePick = UIDatePicker()
+            datePick.tag = forTag
+            datePick.datePickerMode = .date
+            datePick.center = pickerContainer.center
+            datePick.backgroundColor = UIColor.lightText
+            datePick.setDate(date, animated: false)
+            pickerContainer.addSubview(datePick)
+            
+            // Create segmented controll.
+            dateSeg = UISegmentedControl(items: ["Gregorian date","Hebrew date"])
+            dateSeg.frame.origin.y = datePick.frame.minY - dateSeg.frame.height
+            dateSeg.center.x = pickerContainer.center.x
+            dateSeg.addTarget(self, action: #selector(handleDateSegChanged(sender:)), for: .valueChanged)
+            dateSeg.selectedSegmentIndex = 0
+            handleDateSegChanged(sender: dateSeg)
+            pickerContainer.addSubview(dateSeg)
+            
+            confirmBtn.frame = CGRect(x: 0, y: datePick.frame.maxY - 2, width: view.frame.width, height: 30)
+        }else{
+            let row = goToRow as! Int
+            let typePicker = UIPickerView()
+            typePicker.center = pickerContainer.center
+            typePicker.backgroundColor = UIColor.lightText
+            typePicker.dataSource = self
+            typePicker.delegate = self
+            typePicker.tag = forTag
+            typePicker.selectRow(row, inComponent: 0, animated: false)
+            pickerContainer.addSubview(typePicker)
+            
+            confirmBtn.frame = CGRect(x: 0, y: typePicker.frame.maxY - 2, width: view.frame.width, height: 30)
+        }
         
-        confirmBtn.frame = CGRect(x: 0, y: typePicker.frame.maxY - 2, width: view.frame.width, height: 30)
         pickerContainer.addSubview(confirmBtn)
         view.addSubview(pickerContainer)
     }
@@ -142,42 +167,21 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
         if isFirstTimeDatePickerShowed {
             isFirstTimeDatePickerShowed = false
             
-            createDateSegAndBtn()
+            createDateBtn()
             
         }
     }
     
-    func createDateSegAndBtn(){
-        // Create segmented controll.
-        dateSeg = UISegmentedControl(items: ["Gregorian date","Hebrew date"])
-        dateSeg.frame.origin.y = namesView.frame.maxY + margin
-        dateSeg.center.x = view.center.x
-        dateSeg.addTarget(self, action: #selector(handleDateSegChanged(sender:)), for: .valueChanged)
-        view.addSubview(dateSeg)
-        
-        // Create button to open the picker.
-        dateBtn = UIButton(type: .system)
-        dateBtn.frame = CGRect(x: 0, y: dateSeg.frame.maxY + margin, width: 0, height: 30)
-        dateBtn.setTitle("Date:", for: .normal)
-        dateBtn.sizeToFit()
-        dateBtn.titleLabel?.adjustsFontSizeToFitWidth = true
+    func createDateBtn(){
+        // Create button to open the date picker.
+        dateBtn = UIButton(frame: CGRect(x: 0, y: namesView.frame.maxY + margin, width: view.frame.width, height: 30))
+        var dateTitle = UILabel(frame: CGRect(x: 0, y: 0, width: 0, height: 30))
+        dateTitle = styleLabel(dateTitle, withTitle: "Date: ")
+        dateBtn.addSubview(dateTitle)
         dateBtn.addTarget(self, action: #selector(handleDateBtnClick(sender:)), for: .touchUpInside)
+        let datePick = UILabel(frame: CGRect(x: dateTitle.frame.maxX + margin, y: 2, width: 0, height: 30))
+        dateBtn.addSubview(datePick)
         view.addSubview(dateBtn)
-        
-        // Create picker.
-        datePick = UIDatePicker()
-        datePick.datePickerMode = .date
-        datePick.frame.origin.y = dateSeg.frame.maxY + margin
-        datePick.center.x = view.center.x
-        datePick.backgroundColor = UIColor.gray
-        let confirm = UIButton(type: .system)
-        confirm.setTitle("Confirm", for: .normal)
-        confirm.frame = CGRect(x: 0, y: datePick.frame.maxY, width: 50, height: 30)
-        // I'm here - need to add target & change Y frame
-        datePick.addSubview(confirm)
-        
-        dateSeg.selectedSegmentIndex = 0
-        handleDateSegChanged(sender: dateSeg)
     }
     
     func changeNamesCount(){
@@ -220,18 +224,36 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
         field.borderStyle = .roundedRect
     }
     
+    func styleLabel(_ label: UILabel, withTitle title: String) -> UILabel{
+        label.text = title
+        label.font = UIFont.boldSystemFont(ofSize: 22)
+        label.sizeToFit()
+        label.adjustsFontSizeToFitWidth = true
+        
+        return label
+    }
+    
+    func generateStringFromDate() -> String{
+        let calendar = datePick.calendar
+        let date = datePick.date
+        let formatter = DateFormatter()
+        formatter.dateStyle = DateFormatter.Style.short
+        formatter.calendar = calendar
+        return formatter.string(from: date)
+    }
+    
     @objc func handleDateBtnClick(sender: UIButton){
-        view.addSubview(datePick)
+        createPicker(forTag: 3, goToRow: tagDate)
     }
     
     @objc func handleDateSegChanged(sender: UISegmentedControl){
         switch sender.selectedSegmentIndex {
             case 0: // Gregorian choice.
                 datePick.calendar = Calendar.init(identifier: Calendar.Identifier.gregorian)
-            
+                isGregDate = true
             case 1: // Hebrew choice.
                 datePick.calendar = Calendar.init(identifier: Calendar.Identifier.hebrew)
-            
+                isGregDate = false
             default:
                 break
         }
@@ -282,6 +304,17 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
             typeLabel.font = UIFont.boldSystemFont(ofSize: 20)
             typeLabel.sizeToFit()
             typeLabel.adjustsFontSizeToFitWidth = true
+        }
+        // Date picker:
+        else if(pickerContainer.subviews[0] is UIDatePicker){
+            let dateLabel: UILabel
+            tagDate = datePick.date
+            
+            dateLabel = dateBtn.subviews[dateBtn.subviews.count - 1] as! UILabel
+            dateLabel.text = generateStringFromDate()
+            dateLabel.font = UIFont.boldSystemFont(ofSize: 20)
+            dateLabel.sizeToFit()
+            dateLabel.adjustsFontSizeToFitWidth = true
         }
         
         // Restart container.

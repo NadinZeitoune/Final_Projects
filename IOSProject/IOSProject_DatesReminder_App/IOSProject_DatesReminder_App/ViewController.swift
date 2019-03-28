@@ -8,11 +8,12 @@
 
 import UIKit
 
-class ViewController: UIViewController{
+class ViewController: UIViewController, UITableViewDelegate{
     
     var datesList: UITableView!
     var addDateBtn: UIButton!
     var datesDataSource: DatesDataSource!
+    var actionSheet: UIAlertController!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,6 +22,7 @@ class ViewController: UIViewController{
         // If there is a file- load data for the tableView(global) and put it in the array.
         datesDataSource = DatesDataSource()
         initScreen()
+        createActionSheet()
     }
 
     func initScreen(){
@@ -37,7 +39,7 @@ class ViewController: UIViewController{
         datesList = UITableView(frame: CGRect(x: 0, y: title.frame.maxY + 10, width: view.frame.width, height: view.frame.height - title.frame.height - 10), style: .grouped)
         datesList.sectionFooterHeight = 0
         datesList.dataSource = datesDataSource
-        //datesList.delegate =
+        datesList.delegate = self
         view.addSubview(datesList)
         
         // Create add btn:
@@ -48,8 +50,53 @@ class ViewController: UIViewController{
         view.addSubview(addDateBtn)
     }
     
+    func createActionSheet(){
+        actionSheet = UIAlertController(title: "Please choose what to do", message: nil, preferredStyle: .actionSheet)
+        
+        let actionCancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        actionSheet.addAction(actionCancel)
+        
+        let actionShow = UIAlertAction(title: "Show event", style: .default) { (action: UIAlertAction) in // !!
+            // Open new screen with the details shows nice.
+            // Edit btn -> open exactly the same as actionEdit.
+            // Delete btn -> exactly as actionDelete.
+        }
+        actionSheet.addAction(actionShow)
+        
+        let actionEdit = UIAlertAction(title: "Edit event", style: .default) { (action: UIAlertAction) in // !!
+            // Open editing screen with all the details
+            // Exit btn -> delete changes
+            // Save btn -> Save details (new func: change calendar, save changes to list, refresh data source)
+        }
+        actionSheet.addAction(actionEdit)
+        
+        let actionDelete = UIAlertAction(title: "Delete event", style: .destructive) { (action: UIAlertAction) in
+            
+            let confirmationAlert = UIAlertController(title: "Are you sure?", message: "Deletion cannot be undone!", preferredStyle: .alert)
+            
+            let delete = UIAlertAction(title: "Yes", style: .destructive, handler: { (action: UIAlertAction) in //!!
+                // Delete the reminder from the calendar
+                // Delete the event from the list
+                // Refresh the data source
+            })
+            confirmationAlert.addAction(delete)
+            
+            let cancel = UIAlertAction(title: "No", style: .cancel, handler: nil)
+            confirmationAlert.addAction(cancel)
+            
+            self.present(confirmationAlert, animated: true, completion: nil)
+        }
+        actionSheet.addAction(actionDelete)
+    }
+    
     @objc func handleAddBtnClick(sender: UIButton){
         present(AddViewController(), animated: true, completion: nil)
+    }
+    
+    // TableViewDelagate:
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        // Open action sheet with three actions.
+        present(actionSheet, animated: true, completion: nil)
     }
 }
 
