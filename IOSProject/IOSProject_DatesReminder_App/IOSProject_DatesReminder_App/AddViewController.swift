@@ -15,7 +15,6 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
     var confirmBtn: UIButton!
     
     var dateType: UIButton!
-    var isFirstTimeDatePickerShowed = true
     
     var namesView: UIView!
     var names: [UITextField] = []
@@ -25,9 +24,8 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
     var datePick: UIDatePicker!
     var tagDate: Date = Date()
     var isGregDate = true // to know which date selected
-    
-    var isGregAfterSundown: UISwitch!
-    var isHebBeforeMidnight: UISwitch!
+    var isBeforeAfterDate: Bool = false
+    var isBeforeAfterView: UIView!
     
     var personType: UIButton!
     
@@ -56,6 +54,9 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
     //!!
     func initScreen() {
         view.backgroundColor = UIColor.white
+        
+        // Event:
+        newEvent = Event()
         
         // Title:
         let title = UILabel(frame: CGRect(x: 0, y: 20, width: 0, height: 0))
@@ -97,14 +98,14 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
         let firstName = UITextField(frame: CGRect(x: namesTitle.frame.maxX + margin, y: 0, width: (namesView.frame.width - namesTitle.frame.width) / 2.5, height: 30))
         styleNameTextField(firstName)
         names.append(firstName)
-        
-        // Event:
-        newEvent = Event()
+        newEvent.dateType = .birthday
+        changeNamesCount()
+        createDateBtn()
     }
     
     func createPickerContainer(){
         pickerContainer = UIView(frame: view.frame)
-        pickerContainer.backgroundColor = UIColor.gray.withAlphaComponent(0.75)
+        pickerContainer.backgroundColor = UIColor.lightGray.withAlphaComponent(0.75)
     }
     
     func createConfirmBtn() {
@@ -130,6 +131,10 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
             datePick.setDate(date, animated: false)
             pickerContainer.addSubview(datePick)
             
+            // Create switch.
+            isBeforeAfterView = createSwitchView(State: isBeforeAfterDate, WithTitle: "", AndOrigin: (0, datePick.frame.maxY + margin), WithTag: 1)
+            modifyDateSwitchView()
+            
             // Create segmented controll.
             dateSeg = UISegmentedControl(items: ["Gregorian date","Hebrew date"])
             dateSeg.frame.origin.y = datePick.frame.minY - dateSeg.frame.height
@@ -139,7 +144,7 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
             handleDateSegChanged(sender: dateSeg)
             pickerContainer.addSubview(dateSeg)
             
-            confirmBtn.frame = CGRect(x: 0, y: datePick.frame.maxY - 2, width: view.frame.width, height: 30)
+            confirmBtn.frame = CGRect(x: 0, y: isBeforeAfterView.frame.maxY + margin, width: view.frame.width, height: 30)
         }else{
             let row = goToRow as! Int
             let typePicker = UIPickerView()
@@ -151,25 +156,39 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
             typePicker.selectRow(row, inComponent: 0, animated: false)
             pickerContainer.addSubview(typePicker)
             
-            confirmBtn.frame = CGRect(x: 0, y: typePicker.frame.maxY - 2, width: view.frame.width, height: 30)
+            confirmBtn.frame = CGRect(x: 0, y: typePicker.frame.maxY + margin, width: view.frame.width, height: 30)
         }
         
         pickerContainer.addSubview(confirmBtn)
         view.addSubview(pickerContainer)
     }
     
-    //!!
-    func initRestScreen() {
-        // Change amount of name text fields acoording to the date type.
-        changeNamesCount()
+    func modifyDateSwitchView() {
+        isBeforeAfterView.center.x = pickerContainer.center.x
+        isBeforeAfterView.backgroundColor = UIColor.lightText
         
-        // Init Rest of the screen.
-        if isFirstTimeDatePickerShowed {
-            isFirstTimeDatePickerShowed = false
-            
-            createDateBtn()
-            
-        }
+        pickerContainer.addSubview(isBeforeAfterView)
+    }
+    
+    func createSwitchView(State state:Bool, WithTitle title: String, AndOrigin origin:(CGFloat, CGFloat), WithTag tag: Int) -> UIView{
+        
+        // Create text.
+        var titleLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 0, height: 30))
+        titleLabel = styleLabel(titleLabel, withTitle: title)
+        
+        // Create Switch.
+        let tempSwitch = UISwitch(frame: CGRect(x: titleLabel.frame.maxX + margin, y: 0, width: 0, height: 0))
+        tempSwitch.center.y = titleLabel.center.y
+        tempSwitch.onTintColor = UIColor.blue
+        tempSwitch.isOn = state
+        tempSwitch.tag = tag
+        
+        let height = titleLabel.frame.height >= tempSwitch.frame.height ? titleLabel.frame.height : tempSwitch.frame.height
+        let view = UIView(frame: CGRect(x: origin.0, y: origin.1, width: titleLabel.frame.width + margin + tempSwitch.frame.width, height: height))
+        
+        view.addSubview(titleLabel)
+        view.addSubview(tempSwitch)
+        return view
     }
     
     func createDateBtn(){
@@ -242,11 +261,29 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
         return formatter.string(from: date)
     }
     
+    @objc func handleSwitchBtnChange(sender: UISwitch){
+        switch sender.tag {
+        case 1: // Date
+            isBeforeAfterDate = sender.isOn
+        /*case 2: // Greg
+            doesNotifyGreg = sender.isOn
+        case 3: // Heb
+            doesNotifyHeb = sender.isOn*/
+        default:
+            break
+        }
+    }
+    
     @objc func handleDateBtnClick(sender: UIButton){
         createPicker(forTag: 3, goToRow: tagDate)
     }
     
     @objc func handleDateSegChanged(sender: UISegmentedControl){
+        let dateSwitchTitlles = ["Is before sundown?", "Is before midnight?"]
+        isBeforeAfterView.removeFromSuperview()
+        isBeforeAfterView = createSwitchView(State: false, WithTitle: dateSwitchTitlles[sender.selectedSegmentIndex], AndOrigin: (isBeforeAfterView.frame.origin.x, isBeforeAfterView.frame.origin.y), WithTag: 1)
+        modifyDateSwitchView()
+        
         switch sender.selectedSegmentIndex {
             case 0: // Gregorian choice.
                 datePick.calendar = Calendar.init(identifier: Calendar.Identifier.gregorian)
@@ -291,7 +328,7 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
                 typeLabel.text = Event.dateTypes[choice].rawValue
                 newEvent.dateType = Event.dateTypes[choice]
                 
-                initRestScreen()
+                changeNamesCount()
             }
             // PersonType picker.
             else{
