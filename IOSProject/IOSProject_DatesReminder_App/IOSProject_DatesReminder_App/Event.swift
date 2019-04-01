@@ -14,14 +14,28 @@ class Event {
     
     var dateType: DateType!
     var names: [String] = ["",""]
-    // var gregorianDate:
-    // var hebrewDate:
+    var gregorianDate: Date!
+    var hebrewDate: Date!
     var personType: PersonType!
     var isNotifyH: Bool = false
     var isNotifyG: Bool = false
     var yearsPass: Int = 0
-    // nextGregorianDate
-    // nextHebrewDate
+    
+    /*let dateCurrent = datePick.date
+     let calendar = Calendar.init(identifier: .hebrew)
+     let components = calendar.dateComponents([Calendar.Component.day, Calendar.Component.month, Calendar.Component.year], from: dateCurrent)
+     let datefor = DateFormatter()
+     datefor.calendar = Calendar.init(identifier: .hebrew)
+     datefor.dateFormat = "MMMM"
+     print("Day:\(components.day!) Month:\(datefor.string(from: dateCurrent)) Year:\(components.year!)")*/
+    
+    // Get the string of the hebrew month.
+    func getHebMonthString() -> String {
+        let dateFormmater = DateFormatter()
+        dateFormmater.calendar = Calendar.init(identifier: .hebrew)
+        dateFormmater.dateFormat = "MMMM"
+        return dateFormmater.string(from: hebrewDate)
+    }
 }
 
 enum DateType: String{
