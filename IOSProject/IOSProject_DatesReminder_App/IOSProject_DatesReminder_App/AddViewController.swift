@@ -9,6 +9,8 @@
 import UIKit
 
 class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate{
+    
+    let httpBaseString = "https://www.hebcal.com/converter/?cfg=json&"
     let margin: CGFloat = 10
     let spaceMargin: CGFloat = 30
     
@@ -24,7 +26,7 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
     var dateBtn: UIButton!
     var datePick: UIDatePicker!
     var tagDate: Date = Date()
-    var isGregDate = true // to know which date selected
+    var isGregDate: Bool = true // to know which date selected
     var isBeforeAfterDate: Bool = false
     var isBeforeAfterView: UIView!
     
@@ -39,6 +41,7 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         initScreen()
         
         createPickerContainer()
@@ -307,8 +310,9 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
         return formatter.string(from: date)
     }
     
+    //!!!!!
     func confirmAllDetailsAreGiven() -> Bool{
-        // Check datetype:
+        /*!!!!!// Check datetype:
         if dateType.subviews[dateType.subviews.count - 1] is UILabel {
             let label = dateType.subviews[dateType.subviews.count - 1] as! UILabel
             if label.text == nil || label.text!.isEmpty{
@@ -337,23 +341,76 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
             if label.text == nil || label.text!.isEmpty{
                 return false
             }
-        }
+        }*/
         
         return true
     }
     
-    //!!
-    func getOppositeDate(From date: Date) -> Date {
+    func getOppositeDate(From date: Date, WhatToDo action: @escaping (Data) -> Void){
+        // Show loading circle on bar
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
         
-        DispatchQueue.global().sync {
-            // connect to API on global sync
+        DispatchQueue.global().async {
+            var extendURL = self.httpBaseString
             
-            // Close loading circle.
+            let calendar = Calendar.init(identifier: self.isGregDate ? .gregorian : .hebrew)
+            var components = calendar.dateComponents([Calendar.Component.day, Calendar.Component.month, Calendar.Component.year], from: date)
+            
+            // Get the specific URL.
+            if self.isGregDate{
+                extendURL.append("gy=\(components.year!)&gm=\(components.month!)&gd=\(components.day!)&g2h=1")
+                if self.isBeforeAfterDate{
+                    extendURL.append("&gs=on")
+                }
+            }else{
+                if self.isBeforeAfterDate{
+                    components.day! -= 1
+                }
+                extendURL.append("hy=\(components.year!)&hm=\(Event.hebMonthStrings[components.month! - 1])&hd=\(components.day!)&h2g=1")
+            }
+            
+            // connect to API
+            self.sendHttpRequest(WithUrl: extendURL, WhatToDo: action)
         }
-        // minwhile show loading circle on bar
-        // create new date from answer
-        // return new date
-        return Date()
+    }
+    
+    func sendHttpRequest(WithUrl urlS: String, WhatToDo action: @escaping (Data) -> Void){
+        let url = URL(string: urlS)
+        let urlSession = URLSession(configuration: URLSessionConfiguration.default)
+        let urlRequest = URLRequest(url: url!)
+        let task = urlSession.dataTask(with: urlRequest) { (data: Data?, response: URLResponse?, error: Error?) in
+            if error == nil{
+                if let theData = data{
+                    if theData.count > 0{
+                        DispatchQueue.main.async {
+                            // Close loading circle.
+                            UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                        }
+                        action(theData)
+                    }
+                }
+            }
+        }
+        task.resume()
+    }
+    
+    //!!
+    func finalActions(){
+        // add newEvent to data source
+        // pop success alert? Close contoller : nil
+        // Close addViewController
+        dismiss(animated: true) {
+            // reload tableView/dataSource?
+        }
+    }
+    
+    func getJSONFromData(data: Data) -> [String : Any]{
+        do{
+            let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as! [String : Any]
+            return json
+        }catch let e{
+            return [:]
+        }
     }
     
     @objc func handleTapOnScreen(sender: UITapGestureRecognizer){
@@ -480,19 +537,25 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
             if names.count == 2{
                 newEvent.names[1] = names[1].text!
             }
+            // Types are in. func handleConfirmationClick
+            // Notifys are in. func handleSwitchChanged
             
             // Date:
             if isGregDate{
                 newEvent.gregorianDate = tagDate
-                newEvent.hebrewDate = getOppositeDate(From: tagDate)
             }else{
                 newEvent.hebrewDate = tagDate
-                newEvent.gregorianDate = getOppositeDate(From: tagDate)
             }
-            
-            // pop success alert?
-            // add newEvent to data source
-            // Close addViewController
+            getOppositeDate(From: tagDate, WhatToDo: { (data: Data) in
+                let dictionary = self.getJSONFromData(data: data)
+                if dictionary.count != 0{
+                    self.newEvent.createDateFromDictionary(dictionary, PutInGreg: self.isGregDate ? true : false)
+                    self.finalActions()
+                    
+                    // Get the month (and yearsPass)
+                    self.newEvent.getMonth()
+                }
+            })
         }else{
             // Stop the user.
             let alert = UIAlertController(title: "Hold on!", message: "You forgot to give all the details", preferredStyle: .alert)
@@ -510,18 +573,6 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
         return pickerView.tag == 0 ? Event.dateTypes.count : Event.personTypes.count
     }
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        /*switch row {
-            case 0:
-                return pickerView.tag == 0 ? DateType.birthday.rawValue : PersonType.family.rawValue
-            case 1:
-                return pickerView.tag == 0 ? DateType.wedding.rawValue : PersonType.friends.rawValue
-            case 2:
-                return pickerView.tag == 0 ? DateType.deathDay.rawValue : PersonType.coWorkers.rawValue
-            case 3:
-                return pickerView.tag == 0 ? DateType.anniversary.rawValue : PersonType.differant.rawValue
-            default:
-                return ""
-        }*/
         return pickerView.tag == 0 ? Event.dateTypes[row].rawValue : Event.personTypes[row].rawValue
     }
 }
