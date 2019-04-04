@@ -19,6 +19,8 @@ class ViewController: UIViewController, UITableViewDelegate{
         super.viewDidLoad()
         view.backgroundColor = UIColor.white
         
+        NotificationCenter.default.addObserver(self, selector: #selector(didEnterBackground(sender:)), name: UIApplication.willResignActiveNotification, object: nil)
+        
         // If there is a file- load data for the tableView(global) and put it in the array.
         datesDataSource = DatesDataSource()
         initScreen()
@@ -90,6 +92,10 @@ class ViewController: UIViewController, UITableViewDelegate{
         actionSheet.addAction(actionDelete)
     }
     
+    @objc func didEnterBackground(sender: NSNotification){
+        // Save datesList array in file here!!
+    }
+    
     @objc func handleAddBtnClick(sender: UIButton){
         let addContorller = AddViewController()
         addContorller.viewController = self
@@ -100,6 +106,11 @@ class ViewController: UIViewController, UITableViewDelegate{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // Open action sheet with three actions.
         present(actionSheet, animated: true, completion: nil)
+    }
+    
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
 }
 
