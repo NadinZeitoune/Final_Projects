@@ -21,7 +21,7 @@ class Event {
     var isNotifyH: Bool = false
     var isNotifyG: Bool = false
     var month: Int!
-    var yearsPass: Int = 0
+    //var yearsPass: Int = 0 // On hold
     
     
     
@@ -66,7 +66,7 @@ class Event {
         self.month = components.month
     }
     
-    // Get the years pass.
+    // On hold - // Get the years pass.
 }
 
 enum DateType: String{

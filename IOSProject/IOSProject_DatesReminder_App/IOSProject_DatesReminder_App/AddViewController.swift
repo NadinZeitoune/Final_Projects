@@ -39,6 +39,8 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
     var exitBtn: UIButton!
     var newEvent: Event!
     
+    weak var viewController: ViewController!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -301,18 +303,9 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
         return label
     }
     
-    func generateStringFromDate() -> String{
-        let calendar = datePick.calendar
-        let date = datePick.date
-        let formatter = DateFormatter()
-        formatter.dateStyle = DateFormatter.Style.short
-        formatter.calendar = calendar
-        return formatter.string(from: date)
-    }
-    
     //!!!!!
     func confirmAllDetailsAreGiven() -> Bool{
-        /*!!!!!// Check datetype:
+        // Check datetype:
         if dateType.subviews[dateType.subviews.count - 1] is UILabel {
             let label = dateType.subviews[dateType.subviews.count - 1] as! UILabel
             if label.text == nil || label.text!.isEmpty{
@@ -330,11 +323,11 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
             }
         }
         
-        // Check date:
+        // Check date: always != nil !!!! check the option of putting the date already on screen when entering the controller
         if tagDate == nil{
             return false
         }
-        
+        /*!!!!!
         // Check person type:
         if personType.subviews[personType.subviews.count - 1] is UILabel {
             let label = personType.subviews[personType.subviews.count - 1] as! UILabel
@@ -397,11 +390,18 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
     //!!
     func finalActions(){
         // add newEvent to data source
-        // pop success alert? Close contoller : nil
-        // Close addViewController
-        dismiss(animated: true) {
-            // reload tableView/dataSource?
+        DatesDataSource.dates.append(newEvent)
+        
+        // Pop success alert.
+        let successAlert = UIAlertController(title: "Event added!", message: "Press OK to reload table", preferredStyle: .alert)
+        let actionOK = UIAlertAction(title: "OK", style: .default) { (action: UIAlertAction) in
+            // Close addViewController
+            self.dismiss(animated: true) {
+                self.viewController.datesList.reloadData()
+            }
         }
+        successAlert.addAction(actionOK)
+        self.present(successAlert, animated: true, completion: nil)
     }
     
     func getJSONFromData(data: Data) -> [String : Any]{
@@ -515,9 +515,8 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
         else if(pickerContainer.subviews[0] is UIDatePicker){
             let dateLabel: UILabel
             tagDate = datePick.date
-            
             dateLabel = dateBtn.subviews[dateBtn.subviews.count - 1] as! UILabel
-            dateLabel.text = generateStringFromDate()
+            dateLabel.text = DatesDataSource.generateStringFromDate(datePick.date, WithCalendar: datePick.calendar)
             dateLabel.font = UIFont.boldSystemFont(ofSize: 20)
             dateLabel.sizeToFit()
             dateLabel.adjustsFontSizeToFitWidth = true
@@ -552,7 +551,7 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
                     self.newEvent.createDateFromDictionary(dictionary, PutInGreg: self.isGregDate ? true : false)
                     self.finalActions()
                     
-                    // Get the month (and yearsPass)
+                    // Get the month // ((and yearsPass) - on hold)
                     self.newEvent.getMonth()
                 }
             })

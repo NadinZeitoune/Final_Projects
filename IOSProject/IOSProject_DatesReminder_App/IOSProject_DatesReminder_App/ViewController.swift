@@ -40,6 +40,7 @@ class ViewController: UIViewController, UITableViewDelegate{
         datesList.sectionFooterHeight = 0
         datesList.dataSource = datesDataSource
         datesList.delegate = self
+        datesList.register(UITableViewCell.classForCoder(), forCellReuseIdentifier: "datesList")
         view.addSubview(datesList)
         
         // Create add btn:
@@ -90,7 +91,9 @@ class ViewController: UIViewController, UITableViewDelegate{
     }
     
     @objc func handleAddBtnClick(sender: UIButton){
-        present(AddViewController(), animated: true, completion: nil)
+        let addContorller = AddViewController()
+        addContorller.viewController = self
+        present(addContorller, animated: true, completion: nil)
     }
     
     // TableViewDelagate:

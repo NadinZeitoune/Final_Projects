@@ -8,12 +8,11 @@
 
 import UIKit
 
-class DatesDataSource: NSObject, UITableViewDataSource, UITableViewDelegate{
+class DatesDataSource: NSObject, UITableViewDataSource{
     
     let months: [String] = ["January","February","March","April","May","June","July","August","September","October","November","December"]
     
-    //!!
-    var dates: [Event]!
+    static var dates: [Event] = []
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return months.count
@@ -21,12 +20,65 @@ class DatesDataSource: NSObject, UITableViewDataSource, UITableViewDelegate{
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // check the number of dates belong to this month !!
-        return 2
+        if DatesDataSource.dates == nil || DatesDataSource.dates.count == 0{
+            return 0
+        }
+        
+        var count: Int = 0
+        
+        for i in 0 ..< DatesDataSource.dates.count{
+            if DatesDataSource.dates[i].month == section + 1{
+                count += 1
+            }
+        }
+        
+        return count
     }
     
+    //!!
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        // need improvment !!
-        return UITableViewCell(frame: CGRect(x: 0, y: 0, width: 5, height: 5))
+        var cell = tableView.dequeueReusableCell(withIdentifier: "datesList", for: indexPath)
+        var event: Event = Event()
+        var count = 0
+        
+        // Make space for more details.
+        if cell.detailTextLabel == nil{
+            cell = UITableViewCell(style: .value1, reuseIdentifier: "datesList")
+        }
+        
+        // Get the correct event.
+        for i in 0 ..< DatesDataSource.dates.count{
+            if DatesDataSource.dates[i].month == (indexPath.section + 1){
+                if count == indexPath.row{
+                    event = DatesDataSource.dates[i]
+                }else{
+                    count += 1
+                }
+            }
+        }
+        
+        // Add the name title.
+        if !event.names[1].isEmpty{
+            cell.textLabel!.text = "\(event.names[0]) & \(event.names[1])"
+        }else{
+            cell.textLabel!.text = event.names[0]
+        }
+        
+        // Add image.
+        let img = UIImage(named: event.dateType.rawValue)
+        cell.imageView!.image = img
+        
+        // Add date.
+        cell.detailTextLabel!.text = DatesDataSource.generateStringFromDate(event.gregorianDate, WithCalendar: Calendar(identifier: .gregorian))
+        
+        return cell
+    }
+    
+    static func generateStringFromDate(_ date: Date, WithCalendar calendar: Calendar) -> String{
+        let formatter = DateFormatter()
+        formatter.dateStyle = DateFormatter.Style.short
+        formatter.calendar = calendar
+        return formatter.string(from: date)
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
