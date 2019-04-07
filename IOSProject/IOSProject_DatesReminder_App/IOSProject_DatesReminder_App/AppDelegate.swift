@@ -11,6 +11,9 @@ import UIKit
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
+    static let myFileName = "ForeverBoard.txt"
+    static let delimiter = "#"
+    
     var window: UIWindow?
 
 
@@ -27,6 +30,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+        
+        // Save datesList array in file here!!
+        let fileDirectory = try! FileManager().url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true).appendingPathComponent(AppDelegate.myFileName)
+        // If array empty- don't save.
+        if DatesDataSource.dates.count == 0 {
+            return
+        }
+        
+        do{
+            var eventsAsString = ""
+            for i in 0 ..< DatesDataSource.dates.count {
+                eventsAsString.append("\(DatesDataSource.dates[i].toString())\(AppDelegate.delimiter)")
+            }
+            
+            try eventsAsString.write(to: fileDirectory, atomically: true, encoding: String.Encoding.utf8)
+        }catch let e{
+            print(e.localizedDescription)
+        }
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -40,7 +61,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
-
-
 }
 

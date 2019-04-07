@@ -303,7 +303,6 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
         return label
     }
     
-    //!!!!!
     func confirmAllDetailsAreGiven() -> Bool{
         // Check datetype:
         if dateType.subviews[dateType.subviews.count - 1] is UILabel {
@@ -327,14 +326,14 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
         if tagDate == nil{
             return false
         }
-        /*!!!!!
+        
         // Check person type:
         if personType.subviews[personType.subviews.count - 1] is UILabel {
             let label = personType.subviews[personType.subviews.count - 1] as! UILabel
             if label.text == nil || label.text!.isEmpty{
                 return false
             }
-        }*/
+        }
         
         return true
     }
@@ -393,7 +392,7 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
         DatesDataSource.dates.append(newEvent)
         
         // Pop success alert.
-        let successAlert = UIAlertController(title: "Event added!", message: "Press OK to reload table", preferredStyle: .alert)
+        let successAlert = UIAlertController(title: "Event added!", message: "Press OK to reload list", preferredStyle: .alert)
         let actionOK = UIAlertAction(title: "OK", style: .default) { (action: UIAlertAction) in
             // Close addViewController
             self.dismiss(animated: true) {
@@ -548,10 +547,10 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
             getOppositeDate(From: tagDate, WhatToDo: { (data: Data) in
                 let dictionary = self.getJSONFromData(data: data)
                 if dictionary.count != 0{
-                    self.newEvent.createDateFromDictionary(dictionary, PutInGreg: self.isGregDate ? true : false)
+                    self.newEvent.createDateFromDictionary(dictionary, PutInGreg: self.isGregDate ? false : true)
                     self.finalActions()
                     
-                    // Get the month // ((and yearsPass) - on hold)
+                    // Get the month // (( yearsPass) - on hold)
                     self.newEvent.getMonth()
                 }
             })

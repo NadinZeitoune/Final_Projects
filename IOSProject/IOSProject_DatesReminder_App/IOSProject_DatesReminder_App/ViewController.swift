@@ -19,12 +19,31 @@ class ViewController: UIViewController, UITableViewDelegate{
         super.viewDidLoad()
         view.backgroundColor = UIColor.white
         
-        NotificationCenter.default.addObserver(self, selector: #selector(didEnterBackground(sender:)), name: UIApplication.willResignActiveNotification, object: nil)
-        
-        // If there is a file- load data for the tableView(global) and put it in the array.
         datesDataSource = DatesDataSource()
+        // If there is a file- load data for the tableView and put it in the array.
+        loadFileData()
+        
         initScreen()
         createActionSheet()
+    }
+    
+    func loadFileData(){
+        let fileDirectory = try! FileManager().url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true).appendingPathComponent(AppDelegate.myFileName)
+        
+        if FileManager().fileExists(atPath: fileDirectory.absoluteString){
+            do{
+                let eventsString = try String(contentsOf: fileDirectory)
+                
+                // Depart the events.
+                let events = eventsString.components(separatedBy: AppDelegate.delimiter)
+                
+                for i in 0 ..< events.count{
+                    // Create and add event.
+                    let event = Event(eventAsString: events[i])
+                    DatesDataSource.dates.append(event)
+                }
+            }catch{}
+        }
     }
 
     func initScreen(){
@@ -92,10 +111,6 @@ class ViewController: UIViewController, UITableViewDelegate{
         actionSheet.addAction(actionDelete)
     }
     
-    @objc func didEnterBackground(sender: NSNotification){
-        // Save datesList array in file here!!
-    }
-    
     @objc func handleAddBtnClick(sender: UIButton){
         let addContorller = AddViewController()
         addContorller.viewController = self
@@ -106,11 +121,6 @@ class ViewController: UIViewController, UITableViewDelegate{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // Open action sheet with three actions.
         present(actionSheet, animated: true, completion: nil)
-    }
-    
-    
-    deinit {
-        NotificationCenter.default.removeObserver(self)
     }
 }
 
