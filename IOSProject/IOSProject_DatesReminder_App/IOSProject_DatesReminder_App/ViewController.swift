@@ -21,16 +21,16 @@ class ViewController: UIViewController, UITableViewDelegate{
         
         datesDataSource = DatesDataSource()
         // If there is a file- load data for the tableView and put it in the array.
-        loadFileData()
+        ViewController.loadFileData()
         
         initScreen()
         createActionSheet()
     }
     
-    func loadFileData(){
+    static func loadFileData(){
         let fileDirectory = try! FileManager().url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true).appendingPathComponent(AppDelegate.myFileName)
         
-        if FileManager().fileExists(atPath: fileDirectory.absoluteString){
+        if FileManager.default.fileExists(atPath: fileDirectory.path){
             do{
                 let eventsString = try String(contentsOf: fileDirectory)
                 

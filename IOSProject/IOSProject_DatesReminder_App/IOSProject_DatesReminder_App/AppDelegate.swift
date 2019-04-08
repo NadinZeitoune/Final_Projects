@@ -32,21 +32,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
         
         // Save datesList array in file here!!
-        let fileDirectory = try! FileManager().url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true).appendingPathComponent(AppDelegate.myFileName)
-        // If array empty- don't save.
-        if DatesDataSource.dates.count == 0 {
-            return
-        }
+        let fileDirectory = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true).appendingPathComponent(AppDelegate.myFileName)
         
         do{
+            // If array empty- delete file.
+            if DatesDataSource.dates.count == 0 {
+                try FileManager.default.removeItem(atPath: fileDirectory.path)
+                return
+            }
+            
             var eventsAsString = ""
             for i in 0 ..< DatesDataSource.dates.count {
                 eventsAsString.append("\(DatesDataSource.dates[i].toString())\(AppDelegate.delimiter)")
             }
-            
-            try eventsAsString.write(to: fileDirectory, atomically: true, encoding: String.Encoding.utf8)
+            eventsAsString.removeLast()
+            try eventsAsString.write(to: fileDirectory, atomically: false, encoding: String.Encoding.utf8)
         }catch let e{
-            print(e.localizedDescription)
+            print("something wrong")
         }
     }
 

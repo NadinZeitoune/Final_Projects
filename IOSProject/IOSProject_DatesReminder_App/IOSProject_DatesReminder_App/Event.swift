@@ -29,7 +29,7 @@ class Event {
         // Depart string to subStrings.
         var parts = eventAsString.components(separatedBy: delimiter)
         
-        if parts.count != 8 || parts.count != 9 {
+        if parts.count != 8 && parts.count != 9 {
             return
         }
         
@@ -40,10 +40,10 @@ class Event {
         self.personType = Event.personTypes[Int(parts[1])!]
         
         // Get gregorianDate.
-        self.gregorianDate = Date(timeIntervalSince1970: TimeInterval(exactly: Double(parts[2])!)!)
+        self.gregorianDate = Date(timeIntervalSince1970: TimeInterval(bitPattern: UInt64(parts[2])!))
         
         // Get hebrewDate.
-        self.hebrewDate = Date(timeIntervalSince1970: TimeInterval(exactly: Double(parts[3])!)!)
+        self.hebrewDate = Date(timeIntervalSince1970: TimeInterval(bitPattern: UInt64(parts[3])!))
         
         // Get month.
         self.month = Int(parts[4])!
@@ -124,13 +124,13 @@ class Event {
             }
         }
         
-        str.append("\(self.gregorianDate.timeIntervalSince1970.binade)\(delimiter)")
-        str.append("\(self.hebrewDate.timeIntervalSince1970.binade)\(delimiter)")
-        str.append("\(self.month)&")
+        str.append("\(self.gregorianDate.timeIntervalSince1970.bitPattern)\(delimiter)")
+        str.append("\(self.hebrewDate.timeIntervalSince1970.bitPattern)\(delimiter)")
+        str.append("\(self.month!)&")
         str.append("\(self.isNotifyG ? 1 : 0)\(delimiter)")
         str.append("\(self.isNotifyH ? 1 : 0)\(delimiter)")
         str.append("\(self.names[0])")
-        if self.names.count == 2 {
+        if self.names.count != 1 && !self.names[1].isEmpty {
             str.append("\(delimiter)\(self.names[1])")
         }
         

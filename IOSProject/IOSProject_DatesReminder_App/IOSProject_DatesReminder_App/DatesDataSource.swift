@@ -38,8 +38,7 @@ class DatesDataSource: NSObject, UITableViewDataSource{
     //!!
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell = tableView.dequeueReusableCell(withIdentifier: "datesList", for: indexPath)
-        var event: Event = Event()
-        var count = 0
+        var eventsPerMonth: [Event] = []
         
         // Make space for more details.
         if cell.detailTextLabel == nil{
@@ -49,16 +48,13 @@ class DatesDataSource: NSObject, UITableViewDataSource{
         // Get the correct event.
         for i in 0 ..< DatesDataSource.dates.count{
             if DatesDataSource.dates[i].month == (indexPath.section + 1){
-                if count == indexPath.row{
-                    event = DatesDataSource.dates[i]
-                }else{
-                    count += 1
-                }
+                eventsPerMonth.append(DatesDataSource.dates[i])
             }
         }
+        let event = eventsPerMonth[indexPath.row]
         
         // Add the name title.
-        if !event.names[1].isEmpty{
+        if event.names.count != 1 && !event.names[1].isEmpty{
             cell.textLabel!.text = "\(event.names[0]) & \(event.names[1])"
         }else{
             cell.textLabel!.text = event.names[0]
