@@ -142,7 +142,7 @@ enum DateType: String{
     case birthday = "Birthday"
     case wedding = "Wedding"
     case deathDay = "DeathDay"
-    case anniversary = "Anniversary" // == Else?
+    case anniversary = "Anniversary" // == Else
 }
 
 enum PersonType: String{

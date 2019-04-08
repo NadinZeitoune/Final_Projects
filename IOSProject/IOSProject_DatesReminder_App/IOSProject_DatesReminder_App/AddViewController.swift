@@ -389,7 +389,7 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
     //!!
     func finalActions(){
         // add newEvent to data source
-        DatesDataSource.dates.append(newEvent)
+        DatesDataSource.dates[newEvent.month - 1].append(newEvent)
         
         // Pop success alert.
         let successAlert = UIAlertController(title: "Event added!", message: "Press OK to reload list", preferredStyle: .alert)
@@ -525,7 +525,7 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
         createPickerContainer()
     }
     
-    //!!!
+    //!
     @objc func handleAddEventBtnClick(sender: UIButton){
         // Make sure all details are given.
         if confirmAllDetailsAreGiven() {
@@ -548,10 +548,10 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
                 let dictionary = self.getJSONFromData(data: data)
                 if dictionary.count != 0{
                     self.newEvent.createDateFromDictionary(dictionary, PutInGreg: self.isGregDate ? false : true)
-                    self.finalActions()
-                    
                     // Get the month // (( yearsPass) - on hold)
                     self.newEvent.getMonth()
+                    
+                    self.finalActions()
                 }
             })
         }else{

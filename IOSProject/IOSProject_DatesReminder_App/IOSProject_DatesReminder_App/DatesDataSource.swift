@@ -9,17 +9,17 @@
 import UIKit
 
 class DatesDataSource: NSObject, UITableViewDataSource{
-    
+    // !! 2D array??
     let months: [String] = ["January","February","March","April","May","June","July","August","September","October","November","December"]
     
-    static var dates: [Event] = []
+    static var dates: [[Event]] = [[], [], [], [], [], [], [], [], [], [], [], []]
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return months.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // check the number of dates belong to this month !!
+        /*// check the number of dates belong to this month !!
         if DatesDataSource.dates == nil || DatesDataSource.dates.count == 0{
             return 0
         }
@@ -32,26 +32,19 @@ class DatesDataSource: NSObject, UITableViewDataSource{
             }
         }
         
-        return count
+        return count*/
+        return DatesDataSource.dates[section].count
     }
     
-    //!!
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell = tableView.dequeueReusableCell(withIdentifier: "datesList", for: indexPath)
-        var eventsPerMonth: [Event] = []
         
         // Make space for more details.
         if cell.detailTextLabel == nil{
             cell = UITableViewCell(style: .value1, reuseIdentifier: "datesList")
         }
         
-        // Get the correct event.
-        for i in 0 ..< DatesDataSource.dates.count{
-            if DatesDataSource.dates[i].month == (indexPath.section + 1){
-                eventsPerMonth.append(DatesDataSource.dates[i])
-            }
-        }
-        let event = eventsPerMonth[indexPath.row]
+        let event = DatesDataSource.dates[indexPath.section][indexPath.row]
         
         // Add the name title.
         if event.names.count != 1 && !event.names[1].isEmpty{

@@ -35,15 +35,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let fileDirectory = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true).appendingPathComponent(AppDelegate.myFileName)
         
         do{
-            // If array empty- delete file.
-            if DatesDataSource.dates.count == 0 {
+            // If 2D array empty- delete file.
+            var count = 0
+            while count < DatesDataSource.dates.count{
+                if DatesDataSource.dates[count].count > 0{
+                    break
+                }
+                count += 1
+            }
+            if count == DatesDataSource.dates.count{
                 try FileManager.default.removeItem(atPath: fileDirectory.path)
                 return
             }
             
             var eventsAsString = ""
             for i in 0 ..< DatesDataSource.dates.count {
-                eventsAsString.append("\(DatesDataSource.dates[i].toString())\(AppDelegate.delimiter)")
+                for j in 0 ..< DatesDataSource.dates[i].count{
+                    eventsAsString.append("\(DatesDataSource.dates[i][j].toString())\(AppDelegate.delimiter)")}
             }
             eventsAsString.removeLast()
             try eventsAsString.write(to: fileDirectory, atomically: false, encoding: String.Encoding.utf8)

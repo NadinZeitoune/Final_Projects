@@ -14,12 +14,14 @@ class ViewController: UIViewController, UITableViewDelegate{
     var addDateBtn: UIButton!
     var datesDataSource: DatesDataSource!
     var actionSheet: UIAlertController!
+    var index: IndexPath!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.white
         
         datesDataSource = DatesDataSource()
+        
         // If there is a file- load data for the tableView and put it in the array.
         ViewController.loadFileData()
         
@@ -40,7 +42,7 @@ class ViewController: UIViewController, UITableViewDelegate{
                 for i in 0 ..< events.count{
                     // Create and add event.
                     let event = Event(eventAsString: events[i])
-                    DatesDataSource.dates.append(event)
+                    DatesDataSource.dates[event.month].append(event)
                 }
             }catch{}
         }
@@ -72,6 +74,7 @@ class ViewController: UIViewController, UITableViewDelegate{
         view.addSubview(addDateBtn)
     }
     
+    //!!
     func createActionSheet(){
         actionSheet = UIAlertController(title: "Please choose what to do", message: nil, preferredStyle: .actionSheet)
         
@@ -98,8 +101,10 @@ class ViewController: UIViewController, UITableViewDelegate{
             
             let delete = UIAlertAction(title: "Yes", style: .destructive, handler: { (action: UIAlertAction) in //!!
                 // Delete the reminder from the calendar
-                // Delete the event from the list
+                // Delete the event from the list.
+                DatesDataSource.dates[self.index.section].remove(at: self.index.row)
                 // Refresh the data source
+                self.datesList.reloadData()
             })
             confirmationAlert.addAction(delete)
             
@@ -120,6 +125,7 @@ class ViewController: UIViewController, UITableViewDelegate{
     // TableViewDelagate:
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // Open action sheet with three actions.
+        self.index = indexPath
         present(actionSheet, animated: true, completion: nil)
     }
 }
