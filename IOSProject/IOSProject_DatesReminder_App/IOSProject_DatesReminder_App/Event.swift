@@ -22,7 +22,6 @@ class Event {
     var isNotifyH: Bool = false
     var isNotifyG: Bool = false
     var month: Int!
-    //var yearsPass: Int = 0 // On hold
     
     convenience init(eventAsString: String) {
         self.init()
@@ -105,8 +104,6 @@ class Event {
         let components = calendar.dateComponents([Calendar.Component.month], from: date!)
         self.month = components.month
     }
-    
-    // On hold - // Get the years pass.
     
     // Get event as String.
     func toString() -> String{

@@ -19,20 +19,7 @@ class DatesDataSource: NSObject, UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        /*// check the number of dates belong to this month !!
-        if DatesDataSource.dates == nil || DatesDataSource.dates.count == 0{
-            return 0
-        }
         
-        var count: Int = 0
-        
-        for i in 0 ..< DatesDataSource.dates.count{
-            if DatesDataSource.dates[i].month == section + 1{
-                count += 1
-            }
-        }
-        
-        return count*/
         return DatesDataSource.dates[section].count
     }
     

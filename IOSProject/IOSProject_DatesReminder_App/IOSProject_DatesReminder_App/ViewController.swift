@@ -74,7 +74,7 @@ class ViewController: UIViewController, UITableViewDelegate{
         view.addSubview(addDateBtn)
     }
     
-    //!!
+    //!!!
     func createActionSheet(){
         actionSheet = UIAlertController(title: "Please choose what to do", message: nil, preferredStyle: .actionSheet)
         
@@ -90,6 +90,7 @@ class ViewController: UIViewController, UITableViewDelegate{
         
         let actionEdit = UIAlertAction(title: "Edit event", style: .default) { (action: UIAlertAction) in // !!
             // Open editing screen with all the details
+            self.openAddViewController(EditEvent: true, With: DatesDataSource.dates[self.index.section][self.index.row])
             // Exit btn -> delete changes
             // Save btn -> Save details (new func: change calendar, save changes to list, refresh data source)
         }
@@ -116,10 +117,16 @@ class ViewController: UIViewController, UITableViewDelegate{
         actionSheet.addAction(actionDelete)
     }
     
-    @objc func handleAddBtnClick(sender: UIButton){
+    func openAddViewController(EditEvent toEdit: Bool, With event: Event?){
         let addContorller = AddViewController()
         addContorller.viewController = self
+        addContorller.newEvent = toEdit ? event! : nil
+        addContorller.toEdit = toEdit
         present(addContorller, animated: true, completion: nil)
+    }
+    
+    @objc func handleAddBtnClick(sender: UIButton){
+        openAddViewController(EditEvent: false, With: nil)
     }
     
     // TableViewDelagate:
