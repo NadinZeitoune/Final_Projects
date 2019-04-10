@@ -55,6 +55,12 @@ class ShowViewController: UIViewController {
         
         let notifyH = createLabel(WithTitle: "Hebrew notification: \(event.isNotifyH ? "ON" : "OFF")", Underlabel: notifyG)
         view.addSubview(notifyH)
+        
+        let pic = UIImageView(frame: CGRect(x: 0, y: 0, width: 150, height: 150))
+        pic.frame.origin.y = view.frame.maxY - pic.frame.height
+        pic.center.x = view.center.x
+        pic.image = UIImage(named: event.dateType.rawValue)
+        view.addSubview(pic)
     }
     
     func createLabel(WithTitle title: String, Underlabel upLabel:UILabel) -> UILabel{
@@ -110,7 +116,7 @@ class ShowViewController: UIViewController {
          
          let delete = UIAlertAction(title: "Yes", style: .destructive, handler: { (action: UIAlertAction) in
             self.dismiss(animated: true, completion: nil)
-            self.viewController.deleteEvent()            
+            self.viewController.deleteEvent()
          })
          confirmationAlert.addAction(delete)
          
