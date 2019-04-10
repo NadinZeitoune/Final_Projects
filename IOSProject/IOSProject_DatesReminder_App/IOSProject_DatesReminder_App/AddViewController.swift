@@ -618,13 +618,10 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
         if confirmAllDetailsAreGiven() {
             // Put all details we have in newEvent
             // Names:
-            newEvent.names[0] = names[0].text!
+            newEvent.names.removeAll()
+            newEvent.names.append(names[0].text!)
             if names.count == 2{
-                if newEvent.names.count == 2{
-                    newEvent.names[1] = names[1].text!
-                }else{
-                    newEvent.names.append(names[1].text!)
-                }
+                newEvent.names.append(names[1].text!)
             }
             // Types are in. func handleConfirmationClick
             // Notifys are in. func handleSwitchChanged

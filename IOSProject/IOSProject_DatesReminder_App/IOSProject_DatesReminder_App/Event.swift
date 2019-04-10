@@ -15,7 +15,7 @@ class Event {
     let delimiter = "&"
     
     var dateType: DateType!
-    var names: [String] = ["",""]
+    var names: [String] = []
     var gregorianDate: Date!
     var hebrewDate: Date!
     var isGregorian_isBeforeAfter: (Bool, Bool) = (true, false)
@@ -59,13 +59,11 @@ class Event {
         self.isGregorian_isBeforeAfter.1 = parts[7].last == "0" ? false : true
         
         // Get first name.
-        self.names[0] = parts[8]
+        self.names.append(parts[8])
         
         // Check and get second name (if needed).
         if parts.count == 10 {
-            self.names[1] = parts[9]
-        }else{
-            self.names.removeLast()
+            self.names.append(parts[9])
         }
     }
     
