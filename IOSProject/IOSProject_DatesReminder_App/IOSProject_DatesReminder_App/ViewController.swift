@@ -74,7 +74,6 @@ class ViewController: UIViewController, UITableViewDelegate{
         view.addSubview(addDateBtn)
     }
     
-    //!!!
     func createActionSheet(){
         actionSheet = UIAlertController(title: "Please choose what to do", message: nil, preferredStyle: .actionSheet)
         
@@ -83,16 +82,16 @@ class ViewController: UIViewController, UITableViewDelegate{
         
         let actionShow = UIAlertAction(title: "Show event", style: .default) { (action: UIAlertAction) in // !!
             // Open new screen with the details shows nice.
-            // Edit btn -> open exactly the same as actionEdit.
-            // Delete btn -> exactly as actionDelete.
+            let showController = ShowViewController()
+            showController.viewController = self
+            showController.event = DatesDataSource.dates[self.index.section][self.index.row]
+            self.present(showController, animated: true, completion: nil)
         }
         actionSheet.addAction(actionShow)
         
         let actionEdit = UIAlertAction(title: "Edit event", style: .default) { (action: UIAlertAction) in // !!
             // Open editing screen with all the details
             self.openAddViewController(EditEvent: true, With: DatesDataSource.dates[self.index.section][self.index.row])
-            // Exit btn -> delete changes
-            // Save btn -> Save details (new func: change calendar, save changes to list, refresh data source)
         }
         actionSheet.addAction(actionEdit)
         
@@ -100,13 +99,7 @@ class ViewController: UIViewController, UITableViewDelegate{
             
             let confirmationAlert = UIAlertController(title: "Are you sure?", message: "Deletion cannot be undone!", preferredStyle: .alert)
             
-            let delete = UIAlertAction(title: "Yes", style: .destructive, handler: { (action: UIAlertAction) in //!!
-                // Delete the reminder from the calendar
-                // Delete the event from the list.
-                DatesDataSource.dates[self.index.section].remove(at: self.index.row)
-                // Refresh the data source
-                self.datesList.reloadData()
-            })
+            let delete = UIAlertAction(title: "Yes", style: .destructive, handler: { (action: UIAlertAction) in self.deleteEvent()})
             confirmationAlert.addAction(delete)
             
             let cancel = UIAlertAction(title: "No", style: .cancel, handler: nil)
@@ -115,6 +108,15 @@ class ViewController: UIViewController, UITableViewDelegate{
             self.present(confirmationAlert, animated: true, completion: nil)
         }
         actionSheet.addAction(actionDelete)
+    }
+    
+    //!!!
+    func deleteEvent() {
+        // Delete the reminder from the calendar
+        // Delete the event from the list.
+        DatesDataSource.dates[self.index.section].remove(at: self.index.row)
+        // Refresh the data source
+        self.datesList.reloadData()
     }
     
     func openAddViewController(EditEvent toEdit: Bool, With event: Event?){
