@@ -34,7 +34,7 @@ class DatesDataSource: NSObject, UITableViewDataSource{
         let event = DatesDataSource.dates[indexPath.section][indexPath.row]
         
         // Add the name title.
-        if event.names.count != 1 && !event.names[1].isEmpty{
+        if event.dateType == .wedding && event.names.count != 1 && !event.names[1].isEmpty{
             cell.textLabel!.text = "\(event.names[0]) & \(event.names[1])"
         }else{
             cell.textLabel!.text = event.names[0]

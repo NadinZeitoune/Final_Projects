@@ -18,6 +18,7 @@ class Event {
     var names: [String] = ["",""]
     var gregorianDate: Date!
     var hebrewDate: Date!
+    var isGregorian_isBeforeAfter: (Bool, Bool) = (true, false)
     var personType: PersonType!
     var isNotifyH: Bool = false
     var isNotifyG: Bool = false
@@ -28,7 +29,7 @@ class Event {
         // Depart string to subStrings.
         var parts = eventAsString.components(separatedBy: delimiter)
         
-        if parts.count != 8 && parts.count != 9 {
+        if parts.count != 9 && parts.count != 10 {
             return
         }
         
@@ -53,12 +54,16 @@ class Event {
         // Get isNotifyH.
         self.isNotifyH = parts[6] == "1" ? true : false
         
+        // Get differance of dates.
+        self.isGregorian_isBeforeAfter.0 = parts[7].first == "0" ? false : true
+        self.isGregorian_isBeforeAfter.1 = parts[7].last == "0" ? false : true
+        
         // Get first name.
-        self.names[0] = parts[7]
+        self.names[0] = parts[8]
         
         // Check and get second name (if needed).
-        if parts.count == 9 {
-            self.names[1] = parts[8]
+        if parts.count == 10 {
+            self.names[1] = parts[9]
         }else{
             self.names.removeLast()
         }
@@ -69,6 +74,14 @@ class Event {
         let dateFormmater = DateFormatter()
         dateFormmater.calendar = Calendar.init(identifier: .hebrew)
         dateFormmater.dateFormat = "MMMM"
+        return dateFormmater.string(from: hebrewDate)
+    }
+    
+    // Get the string of the hebrew date.
+    func getHebDateString() -> String {
+        let dateFormmater = DateFormatter()
+        dateFormmater.calendar = Calendar.init(identifier: .hebrew)
+        dateFormmater.dateFormat = "dd/MMMM/yyyyz0"
         return dateFormmater.string(from: hebrewDate)
     }
     
@@ -126,6 +139,7 @@ class Event {
         str.append("\(self.month!)&")
         str.append("\(self.isNotifyG ? 1 : 0)\(delimiter)")
         str.append("\(self.isNotifyH ? 1 : 0)\(delimiter)")
+        str.append("\(isGregorian_isBeforeAfter.0 ? 1 : 0)\(isGregorian_isBeforeAfter.1 ? 1 : 0)\(delimiter)")
         str.append("\(self.names[0])")
         if self.names.count != 1 && !self.names[1].isEmpty {
             str.append("\(delimiter)\(self.names[1])")

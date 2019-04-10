@@ -19,6 +19,17 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "AddViewController.handleAddEventBtnClick(sender:):AddViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "newEvent.isGregorian_isBeforeAfter">
+            </PersistentString>
+            <PersistentString
+               value = "isGregDate">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "Event.toString():Event.swift">
          <PersistentStrings>
             <PersistentString

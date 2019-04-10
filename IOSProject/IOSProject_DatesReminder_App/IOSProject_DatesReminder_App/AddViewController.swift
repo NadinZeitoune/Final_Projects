@@ -250,7 +250,20 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
     
     func initPickerAccordingToEvent(){
         // Init date picker.
-        datePick.setDate(newEvent.gregorianDate, animated: false)
+        if newEvent.isGregorian_isBeforeAfter.0{
+            datePick.setDate(newEvent.gregorianDate, animated: false)
+            
+        }else{
+            // Seg points to heb date.
+            dateSeg.selectedSegmentIndex = 1
+            handleDateSegChanged(sender: dateSeg)
+            datePick.setDate(newEvent.hebrewDate, animated: false)
+        }
+        // Change "isBeforeAfter"
+        var switchNotify = isBeforeAfterView.subviews[isBeforeAfterView.subviews.count - 1] is UISwitch ? isBeforeAfterView.subviews[isBeforeAfterView.subviews.count - 1] as! UISwitch : nil
+        if switchNotify != nil{
+            switchNotify!.isOn = newEvent.isGregorian_isBeforeAfter.1
+        }
         
         // Init date type & person type pickers.
         for j in 0 ..< 2{
@@ -433,19 +446,22 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
         task.resume()
     }
     
-    //!!
+    //!!!
     func finalActions(){
         // add newEvent to data source
         if toEdit{
+            // remove reminder/s
+            
             // Remove the previous form of this event.
             DatesDataSource.dates[viewController.index.section].remove(at: viewController.index.row)
         }
         DatesDataSource.dates[newEvent.month - 1].append(newEvent)
         
-        // add reminder
+        // add reminder/s
         
         // Pop success alert.
-        let successAlert = UIAlertController(title: "Event added!", message: "Press OK to reload list", preferredStyle: .alert)
+        let title = toEdit ? "Event Changed!" : "Event added!"
+        let successAlert = UIAlertController(title: title, message: "Press OK to reload list", preferredStyle: .alert)
         let actionOK = UIAlertAction(title: "OK", style: .default) { (action: UIAlertAction) in
             // Close addViewController
             self.dismiss(animated: true) {
@@ -554,6 +570,8 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
             default:
                 break
         }
+        
+        pickerContainer.addSubview(isBeforeAfterView)
     }
     
     @objc func handleExitBtnClick(sender: UIButton){
@@ -627,6 +645,10 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
                     self.finalActions()
                 }
             })
+            
+            // Get the differance of dates.
+            newEvent.isGregorian_isBeforeAfter.0 = isGregDate
+            newEvent.isGregorian_isBeforeAfter.1 = isBeforeAfterDate
         }else{
             // Stop the user.
             let alert = UIAlertController(title: "Hold on!", message: "You forgot to give all the details", preferredStyle: .alert)
