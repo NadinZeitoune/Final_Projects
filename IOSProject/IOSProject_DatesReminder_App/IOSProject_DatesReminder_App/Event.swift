@@ -79,14 +79,19 @@ class Event {
         let dateFormmater = DateFormatter()
         dateFormmater.calendar = Calendar.init(identifier: .hebrew)
         dateFormmater.dateFormat = "dd/MMMM/yyyy"
-        return dateFormmater.string(from: hebrewDate)
+        return dateFormmater.string(from: self.hebrewDate)
     }
     
     func getHebrewDate() -> Date{
-        let date = self.hebrewDate
+        /*let date = self.hebrewDate
         let calendar = Calendar.init(identifier: .hebrew)
         let components = calendar.dateComponents([Calendar.Component.year, Calendar.Component.month, Calendar.Component.day], from: date!)
-        return calendar.date(from: components)!
+        return calendar.date(from: components)!*/
+        
+        let dateFormmater = DateFormatter()
+        dateFormmater.calendar = Calendar.init(identifier: .hebrew)
+        dateFormmater.dateFormat = "dd/MMMM/yyyy"
+        return dateFormmater.date(from: dateFormmater.string(from: self.hebrewDate))!
     }
     
     func createDateFromDictionary(_ dictionary: [String:Any], PutInGreg toGreg:Bool){

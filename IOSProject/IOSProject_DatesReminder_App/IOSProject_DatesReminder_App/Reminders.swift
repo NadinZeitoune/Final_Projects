@@ -40,11 +40,11 @@ class Reminders {
     static func createNotification(toGreg: Bool, calendar: EKCalendar) -> EKEvent{
         let notification = EKEvent(eventStore: eventStore)
         notification.title = event.dateType == .wedding ? "\(event.names[0]) & \(event.names[1]) wedding day" : "\(event.names[0]) \(event.dateType.rawValue)"
-        notification.notes = ""
+        notification.notes = toGreg ? "Gregorian date" : "Hebrew date"
         notification.calendar = calendar
         notification.isAllDay = true
-        notification.startDate = toGreg ? event.gregorianDate : event.hebrewDate
-        notification.endDate = toGreg ? event.gregorianDate : event.hebrewDate
+        notification.startDate = toGreg ? event.gregorianDate : event.getHebrewDate()
+        notification.endDate = toGreg ? event.gregorianDate : event.getHebrewDate()
         
         let alarm = EKAlarm(relativeOffset: 3600 * 9) // 9:00 AM on the event day
         notification.addAlarm(alarm)
@@ -87,7 +87,6 @@ class Reminders {
                 break
             }
         }
-        
         return calendar
     }
 }
