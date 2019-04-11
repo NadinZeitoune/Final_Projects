@@ -2,14 +2,13 @@
 //  Event.swift
 //  IOSProject_DatesReminder_App
 //
-//  Created by hackeru on 04/03/2019.
-//  Copyright © 2019 hackeru. All rights reserved.
+//  Created by Nadin Zeitoune on 04/03/2019.
 //
 
 import Foundation
 
 class Event {
-    static let hebMonthStrings = ["Tishrei", "Cheshvan", "Kislev", "Tevet", "Shvat", "Adar1", "Adar2", "Nisan", "Iyyar", "Sivan", "Tamuz", "Av", "Elul"]
+    static let hebMonthStrings = ["Tishrei", "Cheshvan", "Kislev", "Tevet", "Shvat", "Adar I", "Adar II", "Nisan", "Iyyar", "Sivan", "Tamuz", "Av", "Elul"]
     static let dateTypes: [DateType] = [DateType.birthday, DateType.wedding, DateType.deathDay, DateType.anniversary]
     static let personTypes: [PersonType] = [PersonType.family, PersonType.friends, PersonType.coWorkers, PersonType.differant]
     let delimiter = "&"
@@ -79,8 +78,15 @@ class Event {
     func getHebDateString() -> String {
         let dateFormmater = DateFormatter()
         dateFormmater.calendar = Calendar.init(identifier: .hebrew)
-        dateFormmater.dateFormat = "dd/MMMM/yyyyz0"
+        dateFormmater.dateFormat = "dd/MMMM/yyyy"
         return dateFormmater.string(from: hebrewDate)
+    }
+    
+    func getHebrewDate() -> Date{
+        let date = self.hebrewDate
+        let calendar = Calendar.init(identifier: .hebrew)
+        let components = calendar.dateComponents([Calendar.Component.year, Calendar.Component.month, Calendar.Component.day], from: date!)
+        return calendar.date(from: components)!
     }
     
     func createDateFromDictionary(_ dictionary: [String:Any], PutInGreg toGreg:Bool){
@@ -114,6 +120,13 @@ class Event {
         let calendar = Calendar.init(identifier: .gregorian)
         let components = calendar.dateComponents([Calendar.Component.month], from: date!)
         self.month = components.month
+    }
+    
+    func getDay() -> Int{
+        let date = self.gregorianDate
+        let calendar = Calendar.init(identifier: .gregorian)
+        let components = calendar.dateComponents([Calendar.Component.day], from: date!)
+        return components.day!
     }
     
     // Get event as String.

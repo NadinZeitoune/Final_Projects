@@ -11,6 +11,30 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "static Reminders.getCalendar(byName:):Reminders.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "calendars.count">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "Event.toString():Event.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "DatesDataSource.dates">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "AddViewController.finalActions():AddViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "DatesDataSource.dates">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "AddViewController.initPickerAccordingToEvent():AddViewController.swift">
          <PersistentStrings>
             <PersistentString
@@ -30,26 +54,13 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "Event.toString():Event.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "DatesDataSource.dates">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
          contextName = "ViewController.viewDidLoad():ViewController.swift">
          <PersistentStrings>
             <PersistentString
                value = "DatesDataSource.dates">
             </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "AddViewController.finalActions():AddViewController.swift">
-         <PersistentStrings>
             <PersistentString
-               value = "DatesDataSource.dates">
+               value = "Reminders.accessPermitted">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

@@ -19,6 +19,7 @@
 		6DE6AE48222D088F0021659B /* Anniversary.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DE6AE44222D088F0021659B /* Anniversary.png */; };
 		6DE6AE4A222D092F0021659B /* Wedding.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DE6AE49222D092F0021659B /* Wedding.png */; };
 		6DE6AE6A222D53870021659B /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DE6AE69222D53870021659B /* Event.swift */; };
+		E289308A225F1C3900215F18 /* Reminders.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2893089225F1C3900215F18 /* Reminders.swift */; };
 		E29076C8225E395A00776401 /* ShowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29076C7225E395A00776401 /* ShowViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -37,6 +38,7 @@
 		6DE6AE44222D088F0021659B /* Anniversary.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Anniversary.png; sourceTree = "<group>"; };
 		6DE6AE49222D092F0021659B /* Wedding.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Wedding.png; sourceTree = "<group>"; };
 		6DE6AE69222D53870021659B /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
+		E2893089225F1C3900215F18 /* Reminders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reminders.swift; sourceTree = "<group>"; };
 		E29076C7225E395A00776401 /* ShowViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -77,6 +79,7 @@
 				6DE6AE2F222D03790021659B /* AppDelegate.swift */,
 				6DE6AE31222D03790021659B /* ViewController.swift */,
 				6DCDF139223670F800C72F0B /* AddViewController.swift */,
+				E2893089225F1C3900215F18 /* Reminders.swift */,
 				E29076C7225E395A00776401 /* ShowViewController.swift */,
 				6D37E8C8223134EA0067912E /* DatesDataSource.swift */,
 				6DE6AE69222D53870021659B /* Event.swift */,
@@ -167,6 +170,7 @@
 				6D37E8C9223134EA0067912E /* DatesDataSource.swift in Sources */,
 				6DE6AE32222D03790021659B /* ViewController.swift in Sources */,
 				6DE6AE6A222D53870021659B /* Event.swift in Sources */,
+				E289308A225F1C3900215F18 /* Reminders.swift in Sources */,
 				6DE6AE30222D03790021659B /* AppDelegate.swift in Sources */,
 				E29076C8225E395A00776401 /* ShowViewController.swift in Sources */,
 			);

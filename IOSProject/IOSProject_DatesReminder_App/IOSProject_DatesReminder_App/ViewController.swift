@@ -2,8 +2,7 @@
 //  ViewController.swift
 //  IOSProject_DatesReminder_App
 //
-//  Created by hackeru on 04/03/2019.
-//  Copyright © 2019 hackeru. All rights reserved.
+//  Created by Nadin Zeitoune on 04/03/2019.
 //
 
 import UIKit
@@ -42,7 +41,7 @@ class ViewController: UIViewController, UITableViewDelegate{
                 for i in 0 ..< events.count{
                     // Create and add event.
                     let event = Event(eventAsString: events[i])
-                    DatesDataSource.dates[event.month].append(event)
+                    DatesDataSource.dates[event.month - 1].append(event)
                 }
             }catch{}
         }
@@ -113,8 +112,11 @@ class ViewController: UIViewController, UITableViewDelegate{
     //!!!
     func deleteEvent() {
         // Delete the reminder from the calendar
+        
+        
         // Delete the event from the list.
         DatesDataSource.dates[self.index.section].remove(at: self.index.row)
+        
         // Refresh the data source
         self.datesList.reloadData()
     }

@@ -2,8 +2,7 @@
 //  AppDelegate.swift
 //  IOSProject_DatesReminder_App
 //
-//  Created by hackeru on 04/03/2019.
-//  Copyright © 2019 hackeru. All rights reserved.
+//  Created by Nadin Zeitoune on 04/03/2019.
 //
 
 import UIKit

@@ -2,14 +2,12 @@
 //  DatesDataSource.swift
 //  IOSProject_DatesReminder_App
 //
-//  Created by hackeru on 07/03/2019.
-//  Copyright © 2019 hackeru. All rights reserved.
+//  Created by Nadin Zeitoune on 07/03/2019.
 //
 
 import UIKit
 
 class DatesDataSource: NSObject, UITableViewDataSource{
-    // !! 2D array??
     let months: [String] = ["January","February","March","April","May","June","July","August","September","October","November","December"]
     
     static var dates: [[Event]] = [[], [], [], [], [], [], [], [], [], [], [], []]
@@ -50,6 +48,10 @@ class DatesDataSource: NSObject, UITableViewDataSource{
         return cell
     }
     
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return months[section]
+    }
+    
     static func generateStringFromDate(_ date: Date, WithCalendar calendar: Calendar) -> String{
         let formatter = DateFormatter()
         formatter.dateStyle = DateFormatter.Style.short
@@ -57,7 +59,44 @@ class DatesDataSource: NSObject, UITableViewDataSource{
         return formatter.string(from: date)
     }
     
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return months[section]
+    static func sortDatesArray(){
+        // For every sub array - sort.
+        for i in 0 ..< dates.count{
+            if dates[i].count == 0{
+                continue
+            }
+            
+            // Sort:
+            bubbleSort(arr: &dates[i]) { (event1: Event, event2: Event) -> Bool in
+                if event1.getDay() >= event2.getDay(){
+                    return true
+                }else{
+                    return false
+                }
+            }
+        }
+    }
+    
+    static func swap<T>(arr: inout[T], i: Int, j: Int) {
+        let temp = arr[i]
+        arr[i] = arr[j]
+        arr[j] = temp
+    }
+    
+    static func bubbleSort<T>(arr: inout[T], compare:(_ x: T, _ y: T) -> Bool) {
+        var isSorted = false
+        var upTo = arr.count - 1
+        
+        while !isSorted {
+            isSorted = true
+            
+            for i in 0..<upTo {
+                if compare(arr[i], arr[i + 1]) {
+                    swap(arr: &arr, i:i, j: i + 1)
+                    isSorted = false
+                }
+            }
+            upTo -= 1
+        }
     }
 }

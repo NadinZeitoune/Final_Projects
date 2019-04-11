@@ -2,8 +2,7 @@
 //  AddViewController.swift
 //  IOSProject_DatesReminder_App
 //
-//  Created by hackeru on 11/03/2019.
-//  Copyright © 2019 hackeru. All rights reserved.
+//  Created by Nadin Zeitoune on 11/03/2019.
 //
 
 import UIKit
@@ -456,8 +455,11 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
             DatesDataSource.dates[viewController.index.section].remove(at: viewController.index.row)
         }
         DatesDataSource.dates[newEvent.month - 1].append(newEvent)
+        DatesDataSource.sortDatesArray()
         
         // add reminder/s
+        Reminders.event = newEvent
+        Reminders.confirmAccess(forAdding: true)
         
         // Pop success alert.
         let title = toEdit ? "Event Changed!" : "Event added!"

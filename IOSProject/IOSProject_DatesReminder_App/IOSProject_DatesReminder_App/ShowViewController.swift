@@ -3,7 +3,6 @@
 //  IOSProject_DatesReminder_App
 //
 //  Created by Nadin Zeitoune on 10/04/2019.
-//  Copyright © 2019 hackeru. All rights reserved.
 //
 
 import UIKit
