@@ -39,13 +39,13 @@ class Reminders {
     
     static func createNotification(toGreg: Bool, calendar: EKCalendar) -> EKEvent{
         let notification = EKEvent(eventStore: eventStore)
-        notification.title = event.dateType == .wedding ? "\(event.names[0]) & \(event.names[1]) wedding day" : "\(event.names[0]) \(event.dateType.rawValue)"
+        notification.title = event.dateType == .wedding ? "\(event.names[0]) & \(event.names[1]) Wedding day" : "\(event.names[0]) \(event.dateType.rawValue)"
         notification.notes = toGreg ? "Gregorian date" : "Hebrew date"
         notification.calendar = calendar
         notification.isAllDay = true
         notification.startDate = toGreg ? event.gregorianDate : event.getHebrewDate()
         notification.endDate = toGreg ? event.gregorianDate : event.getHebrewDate()
-        
+        notification.notes = notification.startDate.description
         let alarm = EKAlarm(relativeOffset: 3600 * 9) // 9:00 AM on the event day
         notification.addAlarm(alarm)
         
@@ -56,7 +56,31 @@ class Reminders {
     }
     
     static private func deleteNotification() {
+        var title = event.names[0]
+        if event.names.count == 2 {
+            title.append(" & \(event.names[1]) Wedding day")
+        }else{
+            title.append(" \(event.dateType.rawValue)")
+        }
         
+        fetchEvents(withTitle: title)
+    }
+    
+    static func fetchEvents(withTitle title: String){
+        if let cal = getCalendar(){
+            let predicate = eventStore.predicateForEvents(withStart: event.gregorianDate, end: event.gregorianDate, calendars: [cal])
+            DispatchQueue.global().sync {
+                self.eventStore.enumerateEvents(matching: predicate, using: { (event: EKEvent, stop: UnsafeMutablePointer<ObjCBool>) in
+                    if let theTitle = event.title{
+                        if theTitle == title{
+                            do{
+                                try eventStore.remove(event, span: .futureEvents, commit: true)
+                            }catch{}
+                        }
+                    }
+                })
+            }
+        }
     }
     
     static func confirmAccess(forAdding isAdd:Bool){

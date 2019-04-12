@@ -37,6 +37,7 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
     var addEventBtn: UIButton!
     var exitBtn: UIButton!
     var newEvent: Event!
+    var prevEvent: Event!
     
     var toEdit: Bool = false
     
@@ -445,11 +446,12 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
         task.resume()
     }
     
-    //!!!
     func finalActions(){
         // add newEvent to data source
         if toEdit{
             // remove reminder/s
+            Reminders.event = DatesDataSource.dates[viewController.index.section][viewController.index.row]
+            Reminders.confirmAccess(forAdding: false)
             
             // Remove the previous form of this event.
             DatesDataSource.dates[viewController.index.section].remove(at: viewController.index.row)

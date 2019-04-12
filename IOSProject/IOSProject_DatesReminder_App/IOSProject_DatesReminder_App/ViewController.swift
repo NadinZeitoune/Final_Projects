@@ -109,10 +109,10 @@ class ViewController: UIViewController, UITableViewDelegate{
         actionSheet.addAction(actionDelete)
     }
     
-    //!!!
     func deleteEvent() {
         // Delete the reminder from the calendar
-        
+        Reminders.event = DatesDataSource.dates[self.index.section][self.index.row]
+        Reminders.confirmAccess(forAdding: false)
         
         // Delete the event from the list.
         DatesDataSource.dates[self.index.section].remove(at: self.index.row)
