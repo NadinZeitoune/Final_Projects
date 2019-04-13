@@ -459,9 +459,11 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
         DatesDataSource.dates[newEvent.month - 1].append(newEvent)
         DatesDataSource.sortDatesArray()
         
-        // add reminder/s
-        Reminders.event = newEvent
-        Reminders.confirmAccess(forAdding: true)
+        if newEvent.isNotifyG || newEvent.isNotifyH{
+            // add reminder/s
+            Reminders.event = newEvent
+            Reminders.confirmAccess(forAdding: true)
+        }
         
         // Pop success alert.
         let title = toEdit ? "Event Changed!" : "Event added!"

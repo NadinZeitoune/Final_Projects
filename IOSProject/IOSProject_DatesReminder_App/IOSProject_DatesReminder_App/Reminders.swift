@@ -45,7 +45,7 @@ class Reminders {
         notification.isAllDay = true
         notification.startDate = toGreg ? event.gregorianDate : event.getHebrewDate()
         notification.endDate = toGreg ? event.gregorianDate : event.getHebrewDate()
-        notification.notes = notification.startDate.description
+        notification.notes = toGreg ? "Gregorian date" : "Hebrew date"
         let alarm = EKAlarm(relativeOffset: 3600 * 9) // 9:00 AM on the event day
         notification.addAlarm(alarm)
         
@@ -68,11 +68,15 @@ class Reminders {
     
     static func fetchEvents(withTitle title: String){
         if let cal = getCalendar(){
-            let predicate = eventStore.predicateForEvents(withStart: event.gregorianDate, end: event.gregorianDate, calendars: [cal])
+            let greg = Calendar(identifier: .gregorian)
+            let today = event.gregorianDate!
+            let date2 = greg.date(byAdding: DateComponents(year: 1), to: today)!
+            let predicate = eventStore.predicateForEvents(withStart: event.gregorianDate, end: date2, calendars: [cal])
             DispatchQueue.global().sync {
                 self.eventStore.enumerateEvents(matching: predicate, using: { (event: EKEvent, stop: UnsafeMutablePointer<ObjCBool>) in
                     if let theTitle = event.title{
                         if theTitle == title{
+                            
                             do{
                                 try eventStore.remove(event, span: .futureEvents, commit: true)
                             }catch{}
