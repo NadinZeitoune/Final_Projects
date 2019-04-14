@@ -19,7 +19,6 @@ class Event {
     var hebrewDate: Date!
     var isGregorian_isBeforeAfter: (Bool, Bool) = (true, false)
     var personType: PersonType!
-    var isNotifyH: Bool = false
     var isNotifyG: Bool = false
     var month: Int!
     
@@ -28,7 +27,7 @@ class Event {
         // Depart string to subStrings.
         var parts = eventAsString.components(separatedBy: delimiter)
         
-        if parts.count != 9 && parts.count != 10 {
+        if parts.count != 8 && parts.count != 9 {
             return
         }
         
@@ -50,19 +49,16 @@ class Event {
         // Get isNotifyG.
         self.isNotifyG = parts[5] == "1" ? true : false
         
-        // Get isNotifyH.
-        self.isNotifyH = parts[6] == "1" ? true : false
-        
         // Get differance of dates.
-        self.isGregorian_isBeforeAfter.0 = parts[7].first == "0" ? false : true
-        self.isGregorian_isBeforeAfter.1 = parts[7].last == "0" ? false : true
+        self.isGregorian_isBeforeAfter.0 = parts[6].first == "0" ? false : true
+        self.isGregorian_isBeforeAfter.1 = parts[6].last == "0" ? false : true
         
         // Get first name.
-        self.names.append(parts[8])
+        self.names.append(parts[7])
         
         // Check and get second name (if needed).
         if parts.count == 10 {
-            self.names.append(parts[9])
+            self.names.append(parts[8])
         }
     }
     
@@ -151,7 +147,6 @@ class Event {
         str.append("\(self.hebrewDate.timeIntervalSince1970.bitPattern)\(delimiter)")
         str.append("\(self.month!)&")
         str.append("\(self.isNotifyG ? 1 : 0)\(delimiter)")
-        str.append("\(self.isNotifyH ? 1 : 0)\(delimiter)")
         str.append("\(isGregorian_isBeforeAfter.0 ? 1 : 0)\(isGregorian_isBeforeAfter.1 ? 1 : 0)\(delimiter)")
         str.append("\(self.names[0])")
         if self.names.count != 1 && !self.names[1].isEmpty {

@@ -30,13 +30,24 @@
          contextName = "AddViewController.finalActions():AddViewController.swift">
          <PersistentStrings>
             <PersistentString
+               value = "prevEvent">
+            </PersistentString>
+            <PersistentString
                value = "DatesDataSource.dates">
             </PersistentString>
             <PersistentString
                value = "newEvent">
             </PersistentString>
             <PersistentString
-               value = "prevEvent">
+               value = "Reminders.event">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "AddViewController.viewDidLoad():AddViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "Reminders.event">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

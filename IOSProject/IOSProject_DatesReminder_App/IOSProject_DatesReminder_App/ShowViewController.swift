@@ -52,9 +52,6 @@ class ShowViewController: UIViewController {
         let notifyG = createLabel(WithTitle: "Gregorian notification: \(event.isNotifyG ? "ON" : "OFF")", Underlabel: dateH)
         view.addSubview(notifyG)
         
-        let notifyH = createLabel(WithTitle: "Hebrew notification: \(event.isNotifyH ? "ON" : "OFF")", Underlabel: notifyG)
-        view.addSubview(notifyH)
-        
         let pic = UIImageView(frame: CGRect(x: 0, y: 0, width: 150, height: 150))
         pic.frame.origin.y = view.frame.maxY - pic.frame.height
         pic.center.x = view.center.x

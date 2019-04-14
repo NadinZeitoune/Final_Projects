@@ -17,38 +17,24 @@ class Reminders {
         if let cal = getCalendar(){
             // Greg alarm.
             if event.isNotifyG{
-                let notification = createNotification(toGreg: true, calendar: cal)
+                let notification = createNotification(calendar: cal)
                 
                 // Save the notification.
                 do{
                     try eventStore.save(notification, span: .futureEvents, commit: true)
                 }catch{print("error: \(error)")}
-            }
-            
-            // Heb alarm.
-            if event.isNotifyH{
-                let notification = createNotification(toGreg: false, calendar: cal)
-                
-                // Save the notification.
-                do{
-                    try eventStore.save(notification, span: .futureEvents, commit: true)
-                }catch{print("error: \(error)")}
-                
-                // Change the event start date.
-                fetchEvents(withTitle: getEventTitle(), delete: false)
             }
         }
     }
     
-    static private func createNotification(toGreg: Bool, calendar: EKCalendar) -> EKEvent{
+    static private func createNotification(calendar: EKCalendar) -> EKEvent{
         let notification = EKEvent(eventStore: eventStore)
         notification.title = event.dateType == .wedding ? "\(event.names[0]) & \(event.names[1]) Wedding day" : "\(event.names[0]) \(event.dateType.rawValue)"
-        notification.notes = toGreg ? "Gregorian date" : "Hebrew date"
         notification.calendar = calendar
         notification.isAllDay = true
-        notification.startDate = toGreg ? event.gregorianDate : event.hebrewDate
-        notification.endDate = toGreg ? event.gregorianDate : event.hebrewDate
-        notification.notes = toGreg ? "Gregorian date" : "Hebrew date"
+        notification.startDate = event.gregorianDate
+        notification.endDate = event.gregorianDate
+        notification.notes = "Gregorian date"
         let alarm = EKAlarm(relativeOffset: 3600 * 9) // 9:00 AM on the event day
         notification.addAlarm(alarm)
         
@@ -69,67 +55,23 @@ class Reminders {
     }
 
     static private func deleteNotification() {
-        fetchEvents(withTitle: getEventTitle(), delete: true)
+        fetchEvents(withTitle: getEventTitle())
     }
     
-    static private func fetchEvents(withTitle title: String, delete: Bool){
+    static private func fetchEvents(withTitle title: String){
         if let cal = getCalendar(){
-            let greg = Calendar(identifier: .gregorian)
-            let today = Date()
-            let startDate = greg.date(byAdding: DateComponents(month: -2), to: event.gregorianDate)!
-            let endDate = greg.date(byAdding: DateComponents(year: 4), to: today)!
-            let predicate = eventStore.predicateForEvents(withStart: startDate, end: endDate, calendars: [cal])
+            let predicate = eventStore.predicateForEvents(withStart: self.event.gregorianDate, end: self.event.gregorianDate, calendars: [cal])
             DispatchQueue.global().async {
-                var eventSN = 0
-                var events = self.eventStore.events(matching: predicate)
-                for i in 0 ..< events.count{
-                    if let theTitle = events[i].title{
-                        if theTitle == title{
-                            if delete{
-                                do{
-                                    try eventStore.remove(events[i], span: .thisEvent, commit: true)
-                                }catch{print("problem removing rec event")}
-                            }else{
-                                if events[i].notes == "Hebrew date"{
-                                    // Change start date for the event.
-                                    events[i].startDate = self.event.getHebrewDateAfter(years: eventSN)
-                                    events[i].endDate = self.event.getHebrewDateAfter(years: eventSN)
-                                    
-                                    // Save changes.
-                                    do{
-                                        try eventStore.save(events[i], span: .thisEvent, commit: true)
-                                    }catch{print("problem saving changes")}
-                                }
-                                print("\(events[i].title) \(eventSN)")
-                                eventSN += 1
-                            }
-                        }
-                    }
-                }
-                /*self.eventStore.enumerateEvents(matching: predicate, using: { (event: EKEvent, stop: UnsafeMutablePointer<ObjCBool>) in
+                self.eventStore.enumerateEvents(matching: predicate, using: { (event: EKEvent, stop: UnsafeMutablePointer<ObjCBool>) in
                     if let theTitle = event.title{
+                        print(theTitle)
                         if theTitle == title{
-                            if delete{
-                                do{
-                                    try eventStore.remove(event, span: .thisEvent, commit: true)
-                                }catch{print("problem removing rec event")}
-                            }else{
-                                if event.notes == "Hebrew date"{
-                                    // Change start date for the event.
-                                    event.startDate = self.event.getHebrewDateAfter(years: eventSN)
-                                    event.endDate = self.event.getHebrewDateAfter(years: eventSN)
-                                    
-                                    // Save changes.
-                                    do{
-                                        try eventStore.save(event, span: .thisEvent, commit: true)
-                                    }catch{print("problem saving changes")}
-                                }
-                                print("\(event.title) \(eventSN)")
-                                eventSN += 1                                
-                            }
+                            do{
+                                try eventStore.remove(event, span: .futureEvents, commit: true)
+                            }catch{print("problem removing rec event")}
                         }
                     }
-                })*/
+                })
             }
         }
     }

@@ -32,7 +32,6 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
     var isBeforeAfterView: UIView!
     
     var doesNotifyGreg: UIView!
-    var doesNotifyHeb: UIView!
 
     var addEventBtn: UIButton!
     var exitBtn: UIButton!
@@ -53,6 +52,10 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
         
         // Few changes for editing.
         if toEdit{
+            // remove reminder
+            Reminders.event = DatesDataSource.dates[viewController.index.section][viewController.index.row]
+            Reminders.confirmAccess(forAdding: false)
+            
             // Change title to "Edit Event"
             let title = view.subviews[0] as! UILabel
             title.text = "Edit Event"
@@ -69,10 +72,6 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
             var switchNotify = doesNotifyGreg.subviews[doesNotifyGreg.subviews.count - 1] is UISwitch ? doesNotifyGreg.subviews[doesNotifyGreg.subviews.count - 1] as! UISwitch : nil
             if switchNotify != nil{
                 switchNotify!.isOn = newEvent.isNotifyG
-            }
-            switchNotify = doesNotifyHeb.subviews[doesNotifyHeb.subviews.count - 1] is UISwitch ? doesNotifyHeb.subviews[doesNotifyHeb.subviews.count - 1] as! UISwitch : nil
-            if switchNotify != nil{
-                switchNotify!.isOn = newEvent.isNotifyH
             }
             
             // Change addBtn title to "Save"
@@ -170,12 +169,9 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
         doesNotifyGreg = createSwitchView(State: false, WithTitle: "Gregorian date?", AndOrigin: (margin * 5, notifyTitle.frame.maxY + spaceMargin), WithTag: 2)
         view.addSubview(doesNotifyGreg)
         
-        doesNotifyHeb = createSwitchView(State: false, WithTitle: "Hebrew date?", AndOrigin: (margin * 5, doesNotifyGreg.frame.maxY + margin), WithTag: 3)
-        view.addSubview(doesNotifyHeb)
-        
         // Create add btn.
         addEventBtn = UIButton(type: .system)
-        addEventBtn.frame = CGRect(x: 0, y: doesNotifyHeb.frame.maxY + margin * 8, width: 0, height: 30)
+        addEventBtn.frame = CGRect(x: 0, y: doesNotifyGreg.frame.maxY + margin * 8, width: 0, height: 30)
         addEventBtn.setTitle("Add Event", for: .normal)
         addEventBtn.titleLabel?.font = UIFont.boldSystemFont(ofSize: 30)
         addEventBtn.sizeToFit()
@@ -447,21 +443,16 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
     
     func finalActions(){
         // add newEvent to data source
-        if toEdit{
-            // remove reminder/s
-            Reminders.event = DatesDataSource.dates[viewController.index.section][viewController.index.row]
-            Reminders.confirmAccess(forAdding: false)
-            
+        if toEdit{                        
             // Remove the previous form of this event.
             DatesDataSource.dates[viewController.index.section].remove(at: viewController.index.row)
         }
-        print("finish delete")
+        
         DatesDataSource.dates[newEvent.month - 1].append(newEvent)
         DatesDataSource.sortDatesArray()
         
-        if newEvent.isNotifyG || newEvent.isNotifyH{
-            // add reminder/s
-            print("start add")
+        if newEvent.isNotifyG{
+            // add reminder
             Reminders.event = newEvent
             Reminders.confirmAccess(forAdding: true)
         }
@@ -545,8 +536,6 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
             isBeforeAfterDate = sender.isOn
         case 2: // Greg
             newEvent.isNotifyG = sender.isOn
-        case 3: // Heb
-            newEvent.isNotifyH = sender.isOn
         default:
             break
         }
