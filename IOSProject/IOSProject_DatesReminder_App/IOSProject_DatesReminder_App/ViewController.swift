@@ -125,7 +125,7 @@ class ViewController: UIViewController, UITableViewDelegate{
         let addContorller = AddViewController()
         addContorller.viewController = self
         addContorller.newEvent = toEdit ? event! : nil
-        addContorller.toEdit = toEdit
+        addContorller.toEdit = toEdit        
         present(addContorller, animated: true, completion: nil)
     }
     

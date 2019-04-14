@@ -82,16 +82,13 @@ class Event {
         return dateFormmater.string(from: self.hebrewDate)
     }
     
-    func getHebrewDate() -> Date{
-        /*let date = self.hebrewDate
+    func getHebrewDateAfter(years: Int) -> Date{
+        let date = self.isGregorian_isBeforeAfter.1 ? self.hebrewDate : Calendar.init(identifier: .gregorian).date(byAdding: DateComponents(day: 1), to: self.hebrewDate)
         let calendar = Calendar.init(identifier: .hebrew)
-        let components = calendar.dateComponents([Calendar.Component.year, Calendar.Component.month, Calendar.Component.day], from: date!)
-        return calendar.date(from: components)!*/
-        
-        let dateFormmater = DateFormatter()
-        dateFormmater.calendar = Calendar.init(identifier: .hebrew)
-        dateFormmater.dateFormat = "dd/MMMM/yyyy"
-        return dateFormmater.date(from: dateFormmater.string(from: self.hebrewDate))!
+        var components = calendar.dateComponents([Calendar.Component.year, Calendar.Component.month, Calendar.Component.day], from: date!)
+        components.year = components.year! + years
+        components.calendar = Calendar.init(identifier: .gregorian)
+        return calendar.date(from: components)!
     }
     
     func createDateFromDictionary(_ dictionary: [String:Any], PutInGreg toGreg:Bool){

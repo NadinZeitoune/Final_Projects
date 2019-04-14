@@ -32,6 +32,23 @@
             <PersistentString
                value = "DatesDataSource.dates">
             </PersistentString>
+            <PersistentString
+               value = "newEvent">
+            </PersistentString>
+            <PersistentString
+               value = "prevEvent">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in closure #1 in static Reminders.fetchEvents(withTitle:delete:):Reminders.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "event.startDate">
+            </PersistentString>
+            <PersistentString
+               value = "event.notes == &quot;Hebrew date&quot;">
+            </PersistentString>
          </PersistentStrings>
       </ContextState>
       <ContextState
