@@ -36,7 +36,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/ServerServlet.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="161">
+            <state relative-caret-position="1666">
               <caret line="102" column="7" selection-start-line="102" selection-start-column="7" selection-end-line="102" selection-end-column="7" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -118,47 +118,17 @@
     <option name="FILTER_DEBUG" value="true" />
     <option name="CUSTOM_FILTER" />
   </component>
-  <component name="ProjectFrameBounds">
-    <option name="x" value="952" />
-    <option name="width" value="977" />
-    <option name="height" value="1038" />
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="951" />
+    <option name="width" value="978" />
+    <option name="height" value="1039" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
-    <panes>
-      <pane id="Scope" />
-      <pane id="PackagesPane" />
-      <pane id="ProjectPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="AndroidProject_Rides_ServerSide_Java" type="b2602c69:ProjectViewProjectNode" />
-              <item name="AndroidProject_Rides_ServerSide_Java" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="AndroidProject_Rides_ServerSide_Java" type="b2602c69:ProjectViewProjectNode" />
-              <item name="AndroidProject_Rides_ServerSide_Java" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="AndroidProject_Rides_ServerSide_Java" type="b2602c69:ProjectViewProjectNode" />
-              <item name="AndroidProject_Rides_ServerSide_Java" type="462c0819:PsiDirectoryNode" />
-              <item name="web" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="AndroidProject_Rides_ServerSide_Java" type="b2602c69:ProjectViewProjectNode" />
-              <item name="AndroidProject_Rides_ServerSide_Java" type="462c0819:PsiDirectoryNode" />
-              <item name="web" type="462c0819:PsiDirectoryNode" />
-              <item name="WEB-INF" type="462c0819:PsiDirectoryNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
-    </panes>
+    <panes />
   </component>
   <component name="PropertiesComponent">
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
@@ -316,11 +286,12 @@
       <workItem from="1549395507610" duration="1616000" />
       <workItem from="1549477902554" duration="4998000" />
       <workItem from="1549521250437" duration="1327000" />
+      <workItem from="1549735413127" duration="7000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="110500000" />
+    <option name="totallyTimeSpent" value="110507000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -332,7 +303,8 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="762" y="0" width="781" height="830" extended-state="0" />
+    <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4830097" weight="0.28294036" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -424,7 +396,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/ServerServlet.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="161">
+        <state relative-caret-position="1666">
           <caret line="102" column="7" selection-start-line="102" selection-start-column="7" selection-end-line="102" selection-end-column="7" />
           <folding>
             <element signature="imports" expanded="true" />
