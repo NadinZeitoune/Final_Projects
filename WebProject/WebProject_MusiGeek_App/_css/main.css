@@ -1,3 +1,26 @@
 body{
     direction: rtl;
 }
+
+nav > a{
+    float: right;
+    margin-left: 20px;
+    color: grey;
+    padding:0 12px;
+    font-weight: bold;
+    border-right: grey solid 2px;
+}
+
+nav > a:first-of-type{
+    border-left: none;
+}
+
+nav a:hover{
+    color: black;
+    text-decoration: none;
+    border: black solid 2px;
+}
+
+main .box > i{
+    width: 25%;
+}
