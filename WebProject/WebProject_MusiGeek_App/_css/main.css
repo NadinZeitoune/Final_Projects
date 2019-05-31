@@ -28,3 +28,7 @@ nav a:hover{
 main .box > i{
     width: 25%;
 }
+
+img{
+    width: 100px;
+}

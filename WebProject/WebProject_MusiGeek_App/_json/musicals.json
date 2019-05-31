@@ -1,31 +1,31 @@
 [{
     "name": "והסושי חינם*",
-    "prodaction": "ACMusical3",
-    "poster": "",
-    "movie": "",
+    "prodaction": "ACMusical",
+    "poster": "_images/andTheSushiFree.jpg",
+    "movie": "https://www.youtube.com/watch?v=3jUni7tokNs",
     "songs": "_json/andTheSushiFree.json"
 }, {
     "name": "פנדורה",
-    "prodaction": "",
-    "poster": "",
-    "movie": "",
+    "prodaction": "Pandora Musical",
+    "poster": "_images/pandora.jpg",
+    "movie": "https://www.youtube.com/watch?v=fyuQuCV8OlE",
     "songs": "_json/pandora.json"
 }, {
     "name": "שתי טיפות של דם",
-    "prodaction": "R2 Musical",
-    "poster": "",
-    "movie": "",
+    "prodaction": "R Musical",
+    "poster": "_images/twoDropsOfBlood.jpg",
+    "movie": "https://www.youtube.com/watch?v=3Vwph_9Xccs",
     "songs": "_json/twoDropsOfBlood.json"
 }, {
     "name": "טודי מיוזיקל",
     "prodaction": "2D Musical",
-    "poster": "",
-    "movie": "",
+    "poster": "_images/2DMusical.jpg",
+    "movie": "https://www.youtube.com/watch?v=XA0Nqf5QeHA",
     "songs": "_json/2DMusical.json"
 }, {
     "name": "N זמן",
     "prodaction": "N Musical",
-    "poster": "",
+    "poster": "_images/NTime.jpg",
     "movie": "",
     "songs": "_json/NTime.json"
 }]
