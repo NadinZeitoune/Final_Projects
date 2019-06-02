@@ -1,0 +1,37 @@
+.float_window{
+    position: fixed;
+    width:100%;
+    height: 100%;
+    top:0;
+    left:0;
+    background-color:rgba(0,0,0,0.7);
+    display: none; 
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.float_box{
+    max-width: 800px;
+    width:100%;
+    border:2px solid white;
+    background-color: dimgray;
+    min-height: 500px;
+    color:white;
+    position: relative;
+}   
+
+.float_box .x_btn{
+    position: absolute;
+    right:0;
+    top:0;
+    padding:7px;
+    background-color: red;
+    color:white;
+    /* משנה סמן עכבר ללחיץ */
+    cursor: pointer;
+}
+
+.float_box .x_btn:hover{
+    background-color: brown;
+}
