@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="he">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="_css/bootstrap.min.css">
+    <link rel="stylesheet" href="_css/main.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="_js/main.js"></script>
+    <script src="_js/contact.js"></script>
+    <title>Contact Us</title>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <header class="container">
+            <h1>צור קשר</h1>
+            <h2>כרגע העמוד הזה בשיפוצים!</h2>
+        </header>
+        <nav id="id_menu_burger" class="container d-md-none d-block">
+            <i class="fa fa-bars fa-4x" aria-hidden="true" onclick="showMenu()"></i>
+        </nav>
+        <nav id="id_menu" class="container d-md-block d-none">
+            <a href="#">אודות</a>
+            <a href="#">מחזמרים</a>
+            <a href="#">סרטים</a>
+            <a href="#">שירים</a>
+            <a href="#" class="border border-dark">צור קשר</a>
+        </nav>
+    </div>
+    <br><br>
+    <div class="container-fluid">
+        <main class="container">
+            <div class="row justify-content-between">
+                <div class="col-md-5 col-12 border text-right mb-3">
+                    כאן תוכלו לבקש להוסיף מחזמרים או להודיע על טעויות שראיתם באתר. <br> נשמח על כל תגובה!
+                </div>
+                <form class="col-md-5 col-12 border border-dark text-right p-3">
+                        <div class="form-group">
+                            <label for="id_email">אי-מייל:</label>
+                            <input type="email" class="form-control" id="id_email" required>
+                      </div>
+                      <div class="form-group">
+                            <label for="id_name">שם מלא:</label>
+                            <input type="text" class="form-control" id="id_name" required>
+                      </div>
+                      <div class="form-group form-check">
+                            <label for="id_subject">נושא:</label>
+                            <input type="text" class="form-control" id="id_subject" required>
+                      </div>
+                      <div class="form-group form-check">
+                            <label for="id_content">תוכן:</label>
+                            <textarea  class="form-control" id="id_content" cols="40" rows="5"></textarea>
+                      </div>
+                      <!-- <button type="submit" class="btn btn-primary">שלח</button> -->
+                </form>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>
