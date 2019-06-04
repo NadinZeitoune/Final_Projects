@@ -7,26 +7,17 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="_css/bootstrap.min.css">
     <link rel="stylesheet" href="_css/main.css">
-    <link rel="stylesheet" href="_css/float_box.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="_js/main.js"></script>
-    <script src="_js/movies.js"></script>
-    <script src="_js/MovieClass.js"></script>
-    <title>Movies</title>
+    <script src="_js/musicals.js"></script>
+    <script src="_js/MusicalClass.js"></script>
+    <title>Musicals</title>
 </head>
 
 <body>
-    <div class="float_window" id="id_float">
-        <div class="float_box">
-            <div class="x_btn" id="x_btn">X</div>
-            <h2 id="id_float_h2"></h2>
-            <div id="id_iframe"></div>
-            <!-- <iframe class="id_float_iframe" width="95%" height="450" src="" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope;picture-in-picture" ></iframe> -->
-        </div>
-    </div>
     <div class="container-fluid">
         <header class="container">
-            <h1>סרטים</h1>
+            <h1>מחזמרים</h1>
         </header>
         <nav id="id_menu_burger" class="container d-md-none d-block">
             <i class="fa fa-bars fa-4x" aria-hidden="true" onclick="showMenu()"></i>
@@ -34,8 +25,8 @@
         <nav id="id_menu" class="container d-md-block d-none">
             <a href="index.html">דף הבית</a>
             <a href="#">אודות</a>
-            <a href="musicals.html">מחזמרים</a>
-            <a href="movies.html" class="border border-dark">סרטים</a>
+            <a href="musicals.html" class="border border-dark">מחזמרים</a>
+            <a href="movies.html">סרטים</a>
             <a href="songs.html">שירים</a>
             <a href="contact.html">צור קשר</a>
         </nav>
@@ -44,11 +35,15 @@
     <div class="container-fluid">
         <main class="container">
             <div id="id_parent" class="row justify-content-between">
-                <!-- <div class="box col-md-5 col-12 border p-3 mt-md-5">
+                <!-- <div class="box col-md-5 col-12 border p-3 mt-md-5 justify-content-center">
                     <img class="float-right ml-4" src="_images/andTheSushiFree.jpg" alt="poster">
-                    <h2 class="float-right">והסושי חינם</h2><br><br>
-                    <h4 class="float-right">ACM3</h4>
+                    <h2 class="float-right">והסושי חינם*</h2><br>
+                    <i class="fa fa-heart fa-5x float-left" aria-hidden="true" style="color: rgb(189, 189, 189)"></i>
                 </div> -->
+            </div>
+            <br><br>
+            <div id="id_extansion">
+                <!-- Here will be the extansion of the musical -->
             </div>
         </main>
     </div>

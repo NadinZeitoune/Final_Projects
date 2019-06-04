@@ -25,6 +25,12 @@ nav a:hover{
     border: black solid 2px;
 }
 
+main .link:hover{
+    -webkit-box-shadow: 0px 0px 5px 8px rgba(83,96,242,1);
+    -moz-box-shadow: 0px 0px 5px 8px rgba(83,96,242,1);
+    box-shadow: 0px 0px 5px 8px rgba(83,96,242,1);
+}
+
 main .box > i{
     width: 25%;
 }

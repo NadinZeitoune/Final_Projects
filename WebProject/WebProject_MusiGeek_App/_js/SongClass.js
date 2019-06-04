@@ -8,14 +8,14 @@ class Song{
     }
 
     addToHtml(){
-        var newSong = document.createElement("h4");
+        let newSong = document.createElement("h4");
         newSong.className = "col-md-4 col-12 p-3";
         newSong.innerHTML = this.name;
         this.parent.appendChild(newSong);
-        
 
-        newSong.onclick = function(){
-            alert("hi");
+        console.log(this.parent.children);
+        this.parent.onclick = function(){
+            alert("parent");
         }.bind(this);
     }
 }

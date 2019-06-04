@@ -28,3 +28,8 @@ function doAjax(_link, _func){
     xmlHttp.open("GET", _link, true);
     xmlHttp.send();
 }
+
+function goA(_aLink){
+    if(_aLink == ""){return}
+    window.open(_aLink + ".html", "_self");
+}
