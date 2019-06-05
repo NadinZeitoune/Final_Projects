@@ -1,12 +1,12 @@
-class Musical{
-    constructor(_parent, _extansion, _name, _img){
+class Musical {
+    constructor(_parent, _extansion, _name, _img) {
         this.parent = _parent;
         this.extansion = _extansion;
         this.name = _name;
         this.img = _img;
     }
 
-    addToHtml(){
+    addToHtml() {
         let newBox = document.createElement("div");
         newBox.className = "box col-md-5 col-12 border p-3 mt-md-5 justify-content-center";
         this.parent.appendChild(newBox);
@@ -19,6 +19,15 @@ class Musical{
         fav.style.color = "rgb(189, 189, 189)";
         newBox.appendChild(fav);
 
-        
+        if (localStorage[`${this.name}`]) {
+            fav.style.color = "red";
+        }
+        // Save data - localStorage.setItem("age",50);
+
+        fav.onclick = function () {
+            if (localStorage[`${this.name}`]) {
+                fav.style.color = "red";
+            }
+        }
     }
 }
