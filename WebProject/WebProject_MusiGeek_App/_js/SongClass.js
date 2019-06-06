@@ -9,15 +9,15 @@ class Song {
 
     addToHtml() {
         var newSong = document.createElement("div");
-        // newSong.className = "col-md-4 col-12 p-3";
-        newSong.innerHTML = this.name + "lplp";
-        newSong.style.backgroundColor = "yellow";
-        newSong.style.cursor = "pointer";
-
-        //console.log(newSong)
-        newSong.addEventListener("click", function () {
-            alert("aaaa");
-        })
+        newSong.className = "col-md-4 col-12 p-3";
+        newSong.innerHTML = this.name;
         this.parent.appendChild(newSong);
+
+        newSong.onclick = function(){
+            if(this.name != ""){
+                alert(this.name); // Working now
+            }
+        }.bind(this);
+        
     }
 }

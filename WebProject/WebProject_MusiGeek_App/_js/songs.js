@@ -24,46 +24,31 @@ function createSongCollection(_name, _songs) {
     newDiv.appendChild(newRow);
 
 
-    let newSong = new Song(newRow, "koko", "sssss", "cccsa");
-    newSong.addToHtml();
-
-
     let xmlHttp = new XMLHttpRequest();
 
     xmlHttp.onreadystatechange = function () {
         if (this.status == 200 && this.readyState == 4) {
             var json_ar = JSON.parse(this.response);
-            //_func(json_ar);
-            for (let item of json_ar) {
-                let {
-                    name,
-                    lyrics,
-                    audio
-                } = item;
+            
+            //Get the songs for the musical.
+            doAjax(_songs, function (json_ar) {
+                for (let item of json_ar) {
+                    let {
+                        name,
+                        lyrics,
+                        audio
+                    } = item;
 
-                let newSong = new Song(newRow, name, lyrics, audio);
-                newSong.addToHtml();
-            }
-
+                    let newSong = new Song(newRow, name, lyrics, audio);
+                    newSong.addToHtml();
+                }
+                //newRow.innerHTML += `<h4 class="col-md-4 col-12"></h4>`;
+                let emptySong = new Song(newRow, "", "", "");
+                emptySong.addToHtml();
+            });
         }
     }
 
     xmlHttp.open("GET", _songs, true);
     xmlHttp.send();
-
-
-    // Get the songs for the musical.
-    // doAjax(_songs, function (_songs_ar) {
-    //     for (let item of _songs_ar) {
-    //         let {
-    //             name,
-    //             lyrics,
-    //             audio
-    //         } = item;
-
-    //         let newSong = new Song(newRow, "koko", "sssss", "cccsa");
-    //         newSong.addToHtml();
-    //     }
-    //     newRow.innerHTML += `<h4 class="col-md-4 col-12"></h4>`;
-    // });
 }
