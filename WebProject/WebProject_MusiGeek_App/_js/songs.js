@@ -1,4 +1,6 @@
 window.onload = function () {
+    declareExitBtn();
+
     // Create all song collections.
     doAjax("_json/musicals.json", function (_musicals_ar) {
         for (let item of _musicals_ar) {
@@ -38,12 +40,13 @@ function createSongCollection(_name, _songs) {
                         lyrics,
                         audio
                     } = item;
+                    let floatBox = {box: id_float, h2: id_float_h2, div: id_lyrics, audio: id_audio};
 
-                    let newSong = new Song(newRow, name, lyrics, audio);
+                    let newSong = new Song(newRow, floatBox, name, lyrics, audio);
                     newSong.addToHtml();
                 }
-                //newRow.innerHTML += `<h4 class="col-md-4 col-12"></h4>`;
-                let emptySong = new Song(newRow, "", "", "");
+                
+                let emptySong = new Song(newRow, "", "", "", "");
                 emptySong.addToHtml();
             });
         }
@@ -51,4 +54,10 @@ function createSongCollection(_name, _songs) {
 
     xmlHttp.open("GET", _songs, true);
     xmlHttp.send();
+}
+
+function declareExitBtn(){
+    id_float.addEventListener("click",function(){
+        id_float.style.display = "none";
+    })
 }

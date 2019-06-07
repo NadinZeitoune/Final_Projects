@@ -1,7 +1,7 @@
 class Song {
-    constructor(_parent /*, _floatBox */ , _name, _lyrics, _audio) {
+    constructor(_parent , _floatBox, _name, _lyrics, _audio) {
         this.parent = _parent;
-        // this.floatBox = _floatBox;
+        this.floatBox = _floatBox;
         this.name = _name;
         this.lyrics = _lyrics;
         this.audio = _audio;
@@ -15,7 +15,16 @@ class Song {
 
         newSong.onclick = function(){
             if(this.name != ""){
-                alert(this.name); // Working now
+                // Open floating box with the lyrics.
+                this.floatBox.box.style.display = "flex";
+                this.floatBox.box.style.textAlign = "center";
+                this.floatBox.h2.innerHTML = this.name;
+                
+                // Check if there is src for the audio before!
+                this.floatBox.audio.innerHTML += `<source src="${this.audio}" type="audio/mpeg">`;
+                
+                // for the lyrics. replace % with ENTER. <pre/>
+                //this.floatBox.div
             }
         }.bind(this);
         
