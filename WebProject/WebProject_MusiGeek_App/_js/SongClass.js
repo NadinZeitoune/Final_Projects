@@ -24,7 +24,7 @@ class Song {
                 this.floatBox.audio.innerHTML += `<source src="${this.audio}" type="audio/mpeg">`;
                 
                 // for the lyrics. replace % with ENTER. <pre/>
-                //this.floatBox.div
+                this.floatBox.div.innerHTML = `<pre>${returnLyrics(this.lyrics)}</pre>`;
             }
         }.bind(this);
         

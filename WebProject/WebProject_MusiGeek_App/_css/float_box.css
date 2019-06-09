@@ -17,8 +17,10 @@
     border:2px solid white;
     background-color: dimgray;
     min-height: 500px;
+    max-height: 80%;
     color:white;
     position: relative;
+    overflow: auto;
 }   
 
 .float_box .x_btn{

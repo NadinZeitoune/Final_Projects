@@ -61,3 +61,10 @@ function declareExitBtn(){
         id_float.style.display = "none";
     })
 }
+
+function returnLyrics(_lyrics){
+    while(_lyrics.indexOf("%") != -1){
+        _lyrics = _lyrics.replace("%", "\n");
+    }
+    return _lyrics;
+}
