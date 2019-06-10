@@ -59,6 +59,7 @@ function createSongCollection(_name, _songs) {
 function declareExitBtn(){
     id_float.addEventListener("click",function(){
         id_float.style.display = "none";
+        id_audio.src = "";
     })
 }
 
