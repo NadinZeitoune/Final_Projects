@@ -8,26 +8,33 @@ class Musical {
 
     addToHtml() {
         let newBox = document.createElement("div");
-        newBox.className = "box col-md-5 col-12 border p-3 mt-md-5 justify-content-center";
+        newBox.className = "box col-md-5 col-12 border p-3 mt-md-5 ";
         this.parent.appendChild(newBox);
 
         newBox.innerHTML = `<img class="float-right ml-4" src="${this.img}" alt="poster">`;
-        newBox.innerHTML += `<h2 class="float-right">${this.name}</h2><br>`;
+        newBox.innerHTML += `<h3 class="float-right">${this.name}</h3><br>`;
 
         let fav = document.createElement("i");
-        fav.className = "fa fa-heart fa-5x float-left";
+        fav.className = "fa fa-heart fa-5x float-left border col-3";
         fav.style.color = "rgb(189, 189, 189)";
         newBox.appendChild(fav);
 
         if (localStorage[`${this.name}`]) {
             fav.style.color = "red";
         }
-        // Save data - localStorage.setItem("age",50);
 
+        newBox.onclick = function(){
+            newBox.style.backgroundColor = "red";
+        }.bind(this);
+        
         fav.onclick = function () {
             if (localStorage[`${this.name}`]) {
+                fav.style.color = "rgb(189, 189, 189)";
+                localStorage.removeItem(this.name);
+            }else{
+                localStorage.setItem(this.name,true);
                 fav.style.color = "red";
             }
-        }
+        }.bind(this);
     }
 }
