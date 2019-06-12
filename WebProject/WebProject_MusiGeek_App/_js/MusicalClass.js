@@ -8,10 +8,10 @@ class Musical {
 
     addToHtml() {
         let newBox = document.createElement("div");
-        newBox.className = "box col-md-5 col-12 border p-3 mt-md-5 ";
+        newBox.className = "box col-md-5 col-12 border border-info p-3 mt-md-5 ";
         this.parent.appendChild(newBox);
 
-        newBox.innerHTML = `<img class="float-right ml-4" src="${this.img}" alt="poster">`;
+        newBox.innerHTML = `<img class="float-right ml-4" src="${this.img}" alt=${this.name}" poster">`;
         newBox.innerHTML += `<h3 class="float-right">${this.name}</h3><br>`;
 
         let fav = document.createElement("i");
