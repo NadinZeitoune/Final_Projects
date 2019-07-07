@@ -1,7 +1,13 @@
 window.onload = function(){
-    let newmusic = new Musical(id_parent, id_extansion, "שתי טיפות של דם", "_images/andTheSushiFree.jpg");
-    newmusic.addToHtml();
-    let music = new Musical(id_parent, id_extansion, "שתי טיפות של דם", "_images/andTheSushiFree.jpg");
-    music.addToHtml();
+    // Get the musicals.
+    doAjax("_json/musicals.json", function(_json_ar){
+        for(var item of _json_ar){
+            let {name,
+                poster} = item;
+            
+            let myMusical = new Musical(id_parent, id_extansion, name, poster);
+            myMusical.addToHtml();
+        }
+    });
 }
 
