@@ -47,15 +47,12 @@ class Musical {
             this.extansion.className = "border border-dark";
 
             // Open the extansion with the musical's movie and songs.
+            // Add new Movie.
             let movie = new Movie(this.extansion, this.movieBox, this.name, this.prodaction, this.img, this.link);
             movie.addToHtml();
 
-            createSongCollection(this.extansion, this.songBox, this.name, this.songsLink);
-
-            // Search for the right musical property in the main json.
-            
-            // Add new Movie.
             // Add list of Songs.
+            createSongCollection(this.extansion, this.songBox, this.name, this.songsLink);
         }.bind(this);
         
         likeDiv.onclick = function () {
