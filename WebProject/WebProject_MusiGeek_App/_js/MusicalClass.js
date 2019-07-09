@@ -1,9 +1,14 @@
 class Musical {
-    constructor(_parent, _extansion, _name, _img) {
+    constructor(_parent, _extansion, _movieBox, _songBox, _name, _img, _prodaction, _link, _songsLink) {
         this.parent = _parent;
         this.extansion = _extansion;
+        this.movieBox = _movieBox;
+        this.songBox =_songBox;
         this.name = _name;
         this.img = _img;
+        this.prodaction = _prodaction;
+        this.link = _link
+        this.songsLink = _songsLink;
     }
 
     addToHtml() {
@@ -39,8 +44,14 @@ class Musical {
 
             // Reset extantion elements.
             this.extansion.innerHTML = "";
+            this.extansion.className = "border border-dark";
 
             // Open the extansion with the musical's movie and songs.
+            let movie = new Movie(this.extansion, this.movieBox, this.name, this.prodaction, this.img, this.link);
+            movie.addToHtml();
+
+            createSongCollection(this.extansion, this.songBox, this.name, this.songsLink);
+
             // Search for the right musical property in the main json.
             
             // Add new Movie.
