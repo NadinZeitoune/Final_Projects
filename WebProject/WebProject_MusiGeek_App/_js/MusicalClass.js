@@ -41,16 +41,16 @@ class Musical {
 
         musicalDiv.onclick = function(){
             window.open(`#${this.extansion.id}`,"_self");
-
+            
             // Reset extantion elements.
             this.extansion.innerHTML = "";
             this.extansion.className = "border border-dark";
-
+            
             // Open the extansion with the musical's movie and songs.
             // Add new Movie.
             let movie = new Movie(this.extansion, this.movieBox, this.name, this.prodaction, this.img, this.link);
             movie.addToHtml();
-
+            
             // Add list of Songs.
             createSongCollection(this.extansion, this.songBox, this.name, this.songsLink);
         }.bind(this);
