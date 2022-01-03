@@ -1,0 +1,1 @@
+const IS_REGISTERED = "IS_REGISTERED";
