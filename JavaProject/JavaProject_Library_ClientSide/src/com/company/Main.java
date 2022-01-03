@@ -10,7 +10,7 @@ public class Main {
         // Login.
         printLogin();
 
-        // Start main menu loop.
+        // Start Main menu loop.
         int choice;
         while ((choice = printMainMenu()) != 4){
             switch (choice){
